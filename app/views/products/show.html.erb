@@ -2,9 +2,15 @@
 
 <%= render @product %>
 
-<div>
-  <%= link_to "Editar este producto", edit_product_path(@product) %> |
-  <%= link_to "Lista de productos", products_path %>
+<div class="d-flex justify-content-end mt-3">
+  <%= link_to edit_product_path(@product), class: "btn btn-outline-primary me-2" do %>
+    <i class="fa fa-edit"></i>
+  <% end %>
+  <%= button_to @product, method: :delete, class: "btn btn-outline-danger" do %>
+    <i class="fa fa-trash"></i>
+  <% end %>
+</div>
 
-  <%= button_to "Borrar este producto", @product, method: :delete ,class: "btn btn-secondary" %>
+<div class="mt-3">
+  <%= link_to "Lista de productos", products_path, class: "btn btn-secondary" %>
 </div>

@@ -2,13 +2,16 @@
 
 <h1>Productos</h1>
 
-<div id="productos">
+<%= link_to "Crear nuevo producto", new_product_path, class: "btn btn-primary mb-3" %>
+
+<div id="productos" class="list-group">
   <% @products.each do |product| %>
-    <%= render product %>
-    <p>
-      <%= link_to "Muestra este producto", product %>
-    </p>
+    <%= link_to product_path(product), class: "list-group-item list-group-item-action" do %>
+      <h5 class="mb-1"><%= product.name %></h5>
+      <p class="mb-1"><%= product.description %></p>
+    <% end %>
   <% end %>
 </div>
 
-<%= link_to "Crear nuevo producto", new_product_path %>
+
+
