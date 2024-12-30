@@ -2,8 +2,14 @@
 
 one:
   name: MyString
-  description: MyText
+  category: one
+  subcategory: one
+  marca: one
+  tech: one
 
 two:
   name: MyString
-  description: MyText
+  category: two
+  subcategory: two
+  marca: two
+  tech: two

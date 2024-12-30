@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  format: MyString
+  pieces_box: 1
+  m2_box: 9.99
+  tomo_calibre: MyString
+  lote: MyString
+  color: MyString
+  marca: one
+
+two:
+  format: MyString
+  pieces_box: 1
+  m2_box: 9.99
+  tomo_calibre: MyString
+  lote: MyString
+  color: MyString
+  marca: two

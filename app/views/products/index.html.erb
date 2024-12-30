@@ -1,17 +1,14 @@
 <p style="color: green"><%= notice %></p>
 
-<h1>Productos</h1>
+<h1>Products</h1>
 
-<%= link_to "Crear nuevo producto", new_product_path, class: "btn btn-primary mb-3" %>
-
-<div id="productos" class="list-group">
+<div id="products">
   <% @products.each do |product| %>
-    <%= link_to product_path(product), class: "list-group-item list-group-item-action" do %>
-      <h5 class="mb-1"><%= product.name %></h5>
-      <p class="mb-1"><%= product.description %></p>
-    <% end %>
+    <%= render product %>
+    <p>
+      <%= link_to "Show this product", product %>
+    </p>
   <% end %>
 </div>
 
-
-
+<%= link_to "New product", new_product_path %>

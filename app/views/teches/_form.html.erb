@@ -1,0 +1,52 @@
+<%= form_with(model: tech) do |form| %>
+  <% if tech.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(tech.errors.count, "error") %> prohibited this tech from being saved:</h2>
+
+      <ul>
+        <% tech.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :format, style: "display: block" %>
+    <%= form.text_field :format %>
+  </div>
+
+  <div>
+    <%= form.label :pieces_box, style: "display: block" %>
+    <%= form.number_field :pieces_box %>
+  </div>
+
+  <div>
+    <%= form.label :m2_box, style: "display: block" %>
+    <%= form.text_field :m2_box %>
+  </div>
+
+  <div>
+    <%= form.label :tomo_calibre, style: "display: block" %>
+    <%= form.text_field :tomo_calibre %>
+  </div>
+
+  <div>
+    <%= form.label :lote, style: "display: block" %>
+    <%= form.text_field :lote %>
+  </div>
+
+  <div>
+    <%= form.label :color, style: "display: block" %>
+    <%= form.text_field :color %>
+  </div>
+
+  <div>
+    <%= form.label :marca_id, style: "display: block" %>
+    <%= form.text_field :marca_id %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
