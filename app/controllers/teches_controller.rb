@@ -8,6 +8,8 @@ class TechesController < ApplicationController
 
   # GET /teches/1 or /teches/1.json
   def show
+    @tech = Tech.find(params[:id])
+    @products = @tech.products
   end
 
   # GET /teches/new

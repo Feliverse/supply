@@ -8,6 +8,8 @@ class MarcasController < ApplicationController
 
   # GET /marcas/1 or /marcas/1.json
   def show
+    @marca = Marca.find(params[:id])
+    @teches = @marca.teches
   end
 
   # GET /marcas/new
