@@ -1,14 +1,22 @@
 <p style="color: green"><%= notice %></p>
 
-<h1>Subcategories</h1>
+<h1>Subcategorías de <%= @category.name %></h1>
 
-<div id="subcategories">
+<div id="subcategories" class="row">
   <% @subcategories.each do |subcategory| %>
-    <%= render subcategory %>
-    <p>
-      <%= link_to "Show this subcategory", subcategory %>
-    </p>
+    <div class="col-md-4 mb-4">
+      <div class="card h-100">
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title"><%= subcategory.name %></h5>
+          <p class="card-text mt-auto">
+            <%= link_to "Muestra esta subcategoría", category_subcategory_path(@category, subcategory), class: "btn btn-sm btn-primary" %>
+            <%= link_to "Borrar", category_subcategory_path(@category, subcategory), method: :delete, data: { confirm: '¿Estás seguro de que deseas borrar esta subcategoría?' }, class: "btn btn-sm btn-danger mt-2" %>
+          </p>
+        </div>
+      </div>
+    </div>
   <% end %>
 </div>
 
-<%= link_to "New subcategory", new_subcategory_path %>
+<%= link_to "Back to categories", categories_path, class: "btn btn-secondary mt-3" %>
+<%= link_to "New subcategory", new_category_subcategory_path(@category), class: "btn btn-primary mt-3" %>

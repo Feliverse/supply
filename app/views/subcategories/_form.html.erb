@@ -1,27 +1,24 @@
-<%= form_with(model: subcategory) do |form| %>
+<%= form_with(model: [@category, subcategory], local: true) do |form| %>
   <% if subcategory.errors.any? %>
-    <div style="color: red">
+    <div class="alert alert-danger">
       <h2><%= pluralize(subcategory.errors.count, "error") %> prohibited this subcategory from being saved:</h2>
-
       <ul>
-        <% subcategory.errors.each do |error| %>
-          <li><%= error.full_message %></li>
+        <% subcategory.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
         <% end %>
       </ul>
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :name, style: "display: block" %>
-    <%= form.text_field :name %>
+  <div class="mb-3">
+    <%= form.label :name, "Nombre", class: "form-label" %>
+    <%= form.text_field :name, class: "form-control", required: true %>
+    <div class="invalid-feedback">
+      Please provide a valid name.
+    </div>
   </div>
 
-  <div>
-    <%= form.label :category_id, style: "display: block" %>
-    <%= form.text_field :category_id %>
-  </div>
-
-  <div>
-    <%= form.submit %>
+  <div class="mb-3">
+    <%= form.submit "Crear Subcategoría", class: "btn btn-primary" %>
   </div>
 <% end %>
