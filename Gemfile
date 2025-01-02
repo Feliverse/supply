@@ -50,7 +50,7 @@ gem "sassc-rails"
 
 gem 'bootstrap', '~> 5.3.3'
 
-gem 'font-awesome-sass', '~> 5.15.1'
+gem 'font-awesome-sass', '~> 6.5.1'
 
 
 group :development, :test do
