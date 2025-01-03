@@ -1,22 +1,27 @@
-<%= form_with(model: marca) do |form| %>
+<%= form_with(model: [:category, :subcategory, marca]) do |form| %>
   <% if marca.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(marca.errors.count, "error") %> prohibited this marca from being saved:</h2>
 
       <ul>
-        <% marca.errors.each do |error| %>
-          <li><%= error.full_message %></li>
+        <% marca.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
         <% end %>
       </ul>
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :name, style: "display: block" %>
+  <div class="field">
+    <%= form.label :name %>
     <%= form.text_field :name %>
   </div>
 
-  <div>
+  <div class="field">
+    <%= form.label :logo %>
+    <%= form.text_field :logo %>
+  </div>
+
+  <div class="actions">
     <%= form.submit %>
   </div>
 <% end %>

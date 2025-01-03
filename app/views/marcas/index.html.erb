@@ -6,9 +6,9 @@
   <% @marcas.each do |marca| %>
     <%= render marca %>
     <p>
-      <%= link_to "Show this marca", marca %>
+      <%= link_to "Show this marca", category_subcategory_marca_path(params[:category_id], params[:subcategory_id], marca) %>
     </p>
   <% end %>
 </div>
 
-<%= link_to "New marca", new_marca_path %>
+<%= link_to "New marca", new_category_subcategory_marca_path(params[:category_id], params[:subcategory_id]), class: "btn btn-primary" %>

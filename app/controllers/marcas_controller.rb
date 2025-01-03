@@ -1,20 +1,20 @@
 class MarcasController < ApplicationController
   before_action :set_marca, only: %i[ show edit update destroy ]
+  before_action :set_subcategory
 
   # GET /marcas or /marcas.json
   def index
-    @marcas = Marca.all
+    @marcas = @subcategory.marcas
   end
 
   # GET /marcas/1 or /marcas/1.json
   def show
-    @marca = Marca.find(params[:id])
     @teches = @marca.teches
   end
 
   # GET /marcas/new
   def new
-    @marca = Marca.new
+    @marca = @subcategory.marcas.build
   end
 
   # GET /marcas/1/edit
@@ -23,11 +23,11 @@ class MarcasController < ApplicationController
 
   # POST /marcas or /marcas.json
   def create
-    @marca = Marca.new(marca_params)
+    @marca = @subcategory.marcas.build(marca_params)
 
     respond_to do |format|
       if @marca.save
-        format.html { redirect_to @marca, notice: "Marca was successfully created." }
+        format.html { redirect_to category_subcategory_marca_path(@subcategory.category, @subcategory, @marca), notice: "Marca was successfully created." }
         format.json { render :show, status: :created, location: @marca }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -40,7 +40,7 @@ class MarcasController < ApplicationController
   def update
     respond_to do |format|
       if @marca.update(marca_params)
-        format.html { redirect_to @marca, notice: "Marca was successfully updated." }
+        format.html { redirect_to category_subcategory_marca_path(@subcategory.category, @subcategory, @marca), notice: "Marca was successfully updated." }
         format.json { render :show, status: :ok, location: @marca }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -54,7 +54,7 @@ class MarcasController < ApplicationController
     @marca.destroy
 
     respond_to do |format|
-      format.html { redirect_to marcas_path, status: :see_other, notice: "Marca was successfully destroyed." }
+      format.html { redirect_to category_subcategory_marcas_path(@subcategory.category, @subcategory), status: :see_other, notice: "Marca was successfully destroyed." }
       format.json { head :no_content }
     end
   end
@@ -65,8 +65,12 @@ class MarcasController < ApplicationController
       @marca = Marca.find(params[:id])
     end
 
+    def set_subcategory
+      @subcategory = Subcategory.find(params[:subcategory_id])
+    end
+
     # Only allow a list of trusted parameters through.
     def marca_params
-      params.require(:marca).permit(:name)
+      params.require(:marca).permit(:name, :subcategory_id, :logo)
     end
 end
