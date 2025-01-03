@@ -71,6 +71,6 @@ class MarcasController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def marca_params
-      params.require(:marca).permit(:name, :subcategory_id, :logo)
+      params.require(:marca).permit(:name, :subcategory_id, :logo, :contact_name, :contact_number)
     end
 end
