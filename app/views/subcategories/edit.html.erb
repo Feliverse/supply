@@ -1,10 +1,34 @@
 <h1>Editing subcategory</h1>
 
-<%= render "form", subcategory: @subcategory %>
-
-<br>
-
 <div>
-  <%= link_to "Show this subcategory", @subcategory %> |
-  <%= link_to "Back to subcategories", subcategories_path %>
+  <%= link_to "Show this subcategory", category_subcategory_path(@category, @subcategory) %> |
+  <%= link_to "Back to subcategories", category_subcategories_path(@category) %>
 </div>
+
+<%= form_with(model: [@category, @subcategory], local: true) do |form| %>
+  <% if @subcategory.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@subcategory.errors.count, "error") %> prohibited this subcategory from being saved:</h2>
+
+      <ul>
+        <% @subcategory.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :description %>
+    <%= form.text_area :description %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

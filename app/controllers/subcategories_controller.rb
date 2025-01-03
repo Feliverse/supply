@@ -16,7 +16,7 @@ class SubcategoriesController < ApplicationController
   def create
     @subcategory = @category.subcategories.build(subcategory_params)
     if @subcategory.save
-      redirect_to category_subcategories_path(@category), notice: 'Subcategory was successfully created.'
+      redirect_to category_subcategory_path(@category, @subcategory), notice: 'Subcategory was successfully created.'
     else
       render :new
     end
@@ -27,7 +27,7 @@ class SubcategoriesController < ApplicationController
 
   def update
     if @subcategory.update(subcategory_params)
-      redirect_to category_subcategories_path(@category), notice: 'Subcategory was successfully updated.'
+      redirect_to category_subcategory_path(@category, @subcategory), notice: 'Subcategory was successfully updated.'
     else
       render :edit
     end
@@ -45,10 +45,10 @@ class SubcategoriesController < ApplicationController
   end
 
   def set_subcategory
-    @subcategory = Subcategory.find(params[:id])
+    @subcategory = @category.subcategories.find(params[:id])
   end
 
   def subcategory_params
-    params.require(:subcategory).permit(:name)
+    params.require(:subcategory).permit(:name, :description)
   end
 end
