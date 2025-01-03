@@ -1,2 +1,62 @@
 @import "bootstrap";
 @import "font-awesome";
+
+body {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  font-family: 'Roboto', sans-serif;
+}
+
+.sidebar {
+  width: 250px;
+  text-align: center; // Center the text
+  color: white;
+  padding: 15px;
+  box-sizing: border-box;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding-top: 20px;
+  a {
+    color: white;
+    text-decoration: none; // Remove underline
+    &:hover {
+      color: lightgray; // Optional: change color on hover
+    }
+  }
+}
+
+.main-content {
+  flex-grow: 1;
+  padding: 15px;
+  box-sizing: border-box;
+  margin-left: 250px; /* Adjust this value based on the width of the sidebar */
+  padding: 20px;
+}
+
+.card {
+  &:hover {
+    box-shadow: 0 0 11px rgba(167, 43, 12, 0.733); 
+    background-color: #e6d6c294; // Light grey background on hover
+    border: coral 1px solid; // Add a coral border on hover
+    transform: scale(1.0); // Slightly increase size on hover
+    transition: transform 0.2s, background-color 0.2s; // Smooth transition
+  } 
+}
+
+.fa-trash-alt {
+  &:hover {
+    color: orangered; // Change color to red on hover
+    text-shadow: darkgray 1px 1px 1px; // Add a shadow to the text
+  }
+}
+
+.fa-edit {
+  &:hover {
+    color: green; // Change color to green on hover
+    text-shadow: darkgrey 1px 1px 1px; // Add a shadow to the text
+  }
+}

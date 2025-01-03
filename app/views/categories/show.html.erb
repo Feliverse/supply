@@ -1,10 +1,23 @@
-<p style="color: green"><%= notice %></p>
-
-<%= render @category %>
-
-<div>
-  <%= link_to "Edit this category", edit_category_path(@category) %> |
-  <%= link_to "Back to categories", categories_path %>
-
-  <%= button_to "Destroy this category", @category, method: :delete %>
+<div class="card mt-4">
+  <div class="card-header">
+    <h2>Category Details</h2>
+  </div>
+  <div class="card-body">
+    <p style="color: green"><%= notice %></p>
+    <%= render @category %>
+  </div>
+  <div class="card-footer">
+    <div class="btn-group">
+      <%= link_to edit_category_path(@category), class: "btn btn-primary", title: "Editar" do %>
+        <i class="fas fa-edit"></i>
+      <% end %>
+      <%= link_to categories_path, class: "btn btn-secondary", title: "Atras" do %>
+        <i class="fas fa-arrow-left"></i>
+      <% end %>
+      <%= button_to @category, method: :delete, class: "btn btn-danger", title: "Eliminar esta categoría" do %>
+        <i class="fas fa-trash-alt"></i>
+      <% end %>
+    </div>
+    <p class="text-danger mt-2">Advertencia: Eliminar esta categoría es irreversible.</p>
+  </div>
 </div>
