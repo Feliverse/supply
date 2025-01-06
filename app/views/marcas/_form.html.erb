@@ -11,27 +11,36 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name %>
+  <div class="mb-3">
+    <%= form.label :name, "Nombre", class: "form-label" %>
+    <%= form.text_field :name, class: "form-control", required: true %>
+    <div class="invalid-feedback">
+      Por favor, ingrese el nombre.
+    </div>
   </div>
 
-  <div class="field">
-    <%= form.label :logo %>
-    <%= form.text_field :logo %>
+  <div class="mb-3">
+    <%= form.label :logo, class: "form-label" %>
+    <%= form.text_field :logo, class: "form-control" %>
   </div>
 
-  <div class="field">
-    <%= form.label :contact_name %>
-    <%= form.text_field :contact_name %>
+  <div class="mb-3">
+    <%= form.label :contact_name, "Contacto", class: "form-label" %>
+    <%= form.text_field :contact_name, class: "form-control", required: true %>
+    <div class="invalid-feedback">
+      Por favor, ingrese el nombre del contacto.
+    </div>
   </div>
 
-  <div class="field">
-    <%= form.label :contact_number %>
-    <%= form.text_field :contact_number %>
+  <div class="mb-3">
+    <%= form.label :contact_number, "Número", class: "form-label" %>
+    <%= form.text_field :contact_number, class: "form-control", required: true %>
+    <div class="invalid-feedback">
+      Por favor, ingrese el número de contacto.
+    </div>
   </div>
 
-  <div class="actions">
-    <%= form.submit %>
+  <div class="d-grid">
+    <%= form.submit "Actualiza Información", class: "btn btn-primary" %>
   </div>
 <% end %>

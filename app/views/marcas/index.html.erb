@@ -12,7 +12,9 @@
         <div class="card-body">
           <h5 class="card-title"><%= marca.name %></h5>
           <p class="card-text">
-            <%= link_to "Show this marca", category_subcategory_marca_path(params[:category_id], params[:subcategory_id], marca), class: "btn btn-primary" %>
+            <%= link_to category_subcategory_marca_path(params[:category_id], params[:subcategory_id], marca), class: "btn btn-primary" do %>
+              <i class="fas fa-eye"></i> Show
+            <% end %>
           </p>
         </div>
       </div>
@@ -21,6 +23,10 @@
 </div>
 
 <div class="mt-4">
-  <%= link_to "New marca", new_category_subcategory_marca_path(params[:category_id], params[:subcategory_id]), class: "btn btn-primary" %>
-  <%= link_to "Back to subcategory", category_subcategory_path(params[:category_id], params[:subcategory_id]), class: "btn btn-secondary" %>
+  <%= link_to new_category_subcategory_marca_path(params[:category_id], params[:subcategory_id]), class: "btn btn-primary" do %>
+    <i class="fas fa-plus"></i> New marca
+  <% end %>
+  <%= link_to category_subcategory_path(params[:category_id], params[:subcategory_id]), class: "btn btn-secondary" do %>
+    <i class="fas fa-arrow-left"></i> Back to subcategory
+  <% end %>
 </div>

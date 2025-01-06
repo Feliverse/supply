@@ -1,18 +1,37 @@
 <p style="color: green"><%= notice %></p>
 
-<%= render @marca %>
-
-<h1><%= @marca.name %></h1>
-
-<div>
-  <img src="<%= @marca.logo %>" alt="<%= @marca.name %> logo" style="max-height: 200px; max-width: 100%;">
+<div class="card mt-4 col-md-6 mx-auto">
+  <div class="card-header text-center">
+    <h1><%= @marca.name %></h1>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-4 text-center">
+        <img src="<%= @marca.logo %>" alt="<%= @marca.name %> logo" class="img-fluid rounded" style="max-height: 200px;">
+      </div>
+      <div class="col-md-8">
+        <p>
+          <strong>Contacto:</strong>
+          <%= @marca.contact_name %>
+        </p>
+        <p>
+          <strong>Numero:</strong>
+          <%= @marca.contact_number %>
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="card-footer d-flex justify-content-between">
+    <div>
+      <%= link_to category_subcategory_marcas_path(params[:category_id], params[:subcategory_id]), class: "btn btn-secondary" do %>
+        <i class="fas fa-arrow-left"></i> vuelve a marcas
+      <% end %>
+      <%= link_to edit_category_subcategory_marca_path(params[:category_id], params[:subcategory_id], @marca), class: "btn btn-primary me-2" do %>
+        <i class="fas fa-edit"></i> Editar
+      <% end %>
+    </div>
+    <%= button_to category_subcategory_marca_path(params[:category_id], params[:subcategory_id], @marca), method: :delete, class: "btn btn-danger", data: { confirm: 'Are you sure?' } do %>
+      <i class="fas fa-trash-alt"></i> Eliminar
+    <% end %>
+  </div>
 </div>
-
-<br>
-
-<div>
-  <%= link_to "Edit this marca", edit_category_subcategory_marca_path(params[:category_id], params[:subcategory_id], @marca) %> |
-  <%= link_to "Back to marcas", category_subcategory_marcas_path(params[:category_id], params[:subcategory_id]) %>
-</div>
-
-<%= button_to "Destroy this marca", category_subcategory_marca_path(params[:category_id], params[:subcategory_id], @marca), method: :delete %>

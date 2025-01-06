@@ -3,4 +3,5 @@ class Subcategory < ApplicationRecord
   has_many :marcas, dependent: :destroy
 
   validates :name, presence: true
+  validates_associated :marcas
 end

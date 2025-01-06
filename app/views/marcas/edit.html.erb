@@ -1,10 +1,12 @@
-<h1>Edit Marca</h1>
+<div class="container col-md-6 col-md-offset-3">
+<h1>Editar Marca</h1>
 
 <%= render "form", marca: @marca %>
 
 <br>
 
 <div>
-  <%= link_to "Show this marca", category_subcategory_marca_path(params[:category_id], params[:subcategory_id], @marca) %> |
-  <%= link_to "Back to marcas", category_subcategory_marcas_path(params[:category_id], params[:subcategory_id]) %>
+  <%= link_to "Muestre esta marca", category_subcategory_marca_path(params[:category_id], params[:subcategory_id], @marca) %> |
+  <%= link_to "Vuelve a marcas", category_subcategory_marcas_path(params[:category_id], params[:subcategory_id]) %>
+</div>
 </div>

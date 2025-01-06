@@ -27,7 +27,7 @@ class MarcasController < ApplicationController
 
     respond_to do |format|
       if @marca.save
-        format.html { redirect_to category_subcategory_marca_path(@subcategory.category, @subcategory, @marca), notice: "Marca was successfully created." }
+        format.html { redirect_to category_subcategory_marca_path(@subcategory.category, @subcategory, @marca), notice: "Nueva marca creada." }
         format.json { render :show, status: :created, location: @marca }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -40,7 +40,7 @@ class MarcasController < ApplicationController
   def update
     respond_to do |format|
       if @marca.update(marca_params)
-        format.html { redirect_to category_subcategory_marca_path(@subcategory.category, @subcategory, @marca), notice: "Marca was successfully updated." }
+        format.html { redirect_to category_subcategory_marca_path(@subcategory.category, @subcategory, @marca), notice: "La Marca fue actualizada." }
         format.json { render :show, status: :ok, location: @marca }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -54,7 +54,7 @@ class MarcasController < ApplicationController
     @marca.destroy
 
     respond_to do |format|
-      format.html { redirect_to category_subcategory_marcas_path(@subcategory.category, @subcategory), status: :see_other, notice: "Marca was successfully destroyed." }
+      format.html { redirect_to category_subcategory_marcas_path(@subcategory.category, @subcategory), status: :see_other, notice: "La Marca fue eliminada." }
       format.json { head :no_content }
     end
   end

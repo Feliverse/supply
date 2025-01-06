@@ -1,9 +1,9 @@
-<%= form_with(model: [@category, subcategory], local: true) do |form| %>
-  <% if subcategory.errors.any? %>
+<%= form_with(model: [@category, @subcategory], local: true) do |form| %>
+  <% if @subcategory.errors.any? %>
     <div class="alert alert-danger">
-      <h2><%= pluralize(subcategory.errors.count, "error") %> prohibited this subcategory from being saved:</h2>
+      <h2><%= pluralize(@subcategory.errors.count, "error") %> prohibited this subcategory from being saved:</h2>
       <ul>
-        <% subcategory.errors.full_messages.each do |message| %>
+        <% @subcategory.errors.full_messages.each do |message| %>
           <li><%= message %></li>
         <% end %>
       </ul>
@@ -16,6 +16,11 @@
     <div class="invalid-feedback">
       Please provide a valid name.
     </div>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :marca_ids, "Marcas", class: "form-label" %>
+    <%= form.collection_select :marca_ids, Marca.all, :id, :name, {}, { multiple: true, class: "form-control" } %>
   </div>
 
   <div class="mb-3">
