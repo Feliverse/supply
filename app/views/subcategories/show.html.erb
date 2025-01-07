@@ -1,7 +1,11 @@
 <p style="color: green"><%= notice %></p>
 
 <%= render @subcategory %>
-
+<ul>
+  <% @subcategory.marcas.each do |marca| %>
+    <li><%= marca.name %></li>
+  <% end %>
+</ul>
 <div>
   <%= link_to "Editar", edit_category_subcategory_path(@category, @subcategory) %> |
   <%= link_to "volver a subcategorias", category_subcategories_path(@category) %>

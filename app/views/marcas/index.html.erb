@@ -1,6 +1,7 @@
 <p style="color: green"><%= notice %></p>
 
-<h1>Marcas</h1>
+<h1>Marcas de <%= @subcategory.name %></h1>
+
 
 <div id="marcas" class="row row-cols-1 row-cols-md-3 g-4">
   <% @marcas.each do |marca| %>
@@ -24,9 +25,9 @@
 
 <div class="mt-4">
   <%= link_to new_category_subcategory_marca_path(params[:category_id], params[:subcategory_id]), class: "btn btn-primary" do %>
-    <i class="fas fa-plus"></i> New marca
+    <i class="fas fa-plus"></i> Nueva Marca
   <% end %>
   <%= link_to category_subcategory_path(params[:category_id], params[:subcategory_id]), class: "btn btn-secondary" do %>
-    <i class="fas fa-arrow-left"></i> Back to subcategory
+    <i class="fas fa-arrow-left"></i> volver a <%= @subcategory.name %>
   <% end %>
 </div>

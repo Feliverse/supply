@@ -1,8 +1,8 @@
 <h1>Editar subcategoria</h1>
 
 <div>
-  <%= link_to "Show this subcategory", category_subcategory_path(@category, @subcategory) %> |
-  <%= link_to "Back to subcategories", category_subcategories_path(@category) %>
+  <%= link_to "Mostrar esta subcategoría", category_subcategory_path(@category, @subcategory) %> |
+  <%= link_to "Volver a subcategorías", category_subcategories_path(@category) %>
 </div>
 
 <%= form_with(model: [@category, @subcategory], local: true) do |form| %>
@@ -18,12 +18,20 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name %>
+  <div class="mb-3">
+    <%= form.label :name, "Nombre", class: "form-label" %>
+    <%= form.text_field :name, class: "form-control", required: true %>
+    <div class="invalid-feedback">
+      Please provide a valid name.
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :marca_ids, "Marcas", class: "form-label" %>
+    <%= form.collection_select :marca_ids, Marca.all, :id, :name, {}, { multiple: true, class: "form-control" } %>
   </div>
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit "Guardar Subcategoría", class: "btn btn-primary" %>
   </div>
 <% end %>
