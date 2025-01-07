@@ -1,14 +1,29 @@
-<p style="color: green"><%= notice %></p>
+<p class="text-success"><%= notice %></p>
 
-<%= render @subcategory %>
-<ul>
-  <% @subcategory.marcas.each do |marca| %>
-    <li><%= marca.name %></li>
+<div class="card mb-4 mx-auto" style="max-width: 30rem;">
+  <div class="card-header">
+    <h2><%= @category.name %><br> <%= @subcategory.name %></h2>
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">Marcas vinculadas</h5>
+    <ul class="list-group list-group-flush">
+      <% @subcategory.marcas.each do |marca| %>
+        <li class="list-group-item"><%= marca.name %></li>
+      <% end %>
+    </ul>
+  </div>
+</div>
+
+<div class="d-flex justify-content-between mx-auto" style="max-width: 30rem;">
+  <div class="btn-group" role="group" aria-label="Basic example">
+  <%= link_to edit_category_subcategory_path(@category, @subcategory), class: "btn btn-primary btn-sm" do %>
+    <i class="fas fa-edit"></i> Editar
   <% end %>
-</ul>
-<div>
-  <%= link_to "Editar", edit_category_subcategory_path(@category, @subcategory) %> |
-  <%= link_to "volver a subcategorias", category_subcategories_path(@category) %>
-
-  <%= button_to "Eliminar esta Subcategoria", category_subcategory_path(@category, @subcategory), method: :delete, data: { confirm: 'Are you sure?' } %>
+  <%= link_to category_subcategories_path(@category), class: "btn btn-secondary btn-sm" do %>
+    <i class="fas fa-arrow-left"></i> Volver a subcategorías
+  <% end %>
+  </div>
+  <%= button_to category_subcategory_path(@category, @subcategory), method: :delete, data: { confirm: '¿Estás seguro?' }, class: "btn btn-danger btn-sm" do %>
+    <i class="fas fa-trash-alt"></i> Eliminar esta Subcategoría
+  <% end %>
 </div>

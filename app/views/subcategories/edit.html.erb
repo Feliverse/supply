@@ -1,18 +1,21 @@
-<h1>Editar subcategoria</h1>
+<div class="container " style="max-width: 400px; text-align: left;">
+<h1 class="mb-4">Editar Subcategoría</h1>
+<p> 
+  <strong>Categoría:</strong> <%= @category.name %><br>
+  <strong>Subcategoría:</strong> <%= @subcategory.name %>
 
-<div>
-  <%= link_to "Mostrar esta subcategoría", category_subcategory_path(@category, @subcategory) %> |
-  <%= link_to "Volver a subcategorías", category_subcategories_path(@category) %>
+<div class="mb-3">
+  <%= link_to "Volver", category_subcategory_path(@category, @subcategory), class: "btn btn-secondary" %>
+  <%= link_to "Mostrar subcategorías", category_subcategories_path(@category), class: "btn btn-secondary" %>
 </div>
 
 <%= form_with(model: [@category, @subcategory], local: true) do |form| %>
   <% if @subcategory.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@subcategory.errors.count, "error") %> prohibited this subcategory from being saved:</h2>
-
+    <div class="alert alert-danger">
+      <h2 class="alert-heading"><%= pluralize(@subcategory.errors.count, "error") %> prohibited this subcategory from being saved:</h2>
       <ul>
         <% @subcategory.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
+          <li><%= message %></li><div class="container " style="max-width: 300px; text-align: left;">
         <% end %>
       </ul>
     </div>
@@ -28,10 +31,18 @@
 
   <div class="mb-3">
     <%= form.label :marca_ids, "Marcas", class: "form-label" %>
-    <%= form.collection_select :marca_ids, Marca.all, :id, :name, {}, { multiple: true, class: "form-control" } %>
+    <div class="form-check">
+      <%= form.collection_check_boxes :marca_ids, Marca.all, :id, :name do |b| %>
+        <div class="form-check">
+          <%= b.check_box(class: "form-check-input") %>
+          <%= b.label(class: "form-check-label") %>
+        </div>
+      <% end %>
+    </div>
   </div>
 
-  <div class="actions">
+  <div class="d-grid">
     <%= form.submit "Guardar Subcategoría", class: "btn btn-primary" %>
   </div>
 <% end %>
+</div>

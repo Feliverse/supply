@@ -22,16 +22,19 @@
     </div>
   </div>
   <div class="card-footer d-flex justify-content-between">
-    <div>
-      <%= link_to category_subcategory_marcas_path(params[:category_id], params[:subcategory_id]), class: "btn btn-secondary" do %>
-        <i class="fas fa-arrow-left"></i> vuelve a marcas
-      <% end %>
-      <%= link_to edit_category_subcategory_marca_path(params[:category_id], params[:subcategory_id], @marca), class: "btn btn-primary me-2" do %>
-        <i class="fas fa-edit"></i> Editar
-      <% end %>
-    </div>
-    <%= button_to category_subcategory_marca_path(params[:category_id], params[:subcategory_id], @marca), method: :delete, class: "btn btn-danger", data: { confirm: 'Are you sure?' } do %>
-      <i class="fas fa-trash-alt"></i> Eliminar
+  <div class="btn-group" role="group" aria-label="Basic example">
+    <%= link_to category_subcategory_marcas_path(params[:category_id], params[:subcategory_id]), class: "btn btn-secondary" do %>
+      <i class="fas fa-arrow-left"></i> Vuelve a marcas
+    <% end %>
+    <%= link_to edit_category_subcategory_marca_path(params[:category_id], params[:subcategory_id], @marca), class: "btn btn-primary me-2" do %>
+      <i class="fas fa-edit"></i> Editar
+    <% end %>
+    <%= link_to category_subcategory_marca_teches_path(params[:category_id], params[:subcategory_id], @marca), class: "btn btn-info" do %>
+      <i class="fas fa-list"></i> Ver Teches
     <% end %>
   </div>
+  <%= button_to category_subcategory_marca_path(params[:category_id], params[:subcategory_id], @marca), method: :delete, class: "btn btn-danger", data: { confirm: 'Are you sure?' } do %>
+    <i class="fas fa-trash-alt"></i> Eliminar
+  <% end %>
+</div>
 </div>
