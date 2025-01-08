@@ -14,7 +14,9 @@ class TechesController < ApplicationController
 
   # GET /teches/new
   def new
-    @tech = Tech.new
+    @marca = Marca.find(params[:marca_id])
+    @subcategory = Subcategory.find(params[:subcategory_id])
+    @tech = @marca.teches.build(subcategory: @subcategory)
   end
 
   # GET /teches/1/edit
@@ -23,11 +25,13 @@ class TechesController < ApplicationController
 
   # POST /teches or /teches.json
   def create
-    @tech = Tech.new(tech_params)
+    @marca = Marca.find(params[:marca_id])
+    @subcategory = Subcategory.find(params[:subcategory_id])
+    @tech = @marca.teches.build(tech_params.merge(subcategory: @subcategory))
 
     respond_to do |format|
       if @tech.save
-        format.html { redirect_to @tech, notice: "Tech was successfully created." }
+        format.html { redirect_to [@marca, @tech], notice: "Tech was successfully created." }
         format.json { render :show, status: :created, location: @tech }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -67,6 +71,6 @@ class TechesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def tech_params
-      params.require(:tech).permit(:format, :pieces_box, :m2_box, :tomo_calibre, :lote, :color, :marca_id)
+      params.require(:tech).permit(:format, :pieces_box, :m2_box, :tomo_calibre, :lote, :color, :marca_id, :subcategory_id)
     end
 end

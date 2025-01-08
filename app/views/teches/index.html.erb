@@ -1,14 +1,30 @@
-<p style="color: green"><%= notice %></p>
-
-<h1>Teches</h1>
-
-<div id="teches">
-  <% @teches.each do |tech| %>
-    <%= render tech %>
-    <p>
-      <%= link_to "Show this tech", tech %>
-    </p>
-  <% end %>
+<div class="d-flex justify-content-between align-items-center bg-secondary text-white py-3 px-5 mb-5">
+  <div class="mb-2">
+    <h1>Teches</h1>
+    <p>Administra las características técnicas </p>
+  </div>
+  <%= link_to "New tech", new_category_subcategory_marca_tech_path(params[:category_id], params[:subcategory_id], params[:marca_id]), class: "btn btn-primary mt-3" %>
 </div>
 
-<%= link_to "New tech", new_tech_path %>
+<div id="teches" class="row">
+  <% @teches.each do |tech| %>
+    <div class="col-md-4 mb-4">
+      <div class="card h-100">
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title"><%= tech.name %></h5>
+          <div class="mt-auto d-flex justify-content-end">
+            <%= link_to category_subcategory_marca_tech_path(params[:category_id], params[:subcategory_id], params[:marca_id], tech), class: "btn btn-sm btn-success" do %>
+              <i class="fas fa-eye"></i> Ver
+            <% end %>
+            <%= link_to edit_category_subcategory_marca_tech_path(params[:category_id], params[:subcategory_id], params[:marca_id], tech), class: "btn btn-sm btn-primary ms-2" do %>
+              <i class="fas fa-edit"></i> Editar
+            <% end %>
+            <%= link_to category_subcategory_marca_tech_path(params[:category_id], params[:subcategory_id], params[:marca_id], tech), method: :delete, data: { confirm: '¿Estás seguro de que deseas borrar esta característica técnica?' }, class: "btn btn-sm btn-danger ms-2" do %>
+              <i class="fas fa-trash-alt"></i> Eliminar
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
