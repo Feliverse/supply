@@ -3,8 +3,9 @@
 <%= render @tech %>
 
 <div>
-  <%= link_to "Edit this tech", edit_tech_path(@tech) %> |
-  <%= link_to "Back to teches", teches_path %>
+  <h1><%= @tech.format %></h1>
+  <%= link_to "Edit this tech", edit_marca_tech_path(@tech.marca, @tech) %> |
+  <%= link_to "Back to teches", marca_teches_path(@tech.marca) %>
 
-  <%= button_to "Destroy this tech", @tech, method: :delete %>
+  <%= button_to "Destroy this tech", [@tech.marca, @tech], method: :delete %>
 </div>

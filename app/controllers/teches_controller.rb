@@ -26,7 +26,7 @@ class TechesController < ApplicationController
   # POST /teches or /teches.json
   def create
     @marca = Marca.find(params[:marca_id])
-    @subcategory = Subcategory.find(params[:subcategory_id])
+    @subcategory = Subcategory.find(params[:tech][:subcategory_id])
     @tech = @marca.teches.build(tech_params.merge(subcategory: @subcategory))
 
     respond_to do |format|
@@ -71,6 +71,6 @@ class TechesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def tech_params
-      params.require(:tech).permit(:format, :pieces_box, :m2_box, :tomo_calibre, :lote, :color, :marca_id, :subcategory_id)
+      params.require(:tech).permit(:format, :pieces_box, :m2_box, :tomo_calibre, :lote, :color, :marca_id, :subcategory_id, :name)
     end
 end
