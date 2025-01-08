@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_01_07_123567) do
+ActiveRecord::Schema[7.0].define(version: 2025_01_08_161827) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -61,12 +61,9 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_07_123567) do
   end
 
   create_table "teches", force: :cascade do |t|
-    t.string "format"
+    t.string "name"
     t.integer "pieces_box"
     t.decimal "m2_box"
-    t.string "tomo_calibre"
-    t.string "lote"
-    t.string "color"
     t.bigint "marca_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

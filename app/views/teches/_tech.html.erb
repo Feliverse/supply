@@ -1,37 +1,17 @@
-<div id="<%= dom_id tech %>">
-  <p>
-    <strong>Format:</strong>
-    <%= tech.format %>
-  </p>
-
-  <p>
-    <strong>Pieces box:</strong>
-    <%= tech.pieces_box %>
-  </p>
-
-  <p>
-    <strong>M2 box:</strong>
-    <%= tech.m2_box %>
-  </p>
-
-  <p>
-    <strong>Tomo calibre:</strong>
-    <%= tech.tomo_calibre %>
-  </p>
-
-  <p>
-    <strong>Lote:</strong>
-    <%= tech.lote %>
-  </p>
-
-  <p>
-    <strong>Color:</strong>
-    <%= tech.color %>
-  </p>
-
-  <p>
-    <strong>Marca:</strong>
-    <%= tech.marca_id %>
-  </p>
-
+<div id="<%= dom_id tech %>" class="card mb-3">
+  <div class="card-body">
+    <h5 class="card-title"><%= tech.name %></h5>
+    <p class="card-text">
+      <strong>Formato:</strong> <%= tech.name %>
+    </p>
+    <p class="card-text">
+      <strong>Piezas por caja:</strong> <%= tech.pieces_box %>
+    </p>
+    <p class="card-text">
+      <strong>m2 por caja:</strong> <%= tech.m2_box %>
+    </p>
+    <p class="card-text">
+      <strong>Marca:</strong> <%= tech.marca.name %>
+    </p>
+  </div>
 </div>

@@ -1,9 +1,10 @@
 <h1>New tech</h1>
-
+<div style="max-width: 30rem;">
 <%= render "form", tech: @tech %>
 
 <br>
 
 <div>
-  <%= link_to "Back to teches", marca_teches_path(@marca) %>
+  <%= link_to "Back to teches", category_subcategory_marca_teches_path(@marca) %>
+</div>
 </div>

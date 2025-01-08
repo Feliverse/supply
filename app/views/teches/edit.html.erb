@@ -1,10 +1,10 @@
-<h1>Editing tech</h1>
+<h1>Edita este formato</h1>
 
 <%= render "form", tech: @tech %>
 
 <br>
 
 <div>
-  <%= link_to "Show this tech", @tech %> |
-  <%= link_to "Back to teches", teches_path %>
+  <%= link_to "mira", [@marca, @tech] %> |
+  <%= link_to "vuelve", marca_teches_path(@marca) %>
 </div>

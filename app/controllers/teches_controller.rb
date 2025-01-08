@@ -1,15 +1,17 @@
 class TechesController < ApplicationController
-  before_action :set_tech, only: %i[ show edit update destroy ]
+  before_action :set_tech, only: %i[show edit update destroy]
+  before_action :set_category_and_subcategory_and_marca, only: %i[new create edit update index]
 
   # GET /teches or /teches.json
   def index
-    @teches = Tech.all
+    @teches = @marca.teches.where(subcategory: @subcategory)
   end
 
   # GET /teches/1 or /teches/1.json
   def show
     @tech = Tech.find(params[:id])
     @products = @tech.products
+    @marca = @tech.marca
   end
 
   # GET /teches/new
@@ -21,6 +23,7 @@ class TechesController < ApplicationController
 
   # GET /teches/1/edit
   def edit
+    @marca = @tech.marca
   end
 
   # POST /teches or /teches.json
@@ -31,7 +34,7 @@ class TechesController < ApplicationController
 
     respond_to do |format|
       if @tech.save
-        format.html { redirect_to [@marca, @tech], notice: "Tech was successfully created." }
+        format.html { redirect_to category_subcategory_marca_tech_path(@category, @subcategory, @marca, @tech), notice: "Tech was successfully created." }
         format.json { render :show, status: :created, location: @tech }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -44,7 +47,7 @@ class TechesController < ApplicationController
   def update
     respond_to do |format|
       if @tech.update(tech_params)
-        format.html { redirect_to @tech, notice: "Tech was successfully updated." }
+        format.html { redirect_to category_subcategory_marca_tech_path(@category, @subcategory, @marca, @tech), notice: "Tech was successfully updated." }
         format.json { render :show, status: :ok, location: @tech }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -58,19 +61,24 @@ class TechesController < ApplicationController
     @tech.destroy
 
     respond_to do |format|
-      format.html { redirect_to teches_path, status: :see_other, notice: "Tech was successfully destroyed." }
+      format.html { redirect_to category_subcategory_marca_teches_path(@category, @subcategory, @marca), status: :see_other, notice: "Tech was successfully destroyed." }
       format.json { head :no_content }
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_tech
-      @tech = Tech.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def tech_params
-      params.require(:tech).permit(:format, :pieces_box, :m2_box, :tomo_calibre, :lote, :color, :marca_id, :subcategory_id, :name)
-    end
+  def set_tech
+    @tech = Tech.find(params[:id])
+  end
+
+  def set_category_and_subcategory_and_marca
+    @category = Category.find(params[:category_id])
+    @subcategory = Subcategory.find(params[:subcategory_id])
+    @marca = Marca.find(params[:marca_id])
+  end
+
+  def tech_params
+    params.require(:tech).permit(:name, :pieces_box, :m2_box, :marca_id, :subcategory_id)
+  end
 end

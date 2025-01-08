@@ -1,8 +1,7 @@
-<%= form_with(model: [@marca, tech]) do |form| %>
+<%= form_with(model: [@category, @subcategory, @marca, tech]) do |form| %>
   <% if tech.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(tech.errors.count, "error") %> prohibited this tech from being saved:</h2>
-
       <ul>
         <% tech.errors.full_messages.each do |message| %>
           <li><%= message %></li>
@@ -11,47 +10,24 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :format, style: "display: block" %>
-    <%= form.text_field :format %>
+  <%= form.hidden_field :subcategory_id, value: @subcategory.id %>
+  
+  <div class="mb-3">
+    <%= form.label :name, "Nombre", class: "form-label" %>
+    <%= form.text_field :name, class: "form-control", required: true %>
   </div>
 
-  <div>
-    <%= form.label :pieces_box, style: "display: block" %>
-    <%= form.number_field :pieces_box %>
+  <div class="mb-3">
+    <%= form.label :pieces_box, "Piezas por caja", class: "form-label" %>
+    <%= form.number_field :pieces_box, class: "form-control", required: true %>
   </div>
 
-  <div>
-    <%= form.label :m2_box, style: "display: block" %>
-    <%= form.text_field :m2_box %>
+  <div class="mb-3">
+    <%= form.label :m2_box, "Metros cuadrados por caja", class: "form-label" %>
+    <%= form.number_field :m2_box, class: "form-control", step: 0.01, required: true %>
   </div>
 
-  <div>
-    <%= form.label :tomo_calibre, style: "display: block" %>
-    <%= form.text_field :tomo_calibre %>
-  </div>
-
-  <div>
-    <%= form.label :lote, style: "display: block" %>
-    <%= form.text_field :lote %>
-  </div>
-
-  <div>
-    <%= form.label :color, style: "display: block" %>
-    <%= form.text_field :color %>
-  </div>
-
-  <div>
-    <%= form.label :marca_id, style: "display: block" %>
-    <%= form.text_field :marca_id %>
-  </div>
-
-  <div>
-    <%= form.label :subcategory_id, style: "display: block" %>
-    <%= form.text_field :subcategory_id %>
-  </div>
-
-  <div>
-    <%= form.submit %>
+  <div class="d-grid">
+    <%= form.submit "Guardar", class: "btn btn-primary" %>
   </div>
 <% end %>
