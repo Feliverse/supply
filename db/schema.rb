@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_01_08_161827) do
+ActiveRecord::Schema[7.0].define(version: 2025_01_09_012115) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -18,15 +18,6 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_08_161827) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "marca_subcategories", force: :cascade do |t|
-    t.bigint "marca_id", null: false
-    t.bigint "subcategory_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["marca_id"], name: "index_marca_subcategories_on_marca_id"
-    t.index ["subcategory_id"], name: "index_marca_subcategories_on_subcategory_id"
   end
 
   create_table "marcas", force: :cascade do |t|
@@ -72,8 +63,6 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_08_161827) do
     t.index ["subcategory_id"], name: "index_teches_on_subcategory_id"
   end
 
-  add_foreign_key "marca_subcategories", "marcas"
-  add_foreign_key "marca_subcategories", "subcategories"
   add_foreign_key "products", "categories"
   add_foreign_key "products", "marcas"
   add_foreign_key "products", "subcategories"
