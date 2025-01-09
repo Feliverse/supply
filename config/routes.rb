@@ -1,12 +1,6 @@
 Rails.application.routes.draw do
   resources :categories do 
-    resources :subcategories do 
-      resources :marcas do
-        resources :teches do
-          resources :products
-        end
-      end
-    end
+    resources :subcategories
   end
 
   resources :products
