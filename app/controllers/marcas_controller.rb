@@ -4,7 +4,7 @@ class MarcasController < ApplicationController
 
   # GET /marcas or /marcas.json
   def index
-    @marcas = @marca.all
+    @marcas = Marca.all
   end
 
   # GET /marcas/1 or /marcas/1.json

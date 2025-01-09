@@ -14,14 +14,20 @@
     <%= product.subcategory_id %>
   </p>
 
-  <p>
-    <strong>Marca:</strong>
-    <%= product.marca_id %>
-  </p>
-
+  <% if @product.tech.present? %>
   <p>
     <strong>Tech:</strong>
-    <%= product.tech_id %>
+    <%= @product.tech.name %>
   </p>
+  <p>
+    <strong>Marca:</strong>
+    <%= @product.tech.marca.name %>
+  </p>
+<% else %>
+  <p>
+    <strong>Marca:</strong>
+    <%= @product.marca.name %>
+  </p>
+<% end %>
 
 </div>
