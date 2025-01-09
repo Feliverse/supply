@@ -1,12 +1,12 @@
-<div class="card mt-4">
+<div class="card mt-4 mx-auto" style="max-width: 30rem;">
   <div class="card-header">
-    <h2>Category Details</h2>
+    <h2>Detalles de la Categoria</h2>
   </div>
   <div class="card-body">
     <p style="color: green"><%= notice %></p>
     <%= render @category %>
   </div>
-  <div class="card-footer">
+  <div class="card-footer d-flex justify-content-between">
     <div class="btn-group">
       <%= link_to edit_category_path(@category), class: "btn btn-primary", title: "Editar" do %>
         <i class="fas fa-edit"></i>
@@ -14,10 +14,10 @@
       <%= link_to categories_path, class: "btn btn-secondary", title: "Atras" do %>
         <i class="fas fa-arrow-left"></i>
       <% end %>
-      <%= button_to @category, method: :delete, class: "btn btn-danger", title: "Eliminar esta categoría" do %>
-        <i class="fas fa-trash-alt"></i>
-      <% end %>
     </div>
-    <p class="text-danger mt-2">Advertencia: Eliminar esta categoría es irreversible.</p>
+    <%= button_to @category, method: :delete, class: "btn btn-danger", title: "Eliminar esta categoría" do %>
+      <i class="fas fa-trash-alt"></i>
+    <% end %>
   </div>
+  <p class="text-danger mt-2 text-center">Advertencia: Eliminar esta categoría es irreversible.</p>
 </div>

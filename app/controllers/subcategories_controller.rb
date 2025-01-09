@@ -69,6 +69,6 @@ class SubcategoriesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def subcategory_params
-      params.require(:subcategory).permit(:name, marca_ids: [])
+      params.require(:subcategory).permit(:name)
     end
 end

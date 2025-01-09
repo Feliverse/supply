@@ -1,7 +1,4 @@
 class Marca < ApplicationRecord
-  has_many :marca_subcategories, dependent: :destroy
-  has_many :subcategories, through: :marca_subcategories
-
   has_many :teches, dependent: :destroy
 
   validates :name, presence: true

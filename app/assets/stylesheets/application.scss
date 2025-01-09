@@ -39,9 +39,9 @@ body {
 
 .card {
   &:hover {
-    box-shadow: 0 0 11px rgba(167, 43, 12, 0.733); 
-    background-color: #e6d6c294; // Light grey background on hover
-    border: coral 1px solid; // Add a coral border on hover
+    box-shadow: 0 0 11px rgba(12, 144, 167, 0.733); 
+    background-color: #f3f3f394; // Light grey background on hover
+    border: rgb(80, 220, 255) 1px solid; // Add a coral border on hover
     transform: scale(1.0); // Slightly increase size on hover
     transition: transform 0.2s, background-color 0.2s; // Smooth transition
   } 

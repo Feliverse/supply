@@ -19,11 +19,6 @@
   </div>
 
   <div class="mb-3">
-    <%= form.label :marca_ids, "Marcas", class: "form-label" %>
-    <%= form.collection_select :marca_ids, Marca.all, :id, :name, {}, { multiple: true, class: "form-control" } %>
-  </div>
-
-  <div class="mb-3">
     <%= form.submit "Guardar Subcategoría", class: "btn btn-primary" %>
   </div>
 <% end %>
