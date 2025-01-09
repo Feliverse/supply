@@ -26,7 +26,7 @@ class SubcategoriesController < ApplicationController
 
     respond_to do |format|
       if @subcategory.save
-        format.html { redirect_to category_subcategory_path(@category, @subcategory), notice: "Subcategory was successfully created." }
+        format.html { redirect_to category_subcategory_path(@category, @subcategory), notice: "Subcategoria creada." }
         format.json { render :show, status: :created, location: @subcategory }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -39,7 +39,7 @@ class SubcategoriesController < ApplicationController
   def update
     respond_to do |format|
       if @subcategory.update(subcategory_params)
-        format.html { redirect_to category_subcategory_path(@category, @subcategory), notice: "Subcategory was successfully updated." }
+        format.html { redirect_to category_subcategory_path(@category, @subcategory), notice: "Subcategoria actualizada." }
         format.json { render :show, status: :ok, location: @subcategory }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -52,7 +52,7 @@ class SubcategoriesController < ApplicationController
   def destroy
     @subcategory.destroy
     respond_to do |format|
-      format.html { redirect_to category_subcategories_path(@category), notice: "Subcategory was successfully destroyed." }
+      format.html { redirect_to category_subcategories_path(@category), notice: "Subcategoria eliminada." }
       format.json { head :no_content }
     end
   end

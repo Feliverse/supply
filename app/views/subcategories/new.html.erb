@@ -1,9 +1,11 @@
-<h1>New subcategory</h1>
+<h1>Crea una subcategoria</h1>
 
 <%= render "form", category: @category, subcategory: @subcategory %>
 
 <br>
 
 <div>
-  <%= link_to "Vuelve a subcategorias", category_subcategories_path(@category), class: "btn btn-secondary" %>
+  <%= link_to category_subcategories_path(@category), class: "btn btn-secondary" do%>
+    <i class="fas fa-arrow-left"></i> Volver
+  <% end %>
 </div>
