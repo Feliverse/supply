@@ -1,40 +1,32 @@
 class TechesController < ApplicationController
   before_action :set_tech, only: %i[show edit update destroy]
-  before_action :set_category_and_subcategory_and_marca, only: %i[new create edit update index]
+  before_action :set_marca
 
   # GET /teches or /teches.json
   def index
-    @teches = @marca.teches.where(subcategory: @subcategory)
+    @teches = @marca.teches
   end
 
   # GET /teches/1 or /teches/1.json
   def show
-    @tech = Tech.find(params[:id])
-    @products = @tech.products
-    @marca = @tech.marca
   end
 
   # GET /teches/new
   def new
-    @marca = Marca.find(params[:marca_id])
-    @subcategory = Subcategory.find(params[:subcategory_id])
-    @tech = @marca.teches.build(subcategory: @subcategory)
+    @tech = @marca.teches.build
   end
 
   # GET /teches/1/edit
   def edit
-    @marca = @tech.marca
   end
 
   # POST /teches or /teches.json
   def create
-    @marca = Marca.find(params[:marca_id])
-    @subcategory = Subcategory.find(params[:tech][:subcategory_id])
-    @tech = @marca.teches.build(tech_params.merge(subcategory: @subcategory))
+    @tech = @marca.teches.build(tech_params)
 
     respond_to do |format|
       if @tech.save
-        format.html { redirect_to category_subcategory_marca_tech_path(@category, @subcategory, @marca, @tech), notice: "Tech was successfully created." }
+        format.html { redirect_to marca_tech_path(@marca, @tech), notice: "Tech was successfully created." }
         format.json { render :show, status: :created, location: @tech }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -47,7 +39,7 @@ class TechesController < ApplicationController
   def update
     respond_to do |format|
       if @tech.update(tech_params)
-        format.html { redirect_to category_subcategory_marca_tech_path(@category, @subcategory, @marca, @tech), notice: "Tech was successfully updated." }
+        format.html { redirect_to marca_tech_path(@marca, @tech), notice: "Tech was successfully updated." }
         format.json { render :show, status: :ok, location: @tech }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -61,7 +53,7 @@ class TechesController < ApplicationController
     @tech.destroy
 
     respond_to do |format|
-      format.html { redirect_to category_subcategory_marca_teches_path(@category, @subcategory, @marca), status: :see_other, notice: "Tech was successfully destroyed." }
+      format.html { redirect_to marca_teches_path(@marca), status: :see_other, notice: "Tech was successfully destroyed." }
       format.json { head :no_content }
     end
   end
@@ -72,13 +64,11 @@ class TechesController < ApplicationController
     @tech = Tech.find(params[:id])
   end
 
-  def set_category_and_subcategory_and_marca
-    @category = Category.find(params[:category_id])
-    @subcategory = Subcategory.find(params[:subcategory_id])
+  def set_marca
     @marca = Marca.find(params[:marca_id])
   end
 
   def tech_params
-    params.require(:tech).permit(:name, :pieces_box, :m2_box, :marca_id, :subcategory_id)
+    params.require(:tech).permit(:name, :pieces_box, :m2_box, :marca_id)
   end
 end

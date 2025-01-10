@@ -1,6 +1,5 @@
 class Tech < ApplicationRecord
   belongs_to :marca
-  belongs_to :subcategory
   has_many :products
 
   validates :name, presence: true, length: { maximum: 50 }

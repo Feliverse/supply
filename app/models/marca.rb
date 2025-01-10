@@ -1,5 +1,5 @@
 class Marca < ApplicationRecord
-  has_many :teches
+  has_many :teches, dependent: :destroy
   has_many :products
 
   validates :name, presence: true, length: { maximum: 50 }

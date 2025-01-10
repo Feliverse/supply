@@ -1,4 +1,4 @@
-<%= form_with(model: [@category, @subcategory, @marca, tech]) do |form| %>
+<%= form_with(model: [@marca, tech], local: true) do |form| %>
   <% if tech.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(tech.errors.count, "error") %> prohibited this tech from being saved:</h2>
@@ -10,8 +10,6 @@
     </div>
   <% end %>
 
-  <%= form.hidden_field :subcategory_id, value: @subcategory.id %>
-  
   <div class="mb-3">
     <%= form.label :name, "Nombre", class: "form-label" %>
     <%= form.text_field :name, class: "form-control", required: true %>
