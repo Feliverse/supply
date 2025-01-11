@@ -14,6 +14,12 @@ ActiveRecord::Schema[7.0].define(version: 2024_12_27_220924) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "calidads", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "categories", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -31,9 +37,12 @@ ActiveRecord::Schema[7.0].define(version: 2024_12_27_220924) do
 
   create_table "products", force: :cascade do |t|
     t.string "name"
+    t.string "tonocalibre"
     t.bigint "tech_id", null: false
+    t.bigint "calidad_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["calidad_id"], name: "index_products_on_calidad_id"
     t.index ["tech_id"], name: "index_products_on_tech_id"
   end
 
@@ -57,6 +66,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_12_27_220924) do
     t.index ["subcategory_id"], name: "index_teches_on_subcategory_id"
   end
 
+  add_foreign_key "products", "calidads"
   add_foreign_key "products", "teches"
   add_foreign_key "subcategories", "categories"
   add_foreign_key "teches", "marcas"

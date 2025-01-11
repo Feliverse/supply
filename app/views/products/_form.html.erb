@@ -11,32 +11,24 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :name, style: "display: block" %>
-    <%= form.text_field :name %>
+  <div class="mb-3">
+    <%= form.label :name, "Nombre", class: "form-label" %>
+    <%= form.text_field :name, class: "form-control", required: true %>
   </div>
 
-  <div>
-    <%= form.label :category_id, style: "display: block" %>
-    <%= form.text_field :category_id %>
+  <div class="mb-3">
+    <%= form.label :calidad_id, "Calidad", class: "form-label" %>
+    <%= form.collection_select :calidad_id, Calidad.all, :id, :nombre, {}, class: "form-control", required: true %>
   </div>
 
-  <div>
-    <%= form.label :subcategory_id, style: "display: block" %>
-    <%= form.text_field :subcategory_id %>
+  <div class="mb-3">
+    <%= form.label :tonocalibre, "Tono/Calibre", class: "form-label" %>
+    <%= form.text_field :tonocalibre, class: "form-control" %>
   </div>
 
-  <div>
-    <%= form.label :marca_id, style: "display: block" %>
-    <%= form.text_field :marca_id %>
-  </div>
+  
 
-  <div>
-    <%= form.label :tech_id, style: "display: block" %>
-    <%= form.text_field :tech_id %>
-  </div>
-
-  <div>
-    <%= form.submit %>
+  <div class="d-grid">
+    <%= form.submit "Guardar", class: "btn btn-primary" %>
   </div>
 <% end %>
