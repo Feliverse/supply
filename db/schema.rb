@@ -55,7 +55,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_12_27_220924) do
   end
 
   create_table "teches", force: :cascade do |t|
-    t.string "format"
+    t.string "name"
     t.integer "pieces_box"
     t.decimal "m2_box"
     t.bigint "marca_id", null: false

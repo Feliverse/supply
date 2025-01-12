@@ -1,5 +1,5 @@
 class Product < ApplicationRecord
-  belongs_to :tech, optional: true
+  belongs_to :tech
   belongs_to :calidad
 
   validates :name, presence: true

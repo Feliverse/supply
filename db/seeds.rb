@@ -1,14 +1,14 @@
 # Crear Categorías
 ceramica = Category.create(name: 'Cerámica')
 porcelanato = Category.create(name: 'Porcelanato')
-completemento = Category.create(name: 'Complemento')
+complementos = Category.create(name: 'Complementos')
 
 # Crear Subcategorías
 pisos = Subcategory.create(name: 'Pisos', category: ceramica)
 revestimientos = Subcategory.create(name: 'Revestimientos', category: ceramica)
 pisos_grandes = Subcategory.create(name: 'Pisos grandes', category: porcelanato)
-randas = Subcategory.create(name: 'Randas', category: completemento)
-apliques = Subcategory.create(name: 'Apliques', category: completemento)
+randas = Subcategory.create(name: 'Randas', category: complementos)
+apliques = Subcategory.create(name: 'Apliques', category: complementos) 
 
 # Crear Marcas
 coboce = Marca.create(name: 'Coboce')
@@ -26,107 +26,113 @@ tech_41x41 = Tech.create(
   name: '41x41', 
   pieces_box: 12, 
   m2_box: 2, 
-  marca: coboce,
-  subcategory: pisos
+  marca_id: coboce.id,
+  subcategory_id: pisos.id
 )
 
 tech_60x60 = Tech.create(
   name: '60x60',
   pieces_box: 4,
   m2_box: 1.44,
-  marca: coboce,
-  subcategory: pisos
+  marca_id: coboce.id,
+  subcategory_id: pisos.id
 )
 
 tech_30x45 = Tech.create(
   name: '30x45',
   pieces_box: 12,
   m2_box: 1.62,
-  marca: coboce,
-  subcategory: revestimientos
+  marca_id: coboce.id,
+  subcategory_id: revestimientos.id
 )
 
 tech_42x42 = Tech.create(
   name: '42x42',
   pieces_box: 10,
   m2_box: 1.77,
-  marca: faboce,
-  subcategory: pisos
+  marca_id: faboce.id,
+  subcategory_id: pisos.id
 )
 
 tech_45x45 = Tech.create(
   name: '45x45',
   pieces_box: 9,
   m2_box: 1.85,
-  marca: faboce,
-  subcategory: pisos
+  marca_id: faboce.id,
+  subcategory_id: pisos.id
 )
 
 tech_50x50 = Tech.create(
   name: '50x50',
   pieces_box: 8,
   m2_box: 1.85,
-  marca: faboce,
-  subcategory: pisos
+  marca_id: faboce.id,
+  subcategory_id: pisos.id
 )
 
 tech_61x61 = Tech.create(
   name: '61x61',
   pieces_box: 4,
   m2_box: 1.49,
-  marca: faboce,
-  subcategory: pisos
-)
-
-tech_60x60 = Tech.create(
-  name: '60x60',
-  pieces_box: 4,
-  m2_box: 1.44,
-  marca: faboce,
-  subcategory: pisos
+  marca_id: faboce.id,
+  subcategory_id: pisos.id
 )
 
 tech_30x40 = Tech.create(
   name: '30x40',
   pieces_box: 15,
   m2_box: 1.83,
-  marca: faboce,
-  subcategory: pisos
+  marca_id: faboce.id,
+  subcategory_id: revestimientos.id
 )
 
 tech_43x43 = Tech.create(
   name: '43x43',
   pieces_box: 12,
   m2_box: 1.5,
-  marca: jeiz,
-  subcategory: pisos
+  marca_id: jeiz.id,
+  subcategory_id: pisos.id
 )
 
-tech_10x30 = Tech.create(
-  name: '10x30',
-  pieces_box: ,
-  m2_box:,
-  marca: ,
-  subcategory: completemento
+tech_60x60i = Tech.create(
+  name: '60x60importado',
+  pieces_box: 4,
+  m2_box: 1.44,
+  marca_id: importado.id,
+  subcategory_id: pisos_grandes.id
 )
 
-tech_08x025 = Tech.create(
+randa_10x60 = Tech.create(
+  name: '10x60',
+  pieces_box: 20,
+  m2_box: 0,
+  marca_id: importado.id,
+  subcategory_id: randas.id 
+)
+
+randa_08x025 = Tech.create(
   name: '08x025',
-  pieces_box: ,
-  m2_box:,
-  marca: ,
-  subcategory: completemento
+  pieces_box: 20,
+  m2_box: 0, 
+  marca_id: importado.id,
+  subcategory_id: randas.id 
+)
+
+aplique_30x45 = Tech.create(
+  name: '30x45 aplique',
+  pieces_box: 2,
+  m2_box: 0.27,
+  marca_id: coboce.id,
+  subcategory_id: apliques.id
+)
 
 # Crear Productos
 producto1 = Product.create(
   name: 'Troya',
-  tech: tech_41x41,
-  calidad: primera,
+  tech_id: tech_41x41.id,
+  calidad_id: primera.id,
   tonocalibre: 'A1'
 )
-
-
-
 
 # Crear Inventario
 #Inventario.create(producto: producto1, cantidad_disponible: 100, fecha_actualizacion: Time.now)
