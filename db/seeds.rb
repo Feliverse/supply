@@ -143,3 +143,45 @@ producto1 = Product.create(
 #Movimiento.create(producto: producto1, tipo_movimiento: 'Egreso', cantidad: 10, fecha_movimiento: Time.now)
 #Movimiento.create(producto: producto2, tipo_movimiento: 'Ingreso', cantidad: 30, fecha_movimiento: Time.now)
 #Movimiento.create(producto: producto2, tipo_movimiento: 'Egreso', cantidad: 5, fecha_movimiento: Time.now)
+
+# Crear Categorías
+materiales = Category.create(name: 'Materiales de construcción')
+griferia = Category.create(name: 'Grifería')
+accesorios = Category.create(name: 'Accesorios para baño')
+sanitarios = Category.create(name: 'Sanitarios')
+
+
+# Crear Subcategorías
+pastinas = Subcategory.create(name: 'Pastinas', category: materiales)
+pegamentos = Subcategory.create(name: 'Cemento cola', category: materiales)
+grifo = Subcategory.create(name: 'Grifos', category: griferia)
+llavedepaso = Subcategory.create(name: 'Llaves de paso', category: griferia) 
+baterias = Subcategory.create(name: 'Baterías', category: accesorios)
+pernos = Subcategory.create(name: 'Pernos', category: accesorios)
+kit = Subcategory.create(name: 'Kit de accesorios', category: accesorios)
+tapas = Subcategory.create(name: 'Tapas de baño', category: accesorios)
+chicotillos = Subcategory.create(name: 'Chicotillos 0.60', category: accesorios)
+juegos = Subcategory.create(name: 'Juegos de baño', category: sanitarios)
+
+# Crear Marcas
+cremax = Marca.create(name: 'Cremax')
+redimix = Marca.create(name: 'Redimix')
+fv = Marca.create(name: 'FV')
+icasa = Marca.create(name: 'Icasa')
+italgrif = Marca.create(name: 'Italgrif')
+
+# Crear Articulos
+
+articulo1 = Articulo.create(name: 'Pastina blanca', subcategory_id: pastinas.id, marca_id: cremax.id)
+articulo2 = Articulo.create(name: 'Cemento cola', subcategory_id: pegamentos.id, marca_id: redimix.id)
+articulo3 = Articulo.create(name: 'Grifo', subcategory_id: grifo.id, marca_id: fv.id) 
+articulo4 = Articulo.create(name: 'Llave de paso', subcategory_id: llavedepaso.id, marca_id: fv.id)
+articulo5 = Articulo.create(name: 'Batería', subcategory_id: baterias.id, marca_id: fv.id) # Added marca_id
+articulo6 = Articulo.create(name: 'Perno', subcategory_id: pernos.id, marca_id: fv.id) # Added marca_id
+articulo7 = Articulo.create(name: 'Kit de accesorios', subcategory_id: kit.id, marca_id: fv.id) # Added marca_id
+articulo8 = Articulo.create(name: 'Tapa de baño', subcategory_id: tapas.id, marca_id: fv.id) # Added marca_id
+articulo9 = Articulo.create(name: 'Chicotillo 0.60 - metalico', subcategory_id: chicotillos.id, marca_id: fv.id) # Added marca_id
+articulo10 = Articulo.create(name: 'Chicotillo 0.60 - plastico', subcategory_id: chicotillos.id, marca_id: fv.id) # Added marca_id
+articulo11 = Articulo.create(name: 'Juego de baño blanco', subcategory_id: juegos.id, marca_id: icasa.id)
+articulo12 = Articulo.create(name: 'Juego de baño beige', subcategory_id: juegos.id, marca_id: icasa.id)
+articulo13 = Articulo.create(name: 'Juego de baño blanco', subcategory_id: juegos.id, marca_id: italgrif.id)

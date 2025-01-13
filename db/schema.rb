@@ -10,9 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_12_27_220924) do
+ActiveRecord::Schema[7.0].define(version: 2025_01_13_130050) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "articulos", force: :cascade do |t|
+    t.string "name"
+    t.bigint "subcategory_id", null: false
+    t.bigint "marca_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["marca_id"], name: "index_articulos_on_marca_id"
+    t.index ["subcategory_id"], name: "index_articulos_on_subcategory_id"
+  end
 
   create_table "calidads", force: :cascade do |t|
     t.string "name"
@@ -66,6 +76,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_12_27_220924) do
     t.index ["subcategory_id"], name: "index_teches_on_subcategory_id"
   end
 
+  add_foreign_key "articulos", "marcas"
+  add_foreign_key "articulos", "subcategories"
   add_foreign_key "products", "calidads"
   add_foreign_key "products", "teches"
   add_foreign_key "subcategories", "categories"
