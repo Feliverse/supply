@@ -10,9 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_01_13_130050) do
+ActiveRecord::Schema[7.0].define(version: 2025_01_13_154724) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "almacens", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "articulos", force: :cascade do |t|
     t.string "name"
@@ -36,6 +42,19 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_13_130050) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "inventarios", force: :cascade do |t|
+    t.integer "cantidad_disponible", null: false
+    t.datetime "fecha_actualizacion", null: false
+    t.bigint "almacen_id", null: false
+    t.bigint "product_id"
+    t.bigint "articulo_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["almacen_id"], name: "index_inventarios_on_almacen_id"
+    t.index ["articulo_id"], name: "index_inventarios_on_articulo_id"
+    t.index ["product_id"], name: "index_inventarios_on_product_id"
+  end
+
   create_table "marcas", force: :cascade do |t|
     t.string "name"
     t.string "logo"
@@ -43,6 +62,20 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_13_130050) do
     t.string "contact_number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "movimientos", force: :cascade do |t|
+    t.string "tipo", null: false
+    t.integer "cantidad", null: false
+    t.datetime "fecha", null: false
+    t.bigint "almacen_id", null: false
+    t.bigint "product_id"
+    t.bigint "articulo_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["almacen_id"], name: "index_movimientos_on_almacen_id"
+    t.index ["articulo_id"], name: "index_movimientos_on_articulo_id"
+    t.index ["product_id"], name: "index_movimientos_on_product_id"
   end
 
   create_table "products", force: :cascade do |t|
@@ -78,6 +111,12 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_13_130050) do
 
   add_foreign_key "articulos", "marcas"
   add_foreign_key "articulos", "subcategories"
+  add_foreign_key "inventarios", "almacens"
+  add_foreign_key "inventarios", "articulos"
+  add_foreign_key "inventarios", "products"
+  add_foreign_key "movimientos", "almacens"
+  add_foreign_key "movimientos", "articulos"
+  add_foreign_key "movimientos", "products"
   add_foreign_key "products", "calidads"
   add_foreign_key "products", "teches"
   add_foreign_key "subcategories", "categories"
