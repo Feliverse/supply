@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_01_13_154724) do
+ActiveRecord::Schema[7.0].define(version: 2025_01_13_203036) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -38,6 +38,13 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_13_154724) do
 
   create_table "categories", force: :cascade do |t|
     t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "clientes", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "nit", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -89,6 +96,21 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_13_154724) do
     t.index ["tech_id"], name: "index_products_on_tech_id"
   end
 
+  create_table "sales", force: :cascade do |t|
+    t.datetime "fecha"
+    t.integer "cantidad"
+    t.bigint "cliente_id", null: false
+    t.bigint "almacen_id", null: false
+    t.bigint "product_id"
+    t.bigint "articulo_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["almacen_id"], name: "index_sales_on_almacen_id"
+    t.index ["articulo_id"], name: "index_sales_on_articulo_id"
+    t.index ["cliente_id"], name: "index_sales_on_cliente_id"
+    t.index ["product_id"], name: "index_sales_on_product_id"
+  end
+
   create_table "subcategories", force: :cascade do |t|
     t.string "name"
     t.bigint "category_id", null: false
@@ -119,6 +141,10 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_13_154724) do
   add_foreign_key "movimientos", "products"
   add_foreign_key "products", "calidads"
   add_foreign_key "products", "teches"
+  add_foreign_key "sales", "almacens"
+  add_foreign_key "sales", "articulos"
+  add_foreign_key "sales", "clientes"
+  add_foreign_key "sales", "products"
   add_foreign_key "subcategories", "categories"
   add_foreign_key "teches", "marcas"
   add_foreign_key "teches", "subcategories"

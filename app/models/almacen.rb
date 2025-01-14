@@ -1,6 +1,7 @@
 class Almacen < ApplicationRecord
   has_many :movimientos, class_name: 'Movimiento'
   has_many :inventarios, class_name: 'Inventario'
+  has_many :sales, class_name: 'Sale'
 
   validates :name, presence: true
 
@@ -50,6 +51,20 @@ class Almacen < ApplicationRecord
     ActiveRecord::Base.transaction do
       registrar_salida(producto_o_articulo, cantidad, 'Salida por traspaso', fecha)
       almacen_destino.registrar_ingreso(producto_o_articulo, cantidad, 'Ingreso por traspaso', fecha)
+    end
+  end
+
+  def registrar_venta(cliente, producto_o_articulo, cantidad, fecha = Time.now)
+    ActiveRecord::Base.transaction do
+      registrar_salida(producto_o_articulo, cantidad, 'Salida por venta', fecha)
+      sales.create!(
+        cliente: cliente,
+        fecha: fecha,
+        cantidad: cantidad,
+        almacen: self,
+        product: producto_o_articulo.is_a?(Product) ? producto_o_articulo : nil,
+        articulo: producto_o_articulo.is_a?(Articulo) ? producto_o_articulo : nil
+      )
     end
   end
 end

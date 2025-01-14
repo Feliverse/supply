@@ -82,6 +82,10 @@ articulo13 = Articulo.create(name: 'Juego de baño blanco', subcategory: juegos,
 almacen_principal = Almacen.create(name: 'Almacén Principal')
 almacen_secundario = Almacen.create(name: 'Almacén Secundario')
 
+# Crear Clientes
+cliente1 = Cliente.create(name: 'Juan Perez', nit: '123456789')
+cliente2 = Cliente.create(name: 'Maria Lopez', nit: '987654321')
+
 # Registrar movimientos de inventario
 almacen_principal.registrar_ingreso(articulo1, 100, 'Ingreso por compra')
 almacen_principal.registrar_ingreso(articulo2, 50, 'Ingreso por compra')
@@ -90,6 +94,12 @@ almacen_principal.registrar_salida(articulo2, 10, 'Salida por ajuste')
 
 # Realizar traspaso entre almacenes
 almacen_principal.traspasar(articulo1, 30, almacen_secundario)
+
+# Registrar ventas
+almacen_principal.registrar_venta(cliente1, articulo1, 10)
+almacen_principal.registrar_venta(cliente2, articulo2, 5)
+almacen_secundario.registrar_venta(cliente1, articulo1, 5)
+
 
 # # Crear Categorías
 # ceramica = Category.create(name: 'Cerámica')
