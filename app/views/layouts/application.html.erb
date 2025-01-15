@@ -12,17 +12,17 @@
 
   <body class="bg-light">
     <div class="container-fluid">
-      <div class="row">
-        <nav class="col-md-3 col-lg-2 d-md-block bg-dark sidebar nav flex-column">
+      <div class="col">
+        <nav class="col-md-2 col-lg-2 d-md-block bg-dark sidebar nav flex-column">
           <a class="nav-brand pb- text-center" href="https://www.facebook.com/ComercialFelicidad">
             <%= image_tag 'felidicidad.png', alt:'Logo Comercial Felicidad' , class: "img-fluid" %>
           </a>
           <%= link_to categories_path, class: "btn btn-dark shadow nav-link p-5 mb-2" do %>
             <i class="fas fa-home"></i><br> Inicio
           <% end %>
-          <a class="btn btn-dark shadow nav-link p-5 mb-2" href="#">
+          <%= link_to sales_path, class: "btn btn-dark shadow nav-link p-5 mb-2" do %>
             <i class="fas fa-shopping-cart"></i><br> Ventas
-          </a>
+          <% end %>
           <a class="btn btn-dark shadow nav-link p-5 mb-2" href="#">
             <i class="fas fa-warehouse"></i><br> Almacenes
           </a>
@@ -30,8 +30,7 @@
             <i class="fas fa-chart-line"></i><br> Reportes
           </a>
         </nav>
-
-        <div class="col-md-9 ml-sm-auto col-lg-10 px-md-4 main-content">
+        <div class="col-md-8 ml-sm-auto col-lg-9 px-md-4 main-content">
           <%= yield %>
         </div>
       </div>

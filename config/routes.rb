@@ -9,6 +9,14 @@ Rails.application.routes.draw do
     resources :teches
   end
 
+  resources :clients do
+    collection do
+      get 'find_by_nit'
+    end
+  end
+
+  resources :sales, only: [:index, :new, :create]
+
   # Define the root path route ("/")
   root "categories#index"
 end

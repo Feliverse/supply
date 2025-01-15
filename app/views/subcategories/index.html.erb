@@ -14,11 +14,11 @@
   <% @subcategories.each do |subcategory| %>
     <div class="col-md-4 mb-4">
       <div class="card h-100">
-        <div class="card-body d-flex flex-column">
+        <div class="card-body d-flex justify-content-between ">
           <h5 class="card-title"><%= subcategory.name %></h5>
           <div class="mt-auto d-flex justify-content-end">
-            <%= link_to category_subcategory_path(@category, subcategory), class: "btn btn-sm btn-success" do %>
-              <i class="fas fa-gear"></i>
+            <%= link_to category_subcategory_path(@category, subcategory), class: "btn btn-sm" do %>
+              <i class="fas fa-ellipsis-h"></i>
             <% end %>
           </div>
         </div>
