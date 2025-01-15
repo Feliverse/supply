@@ -1,0 +1,17 @@
+<div id="<%= dom_id cliente %>" class="cliente-row d-flex justify-content-between align-items-center p-3 border-bottom">
+  <div>
+    <p class="mb-1">
+      <strong>Nit/CI:</strong>
+      <%= cliente.nit %>
+    </p>
+    <p class="mb-1">
+      <strong>Nombre:</strong>
+      <%= cliente.name %>
+    </p>
+  </div>
+  <div>
+    <%= link_to cliente, class: "btn" do %>
+      <i class="fas fa-ellipsis-h"></i> 
+    <% end %>
+  </div>
+</div>

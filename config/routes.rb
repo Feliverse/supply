@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :clientes
   resources :categories do 
     resources :subcategories
   end
@@ -7,12 +8,6 @@ Rails.application.routes.draw do
 
   resources :marcas do
     resources :teches
-  end
-
-  resources :clients do
-    collection do
-      get 'find_by_nit'
-    end
   end
 
   resources :sales, only: [:index, :new, :create]

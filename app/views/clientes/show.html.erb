@@ -1,0 +1,19 @@
+<p class="notice"><%= notice %></p>
+
+<%= render @cliente %>
+
+<div class="actions d-flex justify-content-between">
+  <div>
+    <%= link_to edit_cliente_path(@cliente), class: "btn btn-secondary" do %>
+      <i class="fas fa-edit"></i> Editar
+    <% end %>
+    <%= link_to clientes_path, class: "btn btn-secondary" do %>
+      <i class="fas fa-arrow-left"></i> Volver a clientes
+    <% end %>
+  </div>
+  <div>
+    <%= button_to @cliente, method: :delete, class: "btn btn-danger" do %>
+      <i class="fas fa-trash-alt"></i> Eliminar
+    <% end %>
+  </div>
+</div>

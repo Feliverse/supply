@@ -1,0 +1,26 @@
+<%= form_with(model: cliente, html: { class: "cliente-form p-4 border rounded" }) do |form| %>
+  <% if cliente.errors.any? %>
+    <div class="error-messages alert alert-danger">
+      <h2><%= pluralize(cliente.errors.count, "error") %> prohibited this cliente from being saved:</h2>
+      <ul>
+        <% cliente.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group mb-3">
+    <%= form.label :nit, "NIT/DI", class: "form-label" %>
+    <%= form.text_field :nit, class: "form-control" %>
+  </div>
+
+  <div class="form-group mb-3">
+    <%= form.label :name, "Nombre", class: "form-label" %>
+    <%= form.text_field :name, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.submit "Guardar", class: "btn btn-primary" %>
+  </div>
+<% end %>
