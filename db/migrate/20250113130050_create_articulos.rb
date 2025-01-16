@@ -4,6 +4,7 @@ class CreateArticulos < ActiveRecord::Migration[7.0]
       t.string :name
       t.references :subcategory, null: false, foreign_key: true
       t.references :marca, null: false, foreign_key: true
+
       t.timestamps
     end
   end

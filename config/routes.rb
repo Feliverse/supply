@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :articulos
   resources :almacens
   resources :clientes
   resources :categories do 

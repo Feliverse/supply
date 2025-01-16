@@ -2,6 +2,10 @@
 
 one:
   name: MyString
+  subcategory: one
+  marca: one
 
 two:
   name: MyString
+  subcategory: two
+  marca: two
