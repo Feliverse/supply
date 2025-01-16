@@ -1,17 +1,17 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  tipo: MyString
-  cantidad: 1
-  fecha: 2025-01-13 11:47:12
   almacen: one
   product: one
   articulo: one
+  tipo: MyString
+  cantidad: 9.99
+  fecha: 2025-01-16 09:28:42
 
 two:
-  tipo: MyString
-  cantidad: 1
-  fecha: 2025-01-13 11:47:12
   almacen: two
   product: two
   articulo: two
+  tipo: MyString
+  cantidad: 9.99
+  fecha: 2025-01-16 09:28:42

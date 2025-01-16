@@ -1,0 +1,47 @@
+<%= form_with(model: movimiento) do |form| %>
+  <% if movimiento.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(movimiento.errors.count, "error") %> prohibited this movimiento from being saved:</h2>
+
+      <ul>
+        <% movimiento.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :almacen_id, style: "display: block" %>
+    <%= form.text_field :almacen_id %>
+  </div>
+
+  <div>
+    <%= form.label :product_id, style: "display: block" %>
+    <%= form.text_field :product_id %>
+  </div>
+
+  <div>
+    <%= form.label :articulo_id, style: "display: block" %>
+    <%= form.text_field :articulo_id %>
+  </div>
+
+  <div>
+    <%= form.label :tipo, style: "display: block" %>
+    <%= form.text_field :tipo %>
+  </div>
+
+  <div>
+    <%= form.label :cantidad, style: "display: block" %>
+    <%= form.text_field :cantidad %>
+  </div>
+
+  <div>
+    <%= form.label :fecha, style: "display: block" %>
+    <%= form.datetime_field :fecha %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
