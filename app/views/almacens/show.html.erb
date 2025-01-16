@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @almacen %>
+
+<div>
+  <%= link_to "Edit this almacen", edit_almacen_path(@almacen) %> |
+  <%= link_to "Back to almacens", almacens_path %>
+
+  <%= button_to "Destroy this almacen", @almacen, method: :delete %>
+</div>
