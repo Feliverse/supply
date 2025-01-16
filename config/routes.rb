@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :inventarios
   resources :movimientos
   resources :calidads
   resources :articulos
