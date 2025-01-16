@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @calidad %>
+
+<div>
+  <%= link_to "Edit this calidad", edit_calidad_path(@calidad) %> |
+  <%= link_to "Back to calidads", calidads_path %>
+
+  <%= button_to "Destroy this calidad", @calidad, method: :delete %>
+</div>
