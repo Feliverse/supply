@@ -12,7 +12,7 @@ class ClientesController < ApplicationController
 
   # GET /clientes/new
   def new
-    @cliente = Cliente.new
+    @cliente = Cliente.new(nit: params[:nit])
   end
 
   # GET /clientes/1/edit
@@ -25,7 +25,13 @@ class ClientesController < ApplicationController
 
     respond_to do |format|
       if @cliente.save
-        format.html { redirect_to @cliente, notice: "Cliente was successfully created." }
+        if params[:source] == 'new_sale'
+          format.html do
+            render inline: "<script>window.opener.postMessage({ cliente: { nit: '<%= @cliente.nit %>', name: '<%= @cliente.name %>' } }, '*'); window.close();</script>"
+          end
+        else
+          format.html { redirect_to clientes_path, notice: 'Cliente was successfully created.' }
+        end
         format.json { render :show, status: :created, location: @cliente }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -54,6 +60,15 @@ class ClientesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to clientes_path, status: :see_other, notice: "Cliente was successfully destroyed." }
       format.json { head :no_content }
+    end
+  end
+
+  def find_by_nit
+    @cliente = Cliente.find_by(nit: params[:nit])
+    if @cliente
+      render json: { cliente: @cliente }
+    else
+      render json: { cliente: nil }
     end
   end
 
