@@ -1,9 +1,32 @@
-<h1>Nuevo cliente</h1>
+<h1>Nuevo Cliente</h1>
 
-<%= render "form", cliente: @cliente %>
+<%= form_with model: @cliente, local: true do |form| %>
+  <% if @cliente.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@cliente.errors.count, "error") %> prohibited this cliente from being saved:</h2>
+      <ul>
+        <% @cliente.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
 
-<br>
+  <%= hidden_field_tag :source, params[:source] %>
 
-<div>
-  <%= link_to "volver a clientes", clientes_path %>
-</div>
+  <div class="form-group">
+    <%= form.label :name, 'Nombre del Cliente' %>
+    <%= form.text_field :name, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :nit, 'NIT del Cliente' %>
+    <%= form.text_field :nit, class: 'form-control', value: @cliente.nit %>
+  </div>
+
+  <div class="form-group">
+    <%= form.submit 'Crear Cliente', class: 'btn btn-primary' %>
+  </div>
+<% end %>
+
+<%= link_to 'Cancelar', clientes_path, class: 'btn btn-secondary' %>
