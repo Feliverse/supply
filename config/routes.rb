@@ -4,7 +4,11 @@ Rails.application.routes.draw do
   resources :calidads
   resources :articulos
   resources :almacens
-  resources :clientes
+  resources :clientes do
+    collection do
+      get 'find_by_nit'
+    end
+  end
   resources :categories do 
     resources :subcategories
   end

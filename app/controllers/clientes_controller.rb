@@ -25,12 +25,8 @@ class ClientesController < ApplicationController
 
     respond_to do |format|
       if @cliente.save
-        if params[:source] == 'new_sale'
-          format.html do
-            render inline: "<script>window.opener.postMessage({ cliente: { nit: '<%= @cliente.nit %>', name: '<%= @cliente.name %>' } }, '*'); window.close();</script>"
-          end
-        else
-          format.html { redirect_to clientes_path, notice: 'Cliente was successfully created.' }
+        format.html do
+          render inline: "<script>window.opener.postMessage({ cliente: { nit: '<%= @cliente.nit %>', name: '<%= @cliente.name %>' } }, '*'); window.close();</script>"
         end
         format.json { render :show, status: :created, location: @cliente }
       else
@@ -44,7 +40,9 @@ class ClientesController < ApplicationController
   def update
     respond_to do |format|
       if @cliente.update(cliente_params)
-        format.html { redirect_to @cliente, notice: "Cliente was successfully updated." }
+        format.html do
+          render inline: "<script>window.opener.postMessage({ cliente: { nit: '<%= @cliente.nit %>', name: '<%= @cliente.name %>' } }, '*'); window.close();</script>"
+        end
         format.json { render :show, status: :ok, location: @cliente }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -64,11 +62,11 @@ class ClientesController < ApplicationController
   end
 
   def find_by_nit
-    @cliente = Cliente.find_by(nit: params[:nit])
-    if @cliente
-      render json: { cliente: @cliente }
+    @client = Cliente.find_by(nit: params[:nit])
+    if @client
+      render json: { client: @client }
     else
-      render json: { cliente: nil }
+      render json: { client: nil }
     end
   end
 

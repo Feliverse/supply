@@ -8,7 +8,14 @@
 
   <div class="form-group">
     <%= form.label :client_name, 'Nombre del Cliente' %>
-    <%= form.text_field :client_name, class: 'form-control', id: 'client_name', readonly: true %>
+    <div class="input-group">
+      <%= form.text_field :client_name, class: 'form-control', id: 'client_name', readonly: true %>
+      <div class="input-group-append">
+        <button type="button" class="btn btn-outline-secondary" id="edit_client" title="Editar Cliente">
+          <i class="fas fa-edit"></i>
+        </button>
+      </div>
+    </div>
   </div>
 
   <h2>Productos/Artículos</h2>
@@ -54,20 +61,37 @@
 <%= link_to 'Cancelar', sales_path, class: 'btn btn-secondary' %>
 
 <script>
+  window.addEventListener('message', function(event) {
+    if (event.data.cliente) {
+      document.getElementById('client_nit').value = event.data.cliente.nit;
+      document.getElementById('client_name').value = event.data.cliente.name;
+    }
+  });
+
   document.getElementById('client_nit').addEventListener('blur', function() {
     var clientNit = this.value;
     if (clientNit) {
-      fetch('/clients/find_by_nit?nit=' + clientNit)
+      fetch('/clientes/find_by_nit?nit=' + clientNit)
         .then(response => response.json())
         .then(data => {
           if (data.client) {
             document.getElementById('client_name').value = data.client.name;
+            document.getElementById('edit_client').dataset.clientId = data.client.id;
           } else {
             if (confirm('Cliente no encontrado. ¿Desea crear un nuevo cliente?')) {
-              window.location.href = '/clients/new?nit=' + clientNit;
+              window.open('/clientes/new?nit=' + clientNit, '_blank', 'width=600,height=400');
             }
           }
         });
+    }
+  });
+
+  document.getElementById('edit_client').addEventListener('click', function() {
+    var clientId = this.dataset.clientId;
+    if (clientId) {
+      window.open('/clientes/' + clientId + '/edit', '_blank', 'width=600,height=400');
+    } else {
+      alert('Primero seleccione un cliente.');
     }
   });
 
