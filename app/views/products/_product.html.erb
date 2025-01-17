@@ -4,30 +4,51 @@
     <%= product.name %>
   </p>
 
-  <p>
-    <strong>Category:</strong>
-    <%= product.category_id %>
-  </p>
+  <% if product.calidad.name == 'primera' %>
+    <p>
+      <strong>Calidad:</strong>
+      <%= product.calidad.name %>
+    </p>
+    <p>
+      <strong>Tono/Calibre:</strong>
+      <%= product.tonocalibre %>
+    </p>
+  <% else %>
+    <p>
+      <strong>Calidad:</strong>
+      <%= product.calidad.name %>
+    </p>
+  <% end %>    
 
-  <p>
-    <strong>Subcategory:</strong>
-    <%= product.subcategory_id %>
-  </p>
-
-  <% if @product.tech.present? %>
-  <p>
-    <strong>Tech:</strong>
-    <%= @product.tech.name %>
-  </p>
-  <p>
-    <strong>Marca:</strong>
-    <%= @product.tech.marca.name %>
-  </p>
-<% else %>
-  <p>
-    <strong>Marca:</strong>
-    <%= @product.marca.name %>
-  </p>
-<% end %>
-
+  <% if product.tech.present? %>
+    <p>
+      <strong>Category:</strong>
+      <%= product.tech.subcategory.category.name %>
+    </p>
+    <p>
+      <strong>Subcategory:</strong>
+      <%= product.tech.subcategory.name %>
+    </p>
+    <p>
+      <strong>Tech:</strong>
+      <%= product.tech.name %>
+    </p>
+    <p>
+      <strong>Marca:</strong>
+      <%= product.tech.marca.name %>
+    </p>
+  <% else %>
+    <p>
+      <strong>Category:</strong>
+      <%= product.subcategory.category %>
+    </p>
+    <p>
+      <strong>Subcategory:</strong>
+      <%= product.subcategory.name %>
+    </p>
+    <p>
+      <strong>Marca:</strong>
+      <%= product.marca.name %>
+    </p>
+  <% end %>
 </div>
