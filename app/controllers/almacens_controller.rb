@@ -1,5 +1,5 @@
 class AlmacensController < ApplicationController
-  before_action :set_almacen, only: %i[ show edit update destroy ]
+  before_action :set_almacen, only: %i[ show edit update destroy new_movimiento_producto new_movimiento_articulo create_movimiento ]
 
   # GET /almacens or /almacens.json
   def index
@@ -8,6 +8,8 @@ class AlmacensController < ApplicationController
 
   # GET /almacens/1 or /almacens/1.json
   def show
+    @almacen = Almacen.find(params[:id])
+    @inventarios = @almacen.inventarios
   end
 
   # GET /almacens/new
@@ -17,6 +19,26 @@ class AlmacensController < ApplicationController
 
   # GET /almacens/1/edit
   def edit
+  end
+
+  def new_movimiento_producto
+    @movimiento = Movimiento.new
+  end
+
+  def new_movimiento_articulo
+    @movimiento = Movimiento.new
+  end
+
+  def create_movimiento
+    @movimiento = @almacen.movimientos.build(movimiento_params)
+
+    if @movimiento.save
+      producto_o_articulo = @movimiento.product || @movimiento.articulo
+      @almacen.registrar_ingreso(producto_o_articulo, @movimiento.cantidad, @movimiento.tipo, @movimiento.fecha)
+      redirect_to @almacen, notice: "Movimiento registrado exitosamente."
+    else
+      render action: @movimiento.product ? :new_movimiento_producto : :new_movimiento_articulo
+    end
   end
 
   # POST /almacens or /almacens.json
@@ -66,5 +88,9 @@ class AlmacensController < ApplicationController
     # Only allow a list of trusted parameters through.
     def almacen_params
       params.require(:almacen).permit(:name)
+    end
+
+    def movimiento_params
+      params.require(:movimiento).permit(:tipo, :cantidad, :fecha, :product_id, :articulo_id)
     end
 end

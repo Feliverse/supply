@@ -18,7 +18,7 @@
 
   <div class="mb-3">
     <%= form.label :calidad_id, "Calidad", class: "form-label" %>
-    <%= form.collection_select :calidad_id, Calidad.all, :id, :nombre, {}, class: "form-control", required: true %>
+    <%= form.collection_select :calidad_id, Calidad.all, :id, :name, {}, class: "form-control", required: true %>
   </div>
 
   <div class="mb-3">

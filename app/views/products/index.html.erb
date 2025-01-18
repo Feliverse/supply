@@ -1,14 +1,29 @@
 <p style="color: green"><%= notice %></p>
 
-<h1>Products</h1>
+<h1>Productos</h1>
 
-<div id="products">
-  <% @products.each do |product| %>
-    <%= render product %>
-    <p>
-      <%= link_to "Show this product", product %>
-    </p>
+<div id="brands">
+  <% @brands.each do |brand| %>
+    <% if brand.teches.any? { |tech| tech.products.any? } %>
+      <h2><%= brand.name %></h2>
+      <div id="teches">
+        <% brand.teches.each do |tech| %>
+          <% if tech.products.any? %>
+            <h3><%= tech.name %></h3>
+            <div id="products">
+              <% tech.products.each do |product| %>
+                <%= render product %>
+                <p>
+                  <%= link_to "Mostrar este producto", product %>
+                </p>
+              <% end %>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
   <% end %>
 </div>
 
-<%= link_to "New product", new_product_path %>
+<%= link_to "Crear Producto", new_product_path %> |
+<%= link_to "Atras", :back %>

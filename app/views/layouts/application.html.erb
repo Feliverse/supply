@@ -13,11 +13,11 @@
   <body class="bg-light">
     <div class="container-fluid">
       <div class="col">
-        <nav class="col-md-2 col-lg-2 d-md-block bg-dark sidebar nav flex-column">
+        <nav class="col-md-1 col-lg-2 d-md-block bg-dark sidebar nav flex-column">
           <a class="nav-brand pb- text-center" href="https://www.facebook.com/ComercialFelicidad">
             <%= image_tag 'felidicidad.png', alt:'Logo Comercial Felicidad' , class: "img-fluid" %>
           </a>
-          <%= link_to categories_path, class: "btn btn-dark shadow nav-link p-5 mb-2" do %>
+          <%= link_to almacens_path, class: "btn btn-dark shadow nav-link p-5 mb-2" do %>
             <i class="fas fa-home"></i><br> Inicio
           <% end %>
           <%= link_to new_sale_path, class: "btn btn-dark shadow nav-link p-5 mb-2" do %>

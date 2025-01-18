@@ -3,6 +3,8 @@ class ProductsController < ApplicationController
 
   # GET /products or /products.json
   def index
+    @brands = Marca.includes(teches: :products).all
+    @categories = Category.includes(subcategories: :products).all
     @products = Product.all
   end
 
@@ -22,15 +24,16 @@ class ProductsController < ApplicationController
   # POST /products or /products.json
   def create
     @product = Product.new(product_params)
+    if @product.tech_id.present?
+      tech = Tech.find(@product.tech_id)
+      @product.subcategory_id = tech.subcategory_id
+      @product.marca_id = tech.marca_id
+    end
 
-    respond_to do |format|
-      if @product.save
-        format.html { redirect_to @product, notice: 'Product was successfully created.' }
-        format.json { render :show, status: :created, location: @product }
-      else
-        format.html { render :new }
-        format.json { render json: @product.errors, status: :unprocessable_entity }
-      end
+    if @product.save
+      redirect_to @product, notice: 'Producto creado exitosamente.'
+    else
+      render :new
     end
   end
 
@@ -64,6 +67,6 @@ class ProductsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def product_params
-      params.require(:product).permit(:name, :description, :category_id, :subcategory_id, :marca_id, :tech_id)
+      params.require(:product).permit(:name, :tech_id, :calidad_id, :tonocalibre)
     end
 end

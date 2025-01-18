@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_01_13_203036) do
+ActiveRecord::Schema[7.0].define(version: 2025_01_17_221130) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -92,6 +92,8 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_13_203036) do
     t.bigint "calidad_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "subcategory_id"
+    t.bigint "marca_id"
     t.index ["calidad_id"], name: "index_products_on_calidad_id"
     t.index ["tech_id"], name: "index_products_on_tech_id"
   end

@@ -9,19 +9,15 @@
     <%= inventario.fecha_actualizacion %>
   </p>
 
-  <p>
-    <strong>Almacen:</strong>
-    <%= inventario.almacen_id %>
-  </p>
-
-  <p>
-    <strong>Product:</strong>
-    <%= inventario.product_id %>
-  </p>
-
-  <p>
-    <strong>Articulo:</strong>
-    <%= inventario.articulo_id %>
-  </p>
-
+  <% if inventario.product %>
+    <p>
+      <strong>Producto:</strong>
+      <%= inventario.product.name %>
+    </p>
+  <% elsif inventario.articulo %>
+    <p>
+      <strong>Articulo:</strong>
+      <%= inventario.articulo.name %>
+    </p>
+  <% end %>
 </div>

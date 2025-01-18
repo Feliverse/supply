@@ -3,7 +3,14 @@ Rails.application.routes.draw do
   resources :movimientos
   resources :calidads
   resources :articulos
-  resources :almacens
+  resources :almacens do
+    member do
+      get 'new_movimiento'
+      get 'new_movimiento_producto'
+      get 'new_movimiento_articulo'
+      post 'create_movimiento'
+    end
+  end
   resources :clientes do
     collection do
       get 'find_by_nit'

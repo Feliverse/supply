@@ -1,0 +1,41 @@
+<h1>Registrar Ingreso de Artículo</h1>
+
+<%= form_with(model: [@almacen, @movimiento], url: create_movimiento_almacen_path(@almacen), local: true) do |form| %>
+  <% if @movimiento.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@movimiento.errors.count, "error") %> prohibited this movimiento from being saved:</h2>
+
+      <ul>
+        <% @movimiento.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :tipo, "Tipo de Movimiento" %>
+    <%= form.select :tipo, options_for_select([['Ingreso', 'Ingreso']]) %>
+  </div>
+
+  <div>
+    <%= form.label :cantidad, "Cantidad" %>
+    <%= form.number_field :cantidad %>
+  </div>
+
+  <div>
+    <%= form.label :fecha, "Fecha" %>
+    <%= form.datetime_select :fecha %>
+  </div>
+
+  <div>
+    <%= form.label :articulo_id, "Artículo" %>
+    <%= form.collection_select :articulo_id, Articulo.all, :id, :name, include_blank: true %>
+  </div>
+
+  <div>
+    <%= form.submit "Registrar Ingreso" %>
+  </div>
+<% end %>
+
+<%= link_to 'Back', @almacen %>
