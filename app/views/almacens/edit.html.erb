@@ -1,10 +1,17 @@
-<h1>Editing almacen</h1>
+<div class="container-fluid">
+  <div class="row">
+    <%= render 'nav' %>
+    <main class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+      <h1>Editing almacen</h1>
 
-<%= render "form", almacen: @almacen %>
+      <%= render "form", almacen: @almacen %>
 
-<br>
+      <br>
 
-<div>
-  <%= link_to "Show this almacen", @almacen %> |
-  <%= link_to "Back to almacens", almacens_path %>
+      <div>
+        <%= link_to "Show this almacen", @almacen %> |
+        <%= link_to "Back to almacens", almacens_path %>
+      </div>
+    </main>
+  </div>
 </div>

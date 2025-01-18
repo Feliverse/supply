@@ -1,14 +1,35 @@
 <p style="color: green"><%= notice %></p>
 
-<h1>Almacens</h1>
+<div class="container-fluid">
+  <div class="row">
+    <%= render 'nav' %>
+    <main class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+      <div class="d-flex justify-content-between align-items-center bg-secondary text-white py-3 px-5 mb-5">
+        <div class="mb-2 ">
+          <h1 class="mb-0">Sucursales</h1>
+          <p>Elige una sucursal</p>
+        </div>
+        <%= link_to "+ Nueva", new_almacen_path, class: "btn btn-primary p-3" %>
+      </div>
 
-<div id="almacens">
-  <% @almacens.each do |almacen| %>
-    <%= render almacen %>
-    <p>
-      <%= link_to "Show this almacen", almacen %>
-    </p>
-  <% end %>
+      <div class="container">
+        <div id="almacens" class="row row-cols-1 row-cols-md-4 g-4">
+          <% @almacens.each do |almacen| %>
+            <div class="col-md-3 mb-4">
+              <div class="card shadow h-100">
+                <div class="card-body d-flex flex-column">
+                  <h5 class="card-title text-center"><%= almacen.name %></h5>
+                  <div class="mt-auto d-flex justify-content-between">
+                    <%= link_to "Administra esta sucursal", almacen, class: "btn btn-sm btn-outline-primary me-2" %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </main>
+  </div>
 </div>
 
-<%= link_to "New almacen", new_almacen_path %>
+

@@ -29,5 +29,5 @@ Rails.application.routes.draw do
   resources :sales, only: [:index, :new, :create]
 
   # Define the root path route ("/")
-  root "categories#index"
+  root "almacens#index"
 end

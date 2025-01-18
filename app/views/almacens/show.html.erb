@@ -1,22 +1,30 @@
-<p style="color: green"><%= notice %></p>
+<div class="container-fluid">
+  <div class="row">
+    <%= render 'nav' %>
+    <main class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+      <h1><%= @almacen.name %></h1>
+      <p style="color: green"><%= notice %></p>
 
-<%= render @almacen %>
+      <%= render @almacen %>
 
-<h2>Inventario del Almacén</h2>
-<div id="inventarios">
-  <% @almacen.inventarios.each do |inventario| %>
-    <%= render inventario %>
-    <p>
-      <%= link_to "Show this inventario", inventario %>
-    </p>
-  <% end %>
-</div>
+      <h2>Inventario del Almacén</h2>
+      <div id="inventarios">
+        <% @almacen.inventarios.each do |inventario| %>
+          <%= render inventario %>
+          <p>
+            <%= link_to "Show this inventario", inventario %>
+          </p>
+        <% end %>
+      </div>
 
-<div>
-  <%= link_to "Edit this almacen", edit_almacen_path(@almacen) %> |
-  <%= link_to "Back to almacens", almacens_path %> |
-  <%= link_to "Ingresar productos", new_movimiento_producto_almacen_path(@almacen), class: "button" %> |
-  <%= link_to "Ingresar artículos", new_movimiento_articulo_almacen_path(@almacen), class: "button" %>
+      <div>
+        <%= link_to "Edit this almacen", edit_almacen_path(@almacen) %> |
+        <%= link_to "Back to almacens", almacens_path %> |
+        <%= link_to "Ingresar productos", new_movimiento_producto_almacen_path(@almacen), class: "button" %> |
+        <%= link_to "Ingresar artículos", new_movimiento_articulo_almacen_path(@almacen), class: "button" %>
 
-  <%= button_to "Destroy this almacen", @almacen, method: :delete %>
+        <%= button_to "Destroy this almacen", @almacen, method: :delete %>
+      </div>
+    </main>
+  </div>
 </div>
