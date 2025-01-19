@@ -1,54 +1,21 @@
-<div id="<%= dom_id product %>">
-  <p>
-    <strong>Name:</strong>
-    <%= product.name %>
-  </p>
-
+<tr id="<%= dom_id product %>" class="table-primary">
+  <td class="text-center"><%= product.name %></td>
+  <td class="text-center"><%= product.calidad.name %></td>
   <% if product.calidad.name == 'primera' %>
-    <p>
-      <strong>Calidad:</strong>
-      <%= product.calidad.name %>
-    </p>
-    <p>
-      <strong>Tono/Calibre:</strong>
-      <%= product.tonocalibre %>
-    </p>
+    <td class="text-center"><%= product.tonocalibre %></td>
   <% else %>
-    <p>
-      <strong>Calidad:</strong>
-      <%= product.calidad.name %>
-    </p>
-  <% end %>    
-
-  <% if product.tech.present? %>
-    <p>
-      <strong>Category:</strong>
-      <%= product.tech.subcategory.category.name %>
-    </p>
-    <p>
-      <strong>Subcategory:</strong>
-      <%= product.tech.subcategory.name %>
-    </p>
-    <p>
-      <strong>Tech:</strong>
-      <%= product.tech.name %>
-    </p>
-    <p>
-      <strong>Marca:</strong>
-      <%= product.tech.marca.name %>
-    </p>
-  <% else %>
-    <p>
-      <strong>Category:</strong>
-      <%= product.subcategory.category %>
-    </p>
-    <p>
-      <strong>Subcategory:</strong>
-      <%= product.subcategory.name %>
-    </p>
-    <p>
-      <strong>Marca:</strong>
-      <%= product.marca.name %>
-    </p>
+    <td class="text-center"></td>
   <% end %>
-</div>
+  <% if product.tech.present? %>
+    <td class="text-center"><%= product.tech.subcategory.category.name %></td>
+    <td class="text-center"><%= product.tech.subcategory.name %></td>
+    <td class="text-center"><%= product.tech.name %></td>
+    <td class="text-center"><%= product.tech.marca.name %></td>
+  <% else %>
+    <td class="text-center"><%= product.subcategory.category.name %></td>
+    <td class="text-center"><%= product.subcategory.name %></td>
+    <td class="text-center"></td>
+    <td class="text-center"><%= product.marca.name %></td>
+  <% end %>
+  <td class="text-center"><%= link_to "Mostrar este producto", product, class: "btn btn-info btn-sm" %></td>
+</tr>

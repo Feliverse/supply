@@ -1,23 +1,39 @@
-<p style="color: green"><%= notice %></p>
+<p class="text-success"><%= notice %></p>
 
-<h1>Productos</h1>
-
-<div id="brands">
-  <% @brands.each do |brand| %>
-    <% if brand.teches.any? { |tech| tech.products.any? } %>
-      <h2><%= brand.name %></h2>
+<div class="d-flex justify-content-between align-items-center py-3 px-5 mb-5">
+  <h1>Productos</h1>
+  <div>
+    <%= link_to "Crear Producto", new_product_path, class: "btn btn-primary" %> |
+    <%= link_to "Atras", :back, class: "btn btn-secondary" %>
+  </div>
+</div>
+<div id="marcas">
+  <% @marcas.each do |marca| %>
+    <% if marca.teches.any? { |tech| tech.products.any? } %>
+      <h2><%= marca.name %></h2>
       <div id="teches">
-        <% brand.teches.each do |tech| %>
+        <% marca.teches.each do |tech| %>
           <% if tech.products.any? %>
             <h3><%= tech.name %></h3>
-            <div id="products">
-              <% tech.products.each do |product| %>
-                <%= render product %>
-                <p>
-                  <%= link_to "Mostrar este producto", product %>
-                </p>
-              <% end %>
-            </div>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Calidad</th>
+                  <th>Tono/Calibre</th>
+                  <th>Categoria</th>
+                  <th>Subcategoria</th>
+                  <th>Tech</th>
+                  <th>Marca</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% tech.products.each do |product| %>
+                  <%= render product %>
+                <% end %>
+              </tbody>
+            </table>
           <% end %>
         <% end %>
       </div>
@@ -25,5 +41,5 @@
   <% end %>
 </div>
 
-<%= link_to "Crear Producto", new_product_path %> |
-<%= link_to "Atras", :back %>
+<%= link_to "Crear Producto", new_product_path, class: "btn btn-primary" %> |
+<%= link_to "Atras", :back, class: "btn btn-secondary" %>

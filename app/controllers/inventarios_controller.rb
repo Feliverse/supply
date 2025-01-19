@@ -3,7 +3,12 @@ class InventariosController < ApplicationController
 
   # GET /inventarios or /inventarios.json
   def index
-    @inventarios = Inventario.all
+    @almacen = Almacen.find(params[:almacen_id])
+    @inventarios = @almacen.inventarios
+
+    respond_to do |format|
+      format.json { render json: @inventarios.to_json(include: [:product, :articulo]) }
+    end
   end
 
   # GET /inventarios/1 or /inventarios/1.json

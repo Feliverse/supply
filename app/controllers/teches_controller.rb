@@ -69,6 +69,6 @@ class TechesController < ApplicationController
   end
 
   def tech_params
-    params.require(:tech).permit(:name, :pieces_box, :m2_box, :marca_id)
+    params.require(:tech).permit(:name, :pieces_box, :m2_box, :marca_id, :subcategory_id)
   end
 end

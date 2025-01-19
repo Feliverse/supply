@@ -1,0 +1,17 @@
+<nav class="col-md-3 col-lg-2 d-md-block bg-dark sidebar nav flex-column">
+  <a class="nav-marca pb- text-center" href="https://www.facebook.com/ComercialFelicidad">
+    <%= image_tag 'felidicidad.png', alt:'Logo Comercial Felicidad' , class: "img-fluid" %>
+  </a>
+  <%= link_to almacens_path, class: "btn btn-dark shadow nav-link p-5 mb-2" do %>
+    <i class="fas fa-home"></i><br> Inicio
+  <% end %>
+  <%= link_to new_almacen_sale_path, class: "btn btn-dark shadow nav-link p-5 mb-2" do %>
+    <i class="fas fa-shopping-cart"></i><br> Ventas
+  <% end %>
+  <%= link_to almacen_path(@almacen), class: "btn btn-dark shadow nav-link p-5 mb-2" do %>
+    <i class="fas fa-warehouse"></i><br> Almacenes
+  <% end %>
+  <a class="btn btn-dark shadow nav-link p-5 mb-2" href="#">
+    <i class="fas fa-chart-line"></i><br> Reportes
+  </a>
+</nav>

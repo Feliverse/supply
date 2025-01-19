@@ -1,64 +1,70 @@
-<h1>Nueva Venta</h1>
+<div class="container-fluid">
+  <div class="row">
+    <%= render 'nav' %>
+    <main class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+      <h1><%= @almacen.name %></h1>
+      <h2>Registrar Venta</h2>
+      <p> Por favor, llene el siguiente formulario para registrar una nueva venta.</p>
 
-<%= form_with model: @sale, local: true do |form| %>
-  <div class="form-group">
-    <%= form.label :client_nit, 'NIT del Cliente' %>
-    <%= form.text_field :client_nit, class: 'form-control', id: 'client_nit' %>
+      <%= form_with model: @sale, url: almacen_sales_path(@almacen), local: true do |form| %>
+        <%= form.hidden_field :almacen_id, value: @almacen.id %>
+        <div class="form-group">
+          <%= form.label :client_nit, 'NIT del Cliente' %>
+          <%= form.text_field :client_nit, class: 'form-control', id: 'client_nit' %>
+        </div>
+
+        <div class="form-group">
+          <%= form.label :client_name, 'Nombre del Cliente' %>
+          <div class="input-group">
+            <%= form.text_field :client_name, class: 'form-control', id: 'client_name', readonly: true %>
+            <div class="input-group-append">
+              <button type="button" class="btn btn-outline-secondary" id="edit_client" title="Editar Cliente">
+                <i class="fas fa-edit"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <h2>Productos/Artículos</h2>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Cantidad</th>
+              <th>Unidad de Medida</th>
+              <th>Descripción</th>
+              <th>Precio Unitario</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody id="products_table_body">
+            <tr>
+              <td><input type="number" class="form-control" name="sale[quantities][]" /></td>
+              <td><input type="text" class="form-control" name="sale[units][]" /></td>
+              <td><input type="text" class="form-control description" name="sale[descriptions][]" /></td>
+              <td><input type="number" class="form-control" name="sale[unit_prices][]" /></td>
+              <td><input type="number" class="form-control" name="sale[totals][]" readonly /></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="form-group">
+          <button type="button" class="btn btn-secondary" id="add_product">Agregar Producto</button>
+        </div>
+
+        <div class="form-group">
+          <label>Total Final:</label>
+          <input type="number" class="form-control" id="final_total" readonly />
+        </div>
+
+        <div class="form-group">
+          <%= form.submit 'Crear Venta', class: 'btn btn-primary' %>
+        </div>
+      <% end %>
+
+      <%= link_to 'Cancelar', sales_path, class: 'btn btn-secondary' %>
+
+    </main>
   </div>
-
-  <div class="form-group">
-    <%= form.label :client_name, 'Nombre del Cliente' %>
-    <div class="input-group">
-      <%= form.text_field :client_name, class: 'form-control', id: 'client_name', readonly: true %>
-      <div class="input-group-append">
-        <button type="button" class="btn btn-outline-secondary" id="edit_client" title="Editar Cliente">
-          <i class="fas fa-edit"></i>
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <h2>Productos/Artículos</h2>
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Cantidad</th>
-        <th>Unidad de Medida</th>
-        <th>Descripción</th>
-        <th>Precio Unitario</th>
-        <th>Total</th>
-      </tr>
-    </thead>
-    <tbody id="products_table_body">
-      <tr>
-        <td><input type="number" class="form-control" name="quantity[]" /></td>
-        <td><input type="text" class="form-control" name="unit[]" /></td>
-        <td><input type="text" class="form-control description" name="description[]" /></td>
-        <td><input type="number" class="form-control" name="unit_price[]" /></td>
-        <td><input type="number" class="form-control" name="total[]" readonly /></td>
-      </tr>
-    </tbody>
-  </table>
-  <div class="form-group">
-    <button type="button" class="btn btn-secondary" id="add_product">Agregar Producto</button>
-  </div>
-
-  <div class="form-group">
-    <label>Total Final:</label>
-    <input type="number" class="form-control" id="final_total" readonly />
-  </div>
-
-  <div class="form-group">
-    <label>Total Final (Literal):</label>
-    <input type="text" class="form-control" id="final_total_literal" readonly />
-  </div>
-
-  <div class="form-group">
-    <%= form.submit 'Crear Venta', class: 'btn btn-primary' %>
-  </div>
-<% end %>
-
-<%= link_to 'Cancelar', sales_path, class: 'btn btn-secondary' %>
+</div>
 
 <script>
   window.addEventListener('message', function(event) {
@@ -99,6 +105,26 @@
     var tableBody = document.getElementById('products_table_body');
     var newRow = tableBody.rows[0].cloneNode(true);
     newRow.querySelectorAll('input').forEach(input => input.value = '');
+    newRow.querySelector('.description').addEventListener('focus', function() {
+      fetch('/almacens/<%= @almacen.id %>/inventarios.json')
+        .then(response => response.json())
+        .then(data => {
+          var inventoryList = data.map(inventario => {
+            var name = inventario.product ? inventario.product.name : inventario.articulo.name;
+            return `<option value="${name}">${name} - ${inventario.cantidad_disponible} disponibles</option>`;
+          }).join('');
+          var select = document.createElement('select');
+          select.innerHTML = inventoryList;
+          select.style.position = 'absolute';
+          select.style.left = this.getBoundingClientRect().left + 'px';
+          select.style.top = this.getBoundingClientRect().bottom + 'px';
+          select.addEventListener('change', function() {
+            this.previousElementSibling.value = this.value;
+            document.body.removeChild(select);
+          }.bind(this));
+          document.body.appendChild(select);
+        });
+    });
     tableBody.appendChild(newRow);
   });
 
@@ -106,9 +132,9 @@
     var rows = this.querySelectorAll('tr');
     var finalTotal = 0;
     rows.forEach(row => {
-      var quantity = row.querySelector('input[name="quantity[]"]').value;
-      var unitPrice = row.querySelector('input[name="unit_price[]"]').value;
-      var total = row.querySelector('input[name="total[]"]');
+      var quantity = row.querySelector('input[name="sale[quantities][]"]').value;
+      var unitPrice = row.querySelector('input[name="sale[unit_prices][]"]').value;
+      var total = row.querySelector('input[name="sale[totals][]"]');
       total.value = quantity * unitPrice;
       finalTotal += parseFloat(total.value) || 0;
     });
@@ -117,13 +143,19 @@
   });
 
   document.querySelectorAll('.description').forEach(function(element) {
-    element.addEventListener('dblclick', function() {
-      fetch('/products')
+    element.addEventListener('focus', function() {
+      fetch('/almacens/<%= @almacen.id %>/inventarios.json')
         .then(response => response.json())
         .then(data => {
-          var productList = data.products.map(product => `<option value="${product.name}">${product.name} - ${product.brand} - ${product.tech}</option>`).join('');
+          var inventoryList = data.map(inventario => {
+            var name = inventario.product ? inventario.product.name : inventario.articulo.name;
+            return `<option value="${name}">${name} - ${inventario.cantidad_disponible} disponibles</option>`;
+          }).join('');
           var select = document.createElement('select');
-          select.innerHTML = productList;
+          select.innerHTML = inventoryList;
+          select.style.position = 'absolute';
+          select.style.left = element.getBoundingClientRect().left + 'px';
+          select.style.top = element.getBoundingClientRect().bottom + 'px';
           select.addEventListener('change', function() {
             element.value = this.value;
             document.body.removeChild(select);

@@ -47,7 +47,7 @@ class AlmacensController < ApplicationController
 
     respond_to do |format|
       if @almacen.save
-        format.html { redirect_to @almacen, notice: "Almacen was successfully created." }
+        format.html { redirect_to almacens_path, notice: "Almacen was successfully created." }
         format.json { render :show, status: :created, location: @almacen }
       else
         format.html { render :new, status: :unprocessable_entity }

@@ -3,7 +3,7 @@ class ProductsController < ApplicationController
 
   # GET /products or /products.json
   def index
-    @brands = Marca.includes(teches: :products).all
+    @marcas = Marca.includes(teches: :products).all
     @categories = Category.includes(subcategories: :products).all
     @products = Product.all
   end

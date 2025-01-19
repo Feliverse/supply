@@ -2,32 +2,42 @@
 
 <div class="container-fluid">
   <div class="row">
-    <%= render 'nav' %>
-    <main class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
-      <div class="d-flex justify-content-between align-items-center bg-secondary text-white py-3 px-5 mb-5">
+    <main class="col-md-9 ml-sm-auto col-lg-8 px-md-4">
+      <div class="text-center">
+        <a class="nav-marca" href="https://www.facebook.com/ComercialFelicidad">
+          <%= image_tag 'felicidadAzul.png', alt:'Logo Comercial Felicidad', class: "img-fluid", size: "500x100" %>
+        </a>
+      </div>
+      <div class="d-flex justify-content-between align-items-center py-3 px-5 mb-5">
         <div class="mb-2 ">
           <h1 class="mb-0">Sucursales</h1>
           <p>Elige una sucursal</p>
         </div>
-        <%= link_to "+ Nueva", new_almacen_path, class: "btn btn-primary p-3" %>
+        <%= link_to "+ Nueva", new_almacen_path, class: "btn btn-outline-secondary p-3" %>
       </div>
 
       <div class="container">
-        <div id="almacens" class="row row-cols-1 row-cols-md-4 g-4">
-          <% @almacens.each do |almacen| %>
-            <div class="col-md-3 mb-4">
-              <div class="card shadow h-100">
-                <div class="card-body d-flex flex-column">
-                  <h5 class="card-title text-center"><%= almacen.name %></h5>
-                  <div class="mt-auto d-flex justify-content-between">
-                    <%= link_to "Administra esta sucursal", almacen, class: "btn btn-sm btn-outline-primary me-2" %>
-                  </div>
-                </div>
-              </div>
+  <div id="almacens" class="row row-cols- row-cols-md-4 g-4">
+    <% @almacens.each do |almacen| %>
+      <div class="col-md-5 mb-4 mx-auto">
+        <div class="card shadow h-100">
+          <div class="card-body d-flex flex-column">
+            <div class="d-flex justify-content-between">
+              <div></div> <!-- Empty div to push the icon to the right -->
+              <%= link_to edit_almacen_path(almacen), class: "btn btn-link" do %>
+                <i class="fas fa-ellipsis-h"></i>
+              <% end %>
             </div>
-          <% end %>
+            <h5 class="card-title text-center"><%= almacen.name %></h5>
+            <div class="mt-auto d-flex justify-content-center">
+              <%= link_to "Ingresa a esta sucursal", new_almacen_sale_path(almacen), class: "btn btn-sm btn-primary me-2" %>
+            </div>
+          </div>
         </div>
       </div>
+    <% end %>
+  </div>
+</div>
     </main>
   </div>
 </div>

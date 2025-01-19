@@ -2,15 +2,18 @@
   <div class="row">
     <%= render 'nav' %>
     <main class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
-      <h1>Editing almacen</h1>
+      <h1>Editar Sucursal</h1>
 
       <%= render "form", almacen: @almacen %>
 
       <br>
-
-      <div>
-        <%= link_to "Show this almacen", @almacen %> |
-        <%= link_to "Back to almacens", almacens_path %>
+      <div class="d-flex justify-content-between">
+        <%= link_to :back, class: "btn btn-outline-secondary" do %>
+          <i class="fas fa-arrow-left"></i> Volver
+        <% end %>
+        <%= button_to @almacen, method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-outline-danger" do %>
+          <i class="fas fa-trash-alt"></i> Eliminar Sucursal
+        <% end %>
       </div>
     </main>
   </div>

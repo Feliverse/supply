@@ -1,23 +1,10 @@
-<div id="<%= dom_id inventario %>">
-  <p>
-    <strong>Cantidad disponible:</strong>
-    <%= inventario.cantidad_disponible %>
-  </p>
-
-  <p>
-    <strong>Fecha actualizacion:</strong>
-    <%= inventario.fecha_actualizacion %>
-  </p>
-
+<tr id="<%= dom_id inventario %>">
   <% if inventario.product %>
-    <p>
-      <strong>Producto:</strong>
-      <%= inventario.product.name %>
-    </p>
+    <td><%= inventario.product.name %></td>
   <% elsif inventario.articulo %>
-    <p>
-      <strong>Articulo:</strong>
-      <%= inventario.articulo.name %>
-    </p>
+    <td><%= inventario.articulo.name %></td>
   <% end %>
-</div>
+  <td><%= inventario.cantidad_disponible %></td>
+  <td><%= inventario.fecha_actualizacion %></td>
+  <td><%= link_to "Show this inventario", inventario, class: "btn btn-info btn-sm" %></td>
+</tr>

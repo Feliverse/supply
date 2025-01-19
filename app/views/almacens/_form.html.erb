@@ -1,6 +1,6 @@
-<%= form_with(model: almacen) do |form| %>
+<%= form_with(model: almacen, local: true, class: "form-horizontal p-4 bg-light rounded shadow-sm") do |form| %>
   <% if almacen.errors.any? %>
-    <div style="color: red">
+    <div class="alert alert-danger">
       <h2><%= pluralize(almacen.errors.count, "error") %> prohibited this almacen from being saved:</h2>
 
       <ul>
@@ -11,12 +11,12 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :name, style: "display: block" %>
-    <%= form.text_field :name %>
+  <div class="form-group mb-4">
+    <%= form.label :name, "Nombre:", class: "control-label font-weight-bold" %>
+    <%= form.text_field :name, class: "form-control", placeholder: "Ingrese el nombre del almacen" %>
   </div>
 
-  <div>
-    <%= form.submit %>
+  <div class="form-group text-right">
+    <%= form.submit "Guardar", class: "btn btn-primary" %>
   </div>
 <% end %>
