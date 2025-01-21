@@ -1,7 +1,7 @@
 <p style="color: green"><%= notice %></p>
 
 <div class="container-fluid">
-  <div class="row">
+  <div class="row justify-content-center">
     <main class="col-md-9 ml-sm-auto col-lg-8 px-md-4">
       <div class="text-center">
         <a class="nav-marca" href="https://www.facebook.com/ComercialFelicidad">
@@ -17,27 +17,27 @@
       </div>
 
       <div class="container">
-  <div id="almacens" class="row row-cols- row-cols-md-4 g-4">
-    <% @almacens.each do |almacen| %>
-      <div class="col-md-5 mb-4 mx-auto">
-        <div class="card shadow h-100">
-          <div class="card-body d-flex flex-column">
-            <div class="d-flex justify-content-between">
-              <div></div> <!-- Empty div to push the icon to the right -->
-              <%= link_to edit_almacen_path(almacen), class: "btn btn-link" do %>
-                <i class="fas fa-ellipsis-h"></i>
-              <% end %>
+        <div id="almacens" class="row row-cols- row-cols-md-4 g-4 justify-content-center">
+          <% @almacens.each do |almacen| %>
+            <div class="col-md-5 mb-4 mx-auto">
+              <div class="card shadow h-100">
+                <div class="card-body d-flex flex-column">
+                  <div class="d-flex justify-content-between">
+                    <div></div> <!-- Empty div to push the icon to the right -->
+                    <%= link_to edit_almacen_path(almacen), class: "btn btn-link" do %>
+                      <i class="fas fa-ellipsis-h"></i>
+                    <% end %>
+                  </div>
+                  <h5 class="card-title text-center"><%= almacen.name %></h5>
+                  <div class="mt-auto d-flex justify-content-center">
+                    <%= link_to "Ingresa a esta sucursal", new_sale_almacen_path(almacen), class: "btn btn-sm btn-primary me-2" %>
+                  </div>
+                </div>
+              </div>
             </div>
-            <h5 class="card-title text-center"><%= almacen.name %></h5>
-            <div class="mt-auto d-flex justify-content-center">
-              <%= link_to "Ingresa a esta sucursal", new_almacen_sale_path(almacen), class: "btn btn-sm btn-primary me-2" %>
-            </div>
-          </div>
+          <% end %>
         </div>
       </div>
-    <% end %>
-  </div>
-</div>
     </main>
   </div>
 </div>
