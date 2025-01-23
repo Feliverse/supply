@@ -1,4 +1,4 @@
-<%= form_with(model: [@almacen, @sale], local: true) do |form| %>
+<%= form_with(model: [@almacen, @sale], local: true, id: "sale_form") do |form| %>
   <% if @sale.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@sale.errors.count, "error") %> prohibited this sale from being saved:</h2>
@@ -11,37 +11,131 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :cliente_id %>
-    <%= form.collection_select :cliente_id, Cliente.all, :id, :name, prompt: "Seleccione un cliente" %>
+  <%= hidden_field_tag :cliente_id, nil, id: "cliente_id_hidden", name: "sale[cliente_id]" %>
+
+  <h2 class="text-center">Productos/Artículos</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Cantidad</th>
+        <th>Unidad de Medida</th>
+        <th>Descripción</th>
+        <th>Precio Unitario</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody id="products_table_body">
+      <tr>
+        <td><input type="number" class="form-control" name="sale[cantidades][]" /></td>
+        <td><input type="text" class="form-control" name="sale[units][]" /></td>
+        <td>
+          <%= form.collection_select :descriptions, @almacen.inventarios.includes(:product, :articulo).map { |i| [i.product&.name || i.articulo&.name, i.id] }, :second, :first, prompt: "Seleccione un producto o artículo", class: "form-control description", name: "sale[descriptions][]" %>
+        </td>
+        <td><input type="number" class="form-control" name="sale[unit_prices][]" /></td>
+        <td><input type="number" class="form-control" name="sale[totals][]" readonly /></td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="form-group text-center">
+    <button type="button" class="btn btn-secondary" id="add_product">Agregar Producto</button>
   </div>
 
-  <div class="field">
-    <%= form.label :cantidades %>
-    <%= form.text_field :cantidades, multiple: true %>
+  <div class="form-group">
+    <label>Total Final:</label>
+    <input type="number" class="form-control" id="final_total" readonly />
   </div>
 
-  <div class="field">
-    <%= form.label :units %>
-    <%= form.text_field :units, multiple: true %>
-  </div>
-
-  <div class="field">
-    <%= form.label :descriptions %>
-    <%= form.text_field :descriptions, multiple: true %>
-  </div>
-
-  <div class="field">
-    <%= form.label :unit_prices %>
-    <%= form.text_field :unit_prices, multiple: true %>
-  </div>
-
-  <div class="field">
-    <%= form.label :totals %>
-    <%= form.text_field :totals, multiple: true %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
+  <div class="form-group text-center">
+    <%= form.submit 'Crear Venta', class: 'btn btn-primary' %>
   </div>
 <% end %>
+
+<script>
+  document.getElementById("client_nit").addEventListener("blur", function() {
+    var nit = this.value;
+    if (nit) {
+      fetch(`/clientes/find_by_nit?nit=${nit}`)
+        .then(response => response.json())
+        .then(data => {
+          if (data && data.id) {
+            document.getElementById("cliente_id_hidden").value = data.id;
+            document.getElementById("client_name").value = data.name;
+            document.getElementById("edit_client").dataset.clientId = data.id;
+          } else {
+            if (confirm("Cliente no encontrado. ¿Desea crear un nuevo cliente?")) {
+              window.open(`/clientes/new?nit=${nit}`, '_blank', 'width=600,height=400');
+            }
+            document.getElementById("client_name").value = "";
+            document.getElementById("cliente_id_hidden").value = "";
+          }
+        });
+    }
+  });
+
+  document.getElementById('edit_client').addEventListener('click', function() {
+    document.getElementById("client_name").removeAttribute("readonly");
+    document.getElementById("edit_client").classList.add("d-none");
+    document.getElementById("save_client").classList.remove("d-none");
+  });
+
+  document.getElementById('save_client').addEventListener('click', function() {
+    var clientId = document.getElementById("cliente_id_hidden").value;
+    var clientName = document.getElementById("client_name").value;
+    if (clientId && clientName) {
+      fetch(`/clientes/${clientId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: JSON.stringify({ cliente: { name: clientName } })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.id) {
+          document.getElementById("client_name").setAttribute("readonly", true);
+          document.getElementById("edit_client").classList.remove("d-none");
+          document.getElementById("save_client").classList.add("d-none");
+        } else {
+          alert("Error al actualizar el cliente.");
+        }
+      });
+    } else {
+      alert('Primero seleccione un cliente.');
+    }
+  });
+
+  document.getElementById('add_product').addEventListener('click', function() {
+    var tableBody = document.getElementById('products_table_body');
+    var newRow = tableBody.rows[0].cloneNode(true);
+    newRow.querySelectorAll('input').forEach(input => input.value = '');
+    tableBody.appendChild(newRow);
+  });
+
+  document.getElementById('products_table_body').addEventListener('input', function() {
+    var rows = this.querySelectorAll('tr');
+    var finalTotal = 0;
+    rows.forEach(row => {
+      var cantidad = row.querySelector('input[name="sale[cantidades][]"]').value;
+      var unitPrice = row.querySelector('input[name="sale[unit_prices][]"]').value;
+      var total = row.querySelector('input[name="sale[totals][]"]');
+      total.value = cantidad * unitPrice;
+      finalTotal += parseFloat(total.value) || 0;
+    });
+    document.getElementById('final_total').value = finalTotal;
+  });
+
+  document.getElementById('sale_form').addEventListener('submit', function(event) {
+    var descriptions = document.querySelectorAll('.description');
+    var valid = true;
+    descriptions.forEach(function(description) {
+      if (description.value === '') {
+        valid = false;
+      }
+    });
+    if (!valid) {
+      event.preventDefault();
+      alert('Por favor, seleccione productos válidos de la lista.');
+    }
+  });
+</script>

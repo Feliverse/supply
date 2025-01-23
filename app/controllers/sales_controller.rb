@@ -28,7 +28,7 @@ class SalesController < ApplicationController
     end
 
     def sale_params
-      params.require(:sale).permit(:almacen_id, :cliente_id, :fecha, cantidades: [], units: [], descriptions: [], unit_prices: [], totals: [])
+      params.require(:sale).permit(:almacen_id, :cliente_id, cantidades: [], units: [], descriptions: [], unit_prices: [], totals: [])
     end
 
     def update_inventory(sale)

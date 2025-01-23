@@ -1,12 +1,12 @@
 <div class="form-group">
-  <%= form.label :client_nit, "NIT del Cliente", class: "form-label" %>
-  <%= form.text_field :client_nit, id: "client_nit", class: "form-control" %>
+  <label for="client_nit" class="form-label">NIT del Cliente</label>
+  <input type="text" id="client_nit" class="form-control">
 </div>
 
 <div class="form-group">
-  <%= form.label :client_name, "Nombre del Cliente", class: "form-label" %>
+  <label for="client_name" class="form-label">Nombre del Cliente</label>
   <div class="input-group">
-    <%= form.text_field :client_name, id: "client_name", class: "form-control", readonly: true %>
+    <input type="text" id="client_name" class="form-control" readonly>
     <div class="input-group-append">
       <button type="button" class="btn btn-outline-secondary" id="edit_client" title="Editar Cliente">
         <i class="fas fa-edit"></i>
@@ -19,29 +19,36 @@
 </div>
 
 <div class="form-group">
-  <%= form.hidden_field :cliente_id, id: "cliente_id" %>
+  <input type="hidden" id="cliente_id">
+  <input type="hidden" id="cliente_id_hidden">
 </div>
 
 <script>
+  let nitTimeout;
   document.getElementById("client_nit").addEventListener("blur", function() {
-    var nit = this.value;
-    if (nit) {
-      fetch(`/clientes/find_by_nit?nit=${nit}`)
-        .then(response => response.json())
-        .then(data => {
-          if (data && data.id) {
-            document.getElementById("cliente_id").value = data.id;
-            document.getElementById("client_name").value = data.name;
-            document.getElementById("edit_client").dataset.clientId = data.id;
-          } else {
-            if (confirm("Cliente no encontrado. ¿Desea crear un nuevo cliente?")) {
-              window.open(`/clientes/new?nit=${nit}`, '_blank', 'width=600,height=400');
+    clearTimeout(nitTimeout);
+    nitTimeout = setTimeout(() => {
+      var nit = this.value;
+      if (nit) {
+        fetch(`/clientes/find_by_nit?nit=${nit}`)
+          .then(response => response.json())
+          .then(data => {
+            if (data && data.id) {
+              document.getElementById("cliente_id").value = data.id;
+              document.getElementById("client_name").value = data.name;
+              document.getElementById("edit_client").dataset.clientId = data.id;
+              document.getElementById("cliente_id_hidden").value = data.id; // Pass the cliente_id to the form
+            } else {
+              if (confirm("Cliente no encontrado. ¿Desea crear un nuevo cliente?")) {
+                window.open(`/clientes/new?nit=${nit}`, '_blank', 'width=600,height=400');
+              }
+              document.getElementById("client_name").value = "";
+              document.getElementById("cliente_id").value = "";
+              document.getElementById("cliente_id_hidden").value = ""; // Clear the cliente_id in the form
             }
-            document.getElementById("client_name").value = "";
-            document.getElementById("cliente_id").value = "";
-          }
-        });
-    }
+          });
+      }
+    }, 300);
   });
 
   document.getElementById('edit_client').addEventListener('click', function() {
@@ -66,6 +73,8 @@
       .then(data => {
         if (data.id) {
           document.getElementById("client_name").setAttribute("readonly", true);
+          document.getElementById("edit_client").classList.remove("d-none");
+          document.getElementById("save_client").classList.add("d-none");
           document.getElementById("edit_client").classList.remove("d-none");
           document.getElementById("save_client").classList.add("d-none");
         } else {
