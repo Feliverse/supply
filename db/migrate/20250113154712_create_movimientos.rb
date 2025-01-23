@@ -10,6 +10,6 @@ class CreateMovimientos < ActiveRecord::Migration[7.0]
       t.references :articulo, foreign_key: true
 
       t.timestamps
-    endd
+    end
   end
 end

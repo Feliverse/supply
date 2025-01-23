@@ -17,7 +17,7 @@ class StocksControllerTest < ActionDispatch::IntegrationTest
 
   test "should create stock" do
     assert_difference("Stock.count") do
-      post stocks_url, params: { stock: { product_id: @stock.product_id, quantity: @stock.quantity, warehouse_id: @stock.warehouse_id } }
+      post stocks_url, params: { stock: { product_id: @stock.product_id, cantidad: @stock.cantidad, warehouse_id: @stock.warehouse_id } }
     end
 
     assert_redirected_to stock_url(Stock.last)
@@ -34,7 +34,7 @@ class StocksControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update stock" do
-    patch stock_url(@stock), params: { stock: { product_id: @stock.product_id, quantity: @stock.quantity, warehouse_id: @stock.warehouse_id } }
+    patch stock_url(@stock), params: { stock: { product_id: @stock.product_id, cantidad: @stock.cantidad, warehouse_id: @stock.warehouse_id } }
     assert_redirected_to stock_url(@stock)
   end
 

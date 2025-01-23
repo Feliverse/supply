@@ -73,7 +73,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_18_151500) do
 
   create_table "movimientos", force: :cascade do |t|
     t.string "tipo", null: false
-    t.integer "cantidad", null: false
+    t.decimal "cantidad", precision: 5, scale: 2, null: false
     t.datetime "fecha", null: false
     t.bigint "almacen_id", null: false
     t.bigint "product_id"
@@ -107,8 +107,8 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_18_151500) do
     t.bigint "articulo_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "client_nit"
-    t.string "client_name"
+    t.string "unidad_de_medida"
+    t.decimal "precio_unitario", precision: 10, scale: 2
     t.index ["almacen_id"], name: "index_sales_on_almacen_id"
     t.index ["articulo_id"], name: "index_sales_on_articulo_id"
     t.index ["cliente_id"], name: "index_sales_on_cliente_id"

@@ -4,10 +4,10 @@ class InventariosController < ApplicationController
   # GET /inventarios or /inventarios.json
   def index
     @almacen = Almacen.find(params[:almacen_id])
-    @inventarios = @almacen.inventarios
+    @inventarios = @almacen.inventarios.includes(:product, :articulo)
 
     respond_to do |format|
-      format.json { render json: @inventarios.to_json(include: [:product, :articulo]) }
+      format.json { render json: @inventarios.as_json(include: [:product, :articulo]) }
     end
   end
 

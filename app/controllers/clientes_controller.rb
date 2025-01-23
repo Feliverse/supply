@@ -62,11 +62,9 @@ class ClientesController < ApplicationController
   end
 
   def find_by_nit
-    @client = Cliente.find_by(nit: params[:nit])
-    if @client
-      render json: { client: @client }
-    else
-      render json: { client: nil }
+    @cliente = Cliente.find_by(nit: params[:nit])
+    respond_to do |format|
+      format.json { render json: @cliente }
     end
   end
 

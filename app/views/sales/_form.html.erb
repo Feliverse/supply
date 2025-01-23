@@ -1,0 +1,47 @@
+<%= form_with(model: [@almacen, @sale], local: true) do |form| %>
+  <% if @sale.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@sale.errors.count, "error") %> prohibited this sale from being saved:</h2>
+
+      <ul>
+        <% @sale.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :cliente_id %>
+    <%= form.collection_select :cliente_id, Cliente.all, :id, :name, prompt: "Seleccione un cliente" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :cantidades %>
+    <%= form.text_field :cantidades, multiple: true %>
+  </div>
+
+  <div class="field">
+    <%= form.label :units %>
+    <%= form.text_field :units, multiple: true %>
+  </div>
+
+  <div class="field">
+    <%= form.label :descriptions %>
+    <%= form.text_field :descriptions, multiple: true %>
+  </div>
+
+  <div class="field">
+    <%= form.label :unit_prices %>
+    <%= form.text_field :unit_prices, multiple: true %>
+  </div>
+
+  <div class="field">
+    <%= form.label :totals %>
+    <%= form.text_field :totals, multiple: true %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

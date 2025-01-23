@@ -15,7 +15,7 @@ class StocksTest < ApplicationSystemTestCase
     click_on "New stock"
 
     fill_in "Product", with: @stock.product_id
-    fill_in "Quantity", with: @stock.quantity
+    fill_in "Cantidad", with: @stock.Cantidad
     fill_in "Warehouse", with: @stock.warehouse_id
     click_on "Create Stock"
 
@@ -28,7 +28,7 @@ class StocksTest < ApplicationSystemTestCase
     click_on "Edit this stock", match: :first
 
     fill_in "Product", with: @stock.product_id
-    fill_in "Quantity", with: @stock.quantity
+    fill_in "Cantidad", with: @stock.Cantidad
     fill_in "Warehouse", with: @stock.warehouse_id
     click_on "Update Stock"
 

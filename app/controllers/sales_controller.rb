@@ -1,16 +1,17 @@
 class SalesController < ApplicationController
+  before_action :set_almacen
+
   def index
     @sales = Sale.all
   end
 
   def new
-    @almacen = Almacen.find(params[:almacen_id])
     @sale = Sale.new
   end
 
   def create
-    @almacen = Almacen.find(params[:almacen_id])
     @sale = @almacen.sales.build(sale_params)
+    @sale.fecha = Time.now
 
     if @sale.save
       update_inventory(@sale)
@@ -22,14 +23,26 @@ class SalesController < ApplicationController
 
   private
 
-  def sale_params
-    params.require(:sale).permit(:client_nit, :client_name, quantities: [], units: [], descriptions: [], unit_prices: [], totals: [])
-  end
-
-  def update_inventory(sale)
-    sale.quantities.each_with_index do |quantity, index|
-      product = @almacen.products.find_by(description: sale.descriptions[index])
-      product.update(quantity: product.quantity - quantity.to_i)
+    def set_almacen
+      @almacen = Almacen.find(params[:almacen_id])
     end
-  end
+
+    def sale_params
+      params.require(:sale).permit(:almacen_id, :cliente_id, :fecha, cantidades: [], units: [], descriptions: [], unit_prices: [], totals: [])
+    end
+
+    def update_inventory(sale)
+      sale.cantidades.each_with_index do |cantidad, index|
+        description = sale.descriptions[index]
+        unidad_de_medida = sale.units[index]
+        precio_unitario = sale.unit_prices[index]
+        inventario = @almacen.inventarios.joins(:product, :articulo).find_by("products.name = ? OR articulos.name = ?", description, description)
+        if inventario
+          inventario.update(cantidad_disponible: inventario.cantidad_disponible - cantidad.to_i)
+        else
+          # Handle the case where the inventory item is not found
+          Rails.logger.warn "Inventory item not found for description: #{description}"
+        end
+      end
+    end
 end

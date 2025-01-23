@@ -1,18 +1,49 @@
-    <nav class="col-md-3 col-lg-2 d-md-block bg-dark sidebar nav flex-column">
-      <a class="nav-marca pb- text-center" href="https://www.facebook.com/ComercialFelicidad">
-        <%= image_tag 'felidicidad.png', alt:'Logo Comercial Felicidad' , class: "img-fluid" %>
-      </a>
-      <%= link_to almacens_path, class: "btn btn-dark shadow nav-link p-5 mb-2" do %>
-        <i class="fas fa-home"></i><br> Inicio
-      <% end %>
-      <%= link_to new_calidad_path, class: "btn btn-dark shadow nav-link p-5 mb-2" do %>
-        <i class="fas fa-shopping-cart"></i><br> Ventas
-      <% end %>
-      <%= link_to almacens_path, class: "btn btn-dark shadow nav-link p-5 mb-2" do %>
-        <i class="fas fa-warehouse"></i><br> Almacenes
-      <% end %>
-      <a class="btn btn-dark shadow nav-link p-5 mb-2" href="#">
-        <i class="fas fa-chart-line"></i><br> Reportes
-      </a>
-    </nav>
-  
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="https://www.facebook.com/ComercialFelicidad">
+    <%= image_tag 'felidicidad.png', alt: 'Logo Comercial Felicidad', class: "img-fluid", size: "125x25" %>
+  </a>
+  <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <i class="fas fa-bars m-2"></i>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav ml-auto flex-row w-100 justify-content-around">
+      <li class="nav-item">
+        <%= link_to almacens_path, class: "nav-link text-center" do %>
+          <i class="fas fa-home"></i>
+          <span class="d-none d-lg-inline">Inicio</span>
+        <% end %>
+      </li>
+      <li class="nav-item">
+        <%= link_to new_calidad_path, class: "nav-link text-center" do %>
+          <i class="fas fa-shopping-cart"></i>
+          <span class="d-none d-lg-inline">Ventas</span>
+        <% end %>
+      </li>
+      <li class="nav-item">
+        <%= link_to almacens_path, class: "nav-link text-center" do %>
+          <i class="fas fa-warehouse"></i>
+          <span class="d-none d-lg-inline">Almacenes</span>
+        <% end %>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-center" href="#">
+          <i class="fas fa-chart-line"></i>
+          <span class="d-none d-lg-inline">Reportes</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<%# Add JavaScript to ensure the navbar toggler works on small screens %>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    var toggler = document.querySelector('.navbar-toggler');
+    var collapse = document.querySelector('#navbarNav');
+
+    toggler.addEventListener('click', function() {
+      collapse.classList.toggle('show');
+    });
+  });
+</script>
+

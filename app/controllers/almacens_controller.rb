@@ -33,8 +33,8 @@ class AlmacensController < ApplicationController
     @movimiento = @almacen.movimientos.build(movimiento_params)
 
     if @movimiento.save
-      producto_o_articulo = @movimiento.product || @movimiento.articulo
-      @almacen.registrar_ingreso(producto_o_articulo, @movimiento.cantidad, @movimiento.tipo, @movimiento.fecha)
+      product_o_articulo = @movimiento.product || @movimiento.articulo
+      @almacen.registrar_ingreso(product_o_articulo, @movimiento.cantidad, @movimiento.tipo, @movimiento.fecha)
       redirect_to @almacen, notice: "Movimiento registrado exitosamente."
     else
       render action: @movimiento.product ? :new_movimiento_producto : :new_movimiento_articulo
