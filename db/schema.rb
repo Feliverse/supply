@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_01_18_151500) do
+ActiveRecord::Schema[7.0].define(version: 2025_01_18_151501) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -98,6 +98,20 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_18_151500) do
     t.index ["tech_id"], name: "index_products_on_tech_id"
   end
 
+  create_table "sale_items", force: :cascade do |t|
+    t.bigint "sale_id", null: false
+    t.bigint "product_id"
+    t.bigint "articulo_id"
+    t.integer "cantidad", null: false
+    t.string "unidad_de_medida", null: false
+    t.decimal "precio_unitario", precision: 10, scale: 2, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["articulo_id"], name: "index_sale_items_on_articulo_id"
+    t.index ["product_id"], name: "index_sale_items_on_product_id"
+    t.index ["sale_id"], name: "index_sale_items_on_sale_id"
+  end
+
   create_table "sales", force: :cascade do |t|
     t.datetime "fecha"
     t.integer "cantidad"
@@ -145,6 +159,9 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_18_151500) do
   add_foreign_key "movimientos", "products"
   add_foreign_key "products", "calidads"
   add_foreign_key "products", "teches"
+  add_foreign_key "sale_items", "articulos"
+  add_foreign_key "sale_items", "products"
+  add_foreign_key "sale_items", "sales"
   add_foreign_key "sales", "almacens"
   add_foreign_key "sales", "articulos"
   add_foreign_key "sales", "clientes"

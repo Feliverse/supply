@@ -54,16 +54,18 @@ class Almacen < ApplicationRecord
     end
   end
 
-  def registrar_venta(cliente, product_o_articulo, cantidad, fecha = Time.now)
+  def registrar_venta(cliente, sale_items_attributes, fecha = Time.now)
     ActiveRecord::Base.transaction do
-      registrar_salida(product_o_articulo, cantidad, 'Salida por venta', fecha)
+      sale_items_attributes.each do |item|
+        product_o_articulo = item[:product_id] ? Product.find(item[:product_id]) : Articulo.find(item[:articulo_id])
+        registrar_salida(product_o_articulo, item[:cantidad], 'Salida por venta', fecha)
+      end
+
       sales.create!(
         cliente: cliente,
         fecha: fecha,
-        cantidad: cantidad,
         almacen: self,
-        product: product_o_articulo.is_a?(Product) ? product_o_articulo : nil,
-        articulo: product_o_articulo.is_a?(Articulo) ? product_o_articulo : nil
+        sale_items_attributes: sale_items_attributes
       )
     end
   end

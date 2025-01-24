@@ -1,0 +1,27 @@
+<p>
+  <strong>Fecha:</strong>
+  <%= @sale.fecha %>
+</p>
+
+<p>
+  <strong>Cliente:</strong>
+  <%= @sale.cliente.name %>
+</p>
+
+<p>
+  <strong>Almacen:</strong>
+  <%= @sale.almacen.name %>
+</p>
+
+<h3>Sale Items</h3>
+<ul>
+  <% @sale.sale_items.each do |item| %>
+    <li>
+      <%= item.product ? item.product.name : item.articulo.name %> - 
+      <%= item.cantidad %> <%= item.unidad_de_medida %> @ <%= item.precio_unitario %>
+    </li>
+  <% end %>
+</ul>
+
+<%= link_to 'Edit', edit_almacen_sale_path(@sale.almacen, @sale) %> |
+<%= link_to 'Back', almacen_sales_path(@sale.almacen) %>

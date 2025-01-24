@@ -11,42 +11,43 @@
     </div>
   <% end %>
 
-  <%= hidden_field_tag :cliente_id, nil, id: "cliente_id_hidden", name: "sale[cliente_id]" %>
-
-  <h2 class="text-center">Productos/Artículos</h2>
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Cantidad</th>
-        <th>Unidad de Medida</th>
-        <th>Descripción</th>
-        <th>Precio Unitario</th>
-        <th>Total</th>
-      </tr>
-    </thead>
-    <tbody id="products_table_body">
-      <tr>
-        <td><input type="number" class="form-control" name="sale[cantidades][]" /></td>
-        <td><input type="text" class="form-control" name="sale[units][]" /></td>
-        <td>
-          <%= form.collection_select :descriptions, @almacen.inventarios.includes(:product, :articulo).map { |i| [i.product&.name || i.articulo&.name, i.id] }, :second, :first, prompt: "Seleccione un producto o artículo", class: "form-control description", name: "sale[descriptions][]" %>
-        </td>
-        <td><input type="number" class="form-control" name="sale[unit_prices][]" /></td>
-        <td><input type="number" class="form-control" name="sale[totals][]" readonly /></td>
-      </tr>
-    </tbody>
-  </table>
-  <div class="form-group text-center">
-    <button type="button" class="btn btn-secondary" id="add_product">Agregar Producto</button>
+  <div class="field">
+    <%= form.label :cliente_id %>
+    <%= form.collection_select :cliente_id, Cliente.all, :id, :name %>
   </div>
 
-  <div class="form-group">
-    <label>Total Final:</label>
-    <input type="number" class="form-control" id="final_total" readonly />
+  <h3>Sale Items</h3>
+  <div id="sale_items">
+    <%= form.fields_for :sale_items do |item_form| %>
+      <div class="nested-fields">
+        <div class="field">
+          <%= item_form.label :product_id %>
+          <%= item_form.collection_select :product_id, Product.all, :id, :name, include_blank: true %>
+        </div>
+        <div class="field">
+          <%= item_form.label :articulo_id %>
+          <%= item_form.collection_select :articulo_id, Articulo.all, :id, :name, include_blank: true %>
+        </div>
+        <div class="field">
+          <%= item_form.label :cantidad %>
+          <%= item_form.number_field :cantidad %>
+        </div>
+        <div class="field">
+          <%= item_form.label :unidad_de_medida %>
+          <%= item_form.text_field :unidad_de_medida %>
+        </div>
+        <div class="field">
+          <%= item_form.label :precio_unitario %>
+          <%= item_form.number_field :precio_unitario, step: 0.01 %>
+        </div>
+        <%= link_to_remove_association "Remove Item", item_form %>
+      </div>
+    <% end %>
   </div>
+  <%= link_to_add_association "Add Item", form, :sale_items %>
 
-  <div class="form-group text-center">
-    <%= form.submit 'Crear Venta', class: 'btn btn-primary' %>
+  <div class="actions">
+    <%= form.submit %>
   </div>
 <% end %>
 

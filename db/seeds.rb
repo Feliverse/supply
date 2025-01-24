@@ -1,17 +1,3 @@
-# Delete all records from the tables
-Sale.delete_all
-Inventario.delete_all
-Movimiento.delete_all
-Articulo.delete_all
-Product.delete_all
-Tech.delete_all
-Calidad.delete_all
-Subcategory.delete_all
-Category.delete_all
-Marca.delete_all
-Cliente.delete_all
-Almacen.delete_all
-
 # Crear Categorías
 ceramica = Category.create(name: 'Cerámica')
 porcelanato = Category.create(name: 'Porcelanato')
@@ -57,16 +43,85 @@ tech_41x41 = Tech.create(
   name: '41x41', 
   pieces_box: 12, 
   m2_box: 2, 
-  marca_id: coboce.id,
-  subcategory_id: pisos.id
+  marca: coboce,
+  subcategory: pisos
 )
 
 tech_60x60 = Tech.create(
   name: '60x60',
   pieces_box: 4,
   m2_box: 1.44,
-  marca_id: coboce.id,
-  subcategory_id: pisos.id
+  marca: coboce,
+  subcategory: pisos
+)
+
+tech_30x45 = Tech.create(
+  name: '30x45',
+  pieces_box: 12,
+  m2_box: 1.62,
+  marca: coboce,
+  subcategory: revestimientos
+)
+tech_42x42 = Tech.create(
+  name: '42x42',
+  pieces_box: 10,
+  m2_box: 1.77,
+  marca: faboce,
+  subcategory: pisos
+)
+tech_45x45 = Tech.create(
+  name: '45x45',
+  pieces_box: 9,
+  m2_box: 1.85,
+  marca: faboce,
+  subcategory: pisos
+)
+tech_50x50 = Tech.create(
+  name: '50x50',
+  pieces_box: 8,
+  m2_box: 1.85,
+  marca: faboce,
+  subcategory: pisos
+)
+tech_61x61 = Tech.create(
+  name: '61x61',
+  pieces_box: 4,
+  m2_box: 1.49,
+  marca: faboce,
+  subcategory: pisos
+)
+
+tech_30x40 = Tech.create(
+  name: '30x40',
+  pieces_box: 15,
+  m2_box: 1.83,
+  marca: faboce,
+  subcategory: pisos
+)
+tech_43x43 = Tech.create(
+  name: '43x43',
+  pieces_box: 12,
+  m2_box: 1.5,
+  marca: jeiz,
+  subcategory: pisos
+)
+
+# Ensure pieces_box is defined before it is used
+pieces_box = 10 # or any appropriate value
+
+tech_10x30 = Tech.create(
+  name: '10x30',
+  pieces_box: pieces_box,
+  m2_box: 1,
+  marca: importado,
+  subcategory: randas
+)
+tech_08x025 = Tech.create(
+  name: '08x025',
+  pieces_box: pieces_box,
+  m2_box: 1,
+  marca: importado,
+  subcategory: randas
 )
 
 # Crear Productos
@@ -76,6 +131,15 @@ producto1 = Product.create(
   calidad: primera,
   tonocalibre: 'A1',
   subcategory_id: pisos.id,
+  marca_id: coboce.id
+)
+
+producto2 = Product.create(
+  name: 'Venecia',
+  tech: tech_30x45,
+  calidad: primera,
+  tonocalibre: 'A2',
+  subcategory_id: revestimientos.id,
   marca_id: coboce.id
 )
 
@@ -107,67 +171,64 @@ almacen_principal.registrar_ingreso(articulo1, 100, 'Ingreso por compra')
 almacen_principal.registrar_ingreso(articulo2, 50, 'Ingreso por compra')
 almacen_principal.registrar_salida(articulo1, 20, 'Salida por venta')
 almacen_principal.registrar_salida(articulo2, 10, 'Salida por ajuste')
+almacen_secundario.registrar_ingreso(producto1, 150, 'Ingreso por compra')
+almacen_secundario.registrar_ingreso(producto2, 200, 'Ingreso por compra')
 
 # Realizar traspaso entre almacenes
 almacen_principal.traspasar(articulo1, 30, almacen_secundario)
+almacen_secundario.traspasar(producto1, 50, almacen_principal)
 
 # Registrar ventas
-almacen_principal.registrar_venta(cliente1, articulo1, 10)
-almacen_principal.registrar_venta(cliente2, articulo2, 5)
-almacen_secundario.registrar_venta(cliente1, articulo1, 5)
+almacen_principal.registrar_venta(cliente1, [
+  { product_id: producto1.id, cantidad: 10, unidad_de_medida: 'pza', precio_unitario: 100.0 }
+], Time.now)
 
-# Create Almacenes
-almacen1 = Almacen.create!(name: 'Almacen Central')
-almacen2 = Almacen.create!(name: 'Almacen Secundario')
+almacen_principal.registrar_venta(cliente2, [
+  { articulo_id: articulo2.id, cantidad: 5, unidad_de_medida: 'm2', precio_unitario: 200.0 }
+], Time.now)
 
-# Create Marcas
-marca1 = Marca.create!(name: 'Marca A', logo: 'logo_a.png', contact_name: 'Contacto A', contact_number: '123456789')
-marca2 = Marca.create!(name: 'Marca B', logo: 'logo_b.png', contact_name: 'Contacto B', contact_number: '987654321')
+almacen_secundario.registrar_venta(cliente1, [
+  { articulo_id: articulo1.id, cantidad: 5, unidad_de_medida: 'pza', precio_unitario: 50.0 }
+], Time.now)
 
-# Create Categories and Subcategories
-category1 = Category.create!(name: 'Categoria 1')
-subcategory1 = category1.subcategories.create!(name: 'Subcategoria 1')
-subcategory2 = category1.subcategories.create!(name: 'Subcategoria 2')
+# Create a sale with multiple products and articles
+almacen_principal.registrar_venta(cliente1, [
+  { product_id: producto1.id, cantidad: 5, unidad_de_medida: 'pza', precio_unitario: 50.0 },
+  { articulo_id: articulo2.id, cantidad: 10, unidad_de_medida: 'm2', precio_unitario: 150.0 }
+], Time.now)
 
-# Create Calidads
-calidad1 = Calidad.create!(name: 'Calidad Alta')
-calidad2 = Calidad.create!(name: 'Calidad Media')
-
-# Create Teches
-tech1 = Tech.create!(name: 'Tech 1', pieces_box: 10, m2_box: 1.5, marca: marca1, subcategory: subcategory1)
-tech2 = Tech.create!(name: 'Tech 2', pieces_box: 20, m2_box: 2.0, marca: marca2, subcategory: subcategory2)
-
-# Create Products
-product1 = Product.create!(name: 'Producto 1', tonocalibre: 'Tono 1', tech: tech1, calidad: calidad1, subcategory_id: subcategory1.id, marca_id: marca1.id)
-product2 = Product.create!(name: 'Producto 2', tonocalibre: 'Tono 2', tech: tech2, calidad: calidad2, subcategory_id: subcategory2.id, marca_id: marca2.id)
-
-# Create Articulos
-articulo1 = Articulo.create!(name: 'Articulo 1', subcategory: subcategory1, marca: marca1)
-articulo2 = Articulo.create!(name: 'Articulo 2', subcategory: subcategory2, marca: marca2)
-
-# Create Inventarios for Almacen 1
-Inventario.create!(cantidad_disponible: 100, fecha_actualizacion: Time.now, almacen: almacen1, product: product1)
-Inventario.create!(cantidad_disponible: 200, fecha_actualizacion: Time.now, almacen: almacen1, articulo: articulo1)
-
-# Create Inventarios for Almacen 2
-Inventario.create!(cantidad_disponible: 150, fecha_actualizacion: Time.now, almacen: almacen2, product: product2)
-Inventario.create!(cantidad_disponible: 250, fecha_actualizacion: Time.now, almacen: almacen2, articulo: articulo2)
-
-# Create Clientes
-cliente1 = Cliente.create!(name: 'Cliente 1', nit: '1234567890')
-cliente2 = Cliente.create!(name: 'Cliente 2', nit: '9876543210')
-
-# Create Sales
-Sale.create!(fecha: Time.now, cantidad: 10, cliente_id: cliente1.id, almacen: almacen1, product_id: product1.id, unidad_de_medida: 'pza', precio_unitario: 100.0)
-Sale.create!(fecha: Time.now, cantidad: 20, cliente_id: cliente2.id, almacen: almacen2, articulo_id: articulo2.id, unidad_de_medida: 'm2', precio_unitario: 200.0)
+# Ensure correct attribute names for Sale creation
+Sale.create!(fecha: Time.now, cantidad: 10, cliente_id: cliente1.id, almacen: almacen_principal, product_id: producto1.id, unidad_de_medida: 'pza', precio_unitario: 100.0)
+Sale.create!(fecha: Time.now, cantidad: 20, cliente_id: cliente2.id, almacen: almacen_secundario, articulo_id: articulo2.id, unidad_de_medida: 'm2', precio_unitario: 200.0)
 
 # Create a sale where a client buys two articles at once
 Sale.create!(
   fecha: Time.now,
   cliente_id: cliente1.id,
-  almacen: almacen1,
-  cantidades: [5, 10],
-  units: ['pza', 'm2'],
-  descriptions: [articulo1.id, articulo2.id],
-  unit_prices: [50.0, 150.0],
+  almacen: almacen_principal,
+  cantidad: 5,
+  unidad_de_medida: 'pza',
+  precio_unitario: 50.0,
+  articulo_id: articulo1.id
+)
+
+Sale.create!(
+  fecha: Time.now,
+  cliente_id: cliente1.id,
+  almacen: almacen_principal,
+  cantidad: 10,
+  unidad_de_medida: 'm2',
+  precio_unitario: 150.0,
+  articulo_id: articulo2.id
+)
+
+# Create a sale with multiple products and articles
+Sale.create!(
+  fecha: Time.now,
+  cliente: cliente1,
+  almacen: almacen_principal,
+  sale_items_attributes: [
+    { product_id: producto1.id, cantidad: 5, unidad_de_medida: 'pza', precio_unitario: 50.0 },
+    { articulo_id: articulo2.id, cantidad: 10, unidad_de_medida: 'm2', precio_unitario: 150.0 }
+  ]
 )
