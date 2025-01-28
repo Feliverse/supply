@@ -1,4 +1,4 @@
-<%= form_with(model: [@almacen, @sale], local: true, id: "sale_form") do |form| %>
+<%= form_with model: @sale, local: true do |form| %>
   <% if @sale.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@sale.errors.count, "error") %> prohibited this sale from being saved:</h2>
@@ -11,9 +11,11 @@
     </div>
   <% end %>
 
+  <%= render 'client', form: form %>
+
   <div class="field">
-    <%= form.label :cliente_id %>
-    <%= form.collection_select :cliente_id, Cliente.all, :id, :name %>
+    <%= form.label :fecha %>
+    <%= form.date_select :fecha %>
   </div>
 
   <h3>Sale Items</h3>
@@ -40,18 +42,72 @@
           <%= item_form.label :precio_unitario %>
           <%= item_form.number_field :precio_unitario, step: 0.01 %>
         </div>
-        <%= link_to_remove_association "Remove Item", item_form %>
+        <button type="button" class="remove_item">Remove Item</button>
       </div>
     <% end %>
   </div>
-  <%= link_to_add_association "Add Item", form, :sale_items %>
+  <button type="button" id="add_item">Add Item</button>
 
   <div class="actions">
     <%= form.submit %>
   </div>
 <% end %>
 
+<template id="sale_item_template">
+  <div class="nested-fields">
+    <div class="field">
+      <label for="sale_sale_items_attributes_new_product_id">Product</label>
+      <select name="sale[sale_items_attributes][new][product_id]" id="sale_sale_items_attributes_new_product_id">
+        <option value="">Please select</option>
+        <% Product.all.each do |product| %>
+          <option value="<%= product.id %>"><%= product.name %></option>
+        <% end %>
+      </select>
+    </div>
+    <div class="field">
+      <label for="sale_sale_items_attributes_new_articulo_id">Articulo</label>
+      <select name="sale[sale_items_attributes][new][articulo_id]" id="sale_sale_items_attributes_new_articulo_id">
+        <option value="">Please select</option>
+        <% Articulo.all.each do |articulo| %>
+          <option value="<%= articulo.id %>"><%= articulo.name %></option>
+        <% end %>
+      </select>
+    </div>
+    <div class="field">
+      <label for="sale_sale_items_attributes_new_cantidad">Cantidad</label>
+      <input type="number" name="sale[sale_items_attributes][new][cantidad]" id="sale_sale_items_attributes_new_cantidad">
+    </div>
+    <div class="field">
+      <label for="sale_sale_items_attributes_new_unidad_de_medida">Unidad de Medida</label>
+      <input type="text" name="sale[sale_items_attributes][new][unidad_de_medida]" id="sale_sale_items_attributes_new_unidad_de_medida">
+    </div>
+    <div class="field">
+      <label for="sale_sale_items_attributes_new_precio_unitario">Precio Unitario</label>
+      <input type="number" step="0.01" name="sale[sale_items_attributes][new][precio_unitario]" id="sale_sale_items_attributes_new_precio_unitario">
+    </div>
+    <button type="button" class="remove_item">Remove Item</button>
+  </div>
+</template>
+
 <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('add_item').addEventListener('click', function() {
+      var template = document.getElementById('sale_item_template').content.cloneNode(true);
+      var newId = new Date().getTime();
+      template.querySelectorAll('input, select').forEach(function(input) {
+        input.name = input.name.replace('new', newId);
+        input.id = input.id.replace('new', newId);
+      });
+      document.getElementById('sale_items').appendChild(template);
+    });
+
+    document.getElementById('sale_items').addEventListener('click', function(event) {
+      if (event.target.classList.contains('remove_item')) {
+        event.target.closest('.nested-fields').remove();
+      }
+    });
+  });
+
   document.getElementById("client_nit").addEventListener("blur", function() {
     var nit = this.value;
     if (nit) {
@@ -103,40 +159,6 @@
       });
     } else {
       alert('Primero seleccione un cliente.');
-    }
-  });
-
-  document.getElementById('add_product').addEventListener('click', function() {
-    var tableBody = document.getElementById('products_table_body');
-    var newRow = tableBody.rows[0].cloneNode(true);
-    newRow.querySelectorAll('input').forEach(input => input.value = '');
-    tableBody.appendChild(newRow);
-  });
-
-  document.getElementById('products_table_body').addEventListener('input', function() {
-    var rows = this.querySelectorAll('tr');
-    var finalTotal = 0;
-    rows.forEach(row => {
-      var cantidad = row.querySelector('input[name="sale[cantidades][]"]').value;
-      var unitPrice = row.querySelector('input[name="sale[unit_prices][]"]').value;
-      var total = row.querySelector('input[name="sale[totals][]"]');
-      total.value = cantidad * unitPrice;
-      finalTotal += parseFloat(total.value) || 0;
-    });
-    document.getElementById('final_total').value = finalTotal;
-  });
-
-  document.getElementById('sale_form').addEventListener('submit', function(event) {
-    var descriptions = document.querySelectorAll('.description');
-    var valid = true;
-    descriptions.forEach(function(description) {
-      if (description.value === '') {
-        valid = false;
-      }
-    });
-    if (!valid) {
-      event.preventDefault();
-      alert('Por favor, seleccione productos válidos de la lista.');
     }
   });
 </script>

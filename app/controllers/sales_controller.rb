@@ -7,12 +7,12 @@ class SalesController < ApplicationController
 
   def new
     @sale = Sale.new
-    @sale.sale_items.build
   end
 
   def create
-    @sale = @almacen.sales.build(sale_params)
+    @sale = Sale.new(sale_params)
     @sale.fecha = Time.now
+    @sale.almacen = @almacen
 
     if @sale.save
       redirect_to sales_path, notice: 'Venta creada exitosamente.'

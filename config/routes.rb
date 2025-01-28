@@ -10,7 +10,7 @@ Rails.application.routes.draw do
       get 'new_movimiento_articulo'
       post 'create_movimiento'
     end
-    resources :sales, only: [:new, :create]
+    resources :sales
     resources :inventarios, only: [:index], defaults: { format: :json }
   end
   resources :clientes do

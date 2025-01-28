@@ -178,50 +178,6 @@ almacen_secundario.registrar_ingreso(producto2, 200, 'Ingreso por compra')
 almacen_principal.traspasar(articulo1, 30, almacen_secundario)
 almacen_secundario.traspasar(producto1, 50, almacen_principal)
 
-# Registrar ventas
-almacen_principal.registrar_venta(cliente1, [
-  { product_id: producto1.id, cantidad: 10, unidad_de_medida: 'pza', precio_unitario: 100.0 }
-], Time.now)
-
-almacen_principal.registrar_venta(cliente2, [
-  { articulo_id: articulo2.id, cantidad: 5, unidad_de_medida: 'm2', precio_unitario: 200.0 }
-], Time.now)
-
-almacen_secundario.registrar_venta(cliente1, [
-  { articulo_id: articulo1.id, cantidad: 5, unidad_de_medida: 'pza', precio_unitario: 50.0 }
-], Time.now)
-
-# Create a sale with multiple products and articles
-almacen_principal.registrar_venta(cliente1, [
-  { product_id: producto1.id, cantidad: 5, unidad_de_medida: 'pza', precio_unitario: 50.0 },
-  { articulo_id: articulo2.id, cantidad: 10, unidad_de_medida: 'm2', precio_unitario: 150.0 }
-], Time.now)
-
-# Ensure correct attribute names for Sale creation
-Sale.create!(fecha: Time.now, cantidad: 10, cliente_id: cliente1.id, almacen: almacen_principal, product_id: producto1.id, unidad_de_medida: 'pza', precio_unitario: 100.0)
-Sale.create!(fecha: Time.now, cantidad: 20, cliente_id: cliente2.id, almacen: almacen_secundario, articulo_id: articulo2.id, unidad_de_medida: 'm2', precio_unitario: 200.0)
-
-# Create a sale where a client buys two articles at once
-Sale.create!(
-  fecha: Time.now,
-  cliente_id: cliente1.id,
-  almacen: almacen_principal,
-  cantidad: 5,
-  unidad_de_medida: 'pza',
-  precio_unitario: 50.0,
-  articulo_id: articulo1.id
-)
-
-Sale.create!(
-  fecha: Time.now,
-  cliente_id: cliente1.id,
-  almacen: almacen_principal,
-  cantidad: 10,
-  unidad_de_medida: 'm2',
-  precio_unitario: 150.0,
-  articulo_id: articulo2.id
-)
-
 # Create a sale with multiple products and articles
 Sale.create!(
   fecha: Time.now,

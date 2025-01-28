@@ -7,6 +7,7 @@ class InventariosController < ApplicationController
     @inventarios = @almacen.inventarios.includes(:product, :articulo)
 
     respond_to do |format|
+      format.html # Esto renderizará la vista index.html.erb
       format.json { render json: @inventarios.as_json(include: [:product, :articulo]) }
     end
   end
@@ -55,9 +56,8 @@ class InventariosController < ApplicationController
   # DELETE /inventarios/1 or /inventarios/1.json
   def destroy
     @inventario.destroy
-
     respond_to do |format|
-      format.html { redirect_to inventarios_path, status: :see_other, notice: "Inventario was successfully destroyed." }
+      format.html { redirect_to inventarios_url, notice: "Inventario was successfully destroyed." }
       format.json { head :no_content }
     end
   end
