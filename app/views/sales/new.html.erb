@@ -7,7 +7,8 @@
       <h1 class="text-center mt-md-2"><%= @almacen.name %></h1>
       <h2 class="">Registrar Venta</h2>
       <p class="">Por favor, llene el siguiente formulario para registrar una nueva venta.</p>
-      <%= form_with model: @sale, local: true do |form| %>
+      <%= form_with model: @sale, local: true, url: almacen_sales_path(@almacen) do |form| %>
+        <%= hidden_field_tag :almacen_id, @almacen.id %>
         <%= render 'client', form: form %>
         <%= render 'form', form: form %>
       <% end %>

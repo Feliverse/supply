@@ -22,11 +22,6 @@
   <input type="hidden" id="cliente_id_hidden" name="sale[cliente_id]">
 </div>
 
-<div class="field">
-  <%= form.label :cliente_id %>
-  <%= form.collection_select :cliente_id, Cliente.all, :id, :name %>
-</div>
-
 <script>
   let nitTimeout;
   document.getElementById("client_nit").addEventListener("blur", function() {

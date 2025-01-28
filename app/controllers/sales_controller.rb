@@ -13,6 +13,7 @@ class SalesController < ApplicationController
     @sale = Sale.new(sale_params)
     @sale.fecha = Time.now
     @sale.almacen = @almacen
+    @sale.cliente_id = params[:sale][:cliente_id]
 
     if @sale.save
       redirect_to sales_path, notice: 'Venta creada exitosamente.'

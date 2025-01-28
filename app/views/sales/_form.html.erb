@@ -11,7 +11,10 @@
     </div>
   <% end %>
 
-  <%= render 'client', form: form %>
+  <div class="field">
+    <%= form.label :cliente_id %>
+    <%= form.hidden_field :cliente_id, id: "cliente_id_hidden" %>
+  </div>
 
   <div class="field">
     <%= form.label :fecha %>
@@ -23,12 +26,9 @@
     <%= form.fields_for :sale_items do |item_form| %>
       <div class="nested-fields">
         <div class="field">
-          <%= item_form.label :product_id %>
-          <%= item_form.collection_select :product_id, Product.all, :id, :name, include_blank: true %>
-        </div>
-        <div class="field">
-          <%= item_form.label :articulo_id %>
-          <%= item_form.collection_select :articulo_id, Articulo.all, :id, :name, include_blank: true %>
+          <%= item_form.label :item_id, "Product or Article" %>
+          <%= item_form.select :item_id, options_for_select(@almacen.inventarios.map { |inv| [inv.product&.name || inv.articulo&.name, inv.product_id || inv.articulo_id, { 'data-available-quantity': inv.cantidad_disponible }] }), include_blank: true %>
+          <span class="available_quantity"></span>
         </div>
         <div class="field">
           <%= item_form.label :cantidad %>
@@ -56,22 +56,14 @@
 <template id="sale_item_template">
   <div class="nested-fields">
     <div class="field">
-      <label for="sale_sale_items_attributes_new_product_id">Product</label>
-      <select name="sale[sale_items_attributes][new][product_id]" id="sale_sale_items_attributes_new_product_id">
+      <label for="sale_sale_items_attributes_new_item_id">Product or Article</label>
+      <select name="sale[sale_items_attributes][new][item_id]" id="sale_sale_items_attributes_new_item_id">
         <option value="">Please select</option>
-        <% Product.all.each do |product| %>
-          <option value="<%= product.id %>"><%= product.name %></option>
+        <% @almacen.inventarios.each do |inv| %>
+          <option value="<%= inv.product_id || inv.articulo_id %>" data-available-quantity="<%= inv.cantidad_disponible %>"><%= inv.product&.name || inv.articulo&.name %></option>
         <% end %>
       </select>
-    </div>
-    <div class="field">
-      <label for="sale_sale_items_attributes_new_articulo_id">Articulo</label>
-      <select name="sale[sale_items_attributes][new][articulo_id]" id="sale_sale_items_attributes_new_articulo_id">
-        <option value="">Please select</option>
-        <% Articulo.all.each do |articulo| %>
-          <option value="<%= articulo.id %>"><%= articulo.name %></option>
-        <% end %>
-      </select>
+      <span class="available_quantity"></span>
     </div>
     <div class="field">
       <label for="sale_sale_items_attributes_new_cantidad">Cantidad</label>
@@ -104,6 +96,15 @@
     document.getElementById('sale_items').addEventListener('click', function(event) {
       if (event.target.classList.contains('remove_item')) {
         event.target.closest('.nested-fields').remove();
+      }
+    });
+
+    document.getElementById('sale_items').addEventListener('change', function(event) {
+      if (event.target.tagName === 'SELECT') {
+        var selectedOption = event.target.options[event.target.selectedIndex];
+        var availableQuantity = selectedOption.getAttribute('data-available-quantity');
+        var quantitySpan = event.target.closest('.field').querySelector('.available_quantity');
+        quantitySpan.textContent = availableQuantity ? `Available: ${availableQuantity}` : '';
       }
     });
   });
