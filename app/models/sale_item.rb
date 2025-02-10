@@ -1,7 +1,6 @@
 class SaleItem < ApplicationRecord
   belongs_to :sale
-  belongs_to :product, optional: true
-  belongs_to :articulo, optional: true
+  belongs_to :inventario
 
   validates :cantidad, presence: true
   validates :unidad_de_medida, presence: true

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_01_18_151501) do
+ActiveRecord::Schema[7.0].define(version: 2025_01_18_151502) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -52,6 +52,8 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_18_151501) do
   create_table "inventarios", force: :cascade do |t|
     t.integer "cantidad_disponible", null: false
     t.datetime "fecha_actualizacion", null: false
+    t.integer "cantidad_real", default: 0, null: false
+    t.integer "inventarios", default: 0, null: false
     t.bigint "almacen_id", null: false
     t.bigint "product_id"
     t.bigint "articulo_id"
@@ -88,45 +90,36 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_18_151501) do
   create_table "products", force: :cascade do |t|
     t.string "name"
     t.string "tonocalibre"
+    t.bigint "subcategory_id"
+    t.bigint "marca_id"
     t.bigint "tech_id", null: false
     t.bigint "calidad_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "subcategory_id"
-    t.bigint "marca_id"
     t.index ["calidad_id"], name: "index_products_on_calidad_id"
     t.index ["tech_id"], name: "index_products_on_tech_id"
   end
 
   create_table "sale_items", force: :cascade do |t|
     t.bigint "sale_id", null: false
-    t.bigint "product_id"
-    t.bigint "articulo_id"
+    t.bigint "inventario_id", null: false
     t.integer "cantidad", null: false
     t.string "unidad_de_medida", null: false
     t.decimal "precio_unitario", precision: 10, scale: 2, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["articulo_id"], name: "index_sale_items_on_articulo_id"
-    t.index ["product_id"], name: "index_sale_items_on_product_id"
+    t.index ["inventario_id"], name: "index_sale_items_on_inventario_id"
     t.index ["sale_id"], name: "index_sale_items_on_sale_id"
   end
 
   create_table "sales", force: :cascade do |t|
     t.datetime "fecha"
-    t.integer "cantidad"
     t.bigint "cliente_id", null: false
     t.bigint "almacen_id", null: false
-    t.bigint "product_id"
-    t.bigint "articulo_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "unidad_de_medida"
-    t.decimal "precio_unitario", precision: 10, scale: 2
     t.index ["almacen_id"], name: "index_sales_on_almacen_id"
-    t.index ["articulo_id"], name: "index_sales_on_articulo_id"
     t.index ["cliente_id"], name: "index_sales_on_cliente_id"
-    t.index ["product_id"], name: "index_sales_on_product_id"
   end
 
   create_table "subcategories", force: :cascade do |t|
@@ -159,13 +152,10 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_18_151501) do
   add_foreign_key "movimientos", "products"
   add_foreign_key "products", "calidads"
   add_foreign_key "products", "teches"
-  add_foreign_key "sale_items", "articulos"
-  add_foreign_key "sale_items", "products"
+  add_foreign_key "sale_items", "inventarios"
   add_foreign_key "sale_items", "sales"
   add_foreign_key "sales", "almacens"
-  add_foreign_key "sales", "articulos"
   add_foreign_key "sales", "clientes"
-  add_foreign_key "sales", "products"
   add_foreign_key "subcategories", "categories"
   add_foreign_key "teches", "marcas"
   add_foreign_key "teches", "subcategories"

@@ -2,7 +2,7 @@ class Sale < ApplicationRecord
   belongs_to :cliente
   belongs_to :almacen
 
-  has_many :sale_items, dependent: :destroy, class_name: 'SaleItem'
+  has_many :sale_items, dependent: :destroy
   accepts_nested_attributes_for :sale_items, allow_destroy: true
 
   validates :fecha, presence: true

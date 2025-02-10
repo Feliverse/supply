@@ -184,7 +184,30 @@ Sale.create!(
   cliente: cliente1,
   almacen: almacen_principal,
   sale_items_attributes: [
-    { product_id: producto1.id, cantidad: 5, unidad_de_medida: 'pza', precio_unitario: 50.0 },
-    { articulo_id: articulo2.id, cantidad: 10, unidad_de_medida: 'm2', precio_unitario: 150.0 }
+    { inventario_id: inventario1.id, cantidad: 5, unidad_de_medida: 'pza', precio_unitario: 50.0 },
+    { inventario_id: inventario2.id, cantidad: 10, unidad_de_medida: 'm2', precio_unitario: 150.0 }
   ]
 )
+
+# Create some clients
+cliente1 = Cliente.create!(name: "Cliente 1", nit: "123456789")
+cliente2 = Cliente.create!(name: "Cliente 2", nit: "987654321")
+
+# Create some almacens
+almacen1 = Almacen.create!(name: "Almacen 1")
+almacen2 = Almacen.create!(name: "Almacen 2")
+
+# Create some products and articles
+product1 = Product.create!(name: "Product 1", tech_id: 1, calidad_id: 1)
+product2 = Product.create!(name: "Product 2", tech_id: 1, calidad_id: 1)
+articulo1 = Articulo.create!(name: "Articulo 1", subcategory_id: 1, marca_id: 1)
+articulo2 = Articulo.create!(name: "Articulo 2", subcategory_id: 1, marca_id: 1)
+
+# Create some inventories
+inventario1 = Inventario.create!(cantidad_disponible: 100, cantidad_real: 100, fecha_actualizacion: Time.now, almacen: almacen1, product: product1)
+inventario2 = Inventario.create!(cantidad_disponible: 200, cantidad_real: 200, fecha_actualizacion: Time.now, almacen: almacen1, articulo: articulo1)
+
+# Create sale items
+SaleItem.create!(sale: sale, inventario: inventario1, cantidad: 10, unidad_de_medida: "unit", precio_unitario: 10.0)
+SaleItem.create!(sale: sale, inventario: inventario2, cantidad: 20, unidad_de_medida: "unit", precio_unitario: 20.0)
+

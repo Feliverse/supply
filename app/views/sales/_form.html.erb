@@ -1,10 +1,10 @@
-<%= form_with model: @sale, local: true do |form| %>
-  <% if @sale.errors.any? %>
+<%= form_with(model: sale, local: true) do |form| %>
+  <% if sale.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@sale.errors.count, "error") %> prohibited this sale from being saved:</h2>
+      <h2><%= pluralize(sale.errors.count, "error") %> prohibited this sale from being saved:</h2>
 
       <ul>
-        <% @sale.errors.full_messages.each do |message| %>
+        <% sale.errors.full_messages.each do |message| %>
           <li><%= message %></li>
         <% end %>
       </ul>
@@ -12,74 +12,42 @@
   <% end %>
 
   <div class="field">
-    <%= form.label :cliente_id %>
-    <%= form.hidden_field :cliente_id, id: "cliente_id_hidden" %>
+    <%= form.label :fecha %>
+    <%= form.datetime_select :fecha %>
   </div>
 
   <div class="field">
-    <%= form.label :fecha %>
-    <%= form.date_select :fecha %>
+    <%= form.label :cliente_id %>
+    <%= form.collection_select :cliente_id, Cliente.all, :id, :name %>
   </div>
 
-  <h3>Sale Items</h3>
+  <div class="field">
+    <%= form.label :almacen_id %>
+    <%= form.collection_select :almacen_id, Almacen.all, :id, :name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :unidad_de_medida %>
+    <%= form.text_field :unidad_de_medida %>
+  </div>
+
+  <div class="field">
+    <%= form.label :precio_unitario %>
+    <%= form.number_field :precio_unitario, step: 0.01 %>
+  </div>
+
   <div id="sale_items">
     <%= form.fields_for :sale_items do |item_form| %>
-      <div class="nested-fields">
-        <div class="field">
-          <%= item_form.label :item_id, "Product or Article" %>
-          <%= item_form.select :item_id, options_for_select(@almacen.inventarios.map { |inv| [inv.product&.name || inv.articulo&.name, inv.product_id || inv.articulo_id, { 'data-available-quantity': inv.cantidad_disponible }] }), include_blank: true %>
-          <span class="available_quantity"></span>
-        </div>
-        <div class="field">
-          <%= item_form.label :cantidad %>
-          <%= item_form.number_field :cantidad %>
-        </div>
-        <div class="field">
-          <%= item_form.label :unidad_de_medida %>
-          <%= item_form.text_field :unidad_de_medida %>
-        </div>
-        <div class="field">
-          <%= item_form.label :precio_unitario %>
-          <%= item_form.number_field :precio_unitario, step: 0.01 %>
-        </div>
-        <button type="button" class="remove_item">Remove Item</button>
-      </div>
+      <%= render 'sale_item_fields', f: item_form %>
     <% end %>
   </div>
-  <button type="button" id="add_item">Add Item</button>
 
   <div class="actions">
     <%= form.submit %>
   </div>
 <% end %>
 
-<template id="sale_item_template">
-  <div class="nested-fields">
-    <div class="field">
-      <label for="sale_sale_items_attributes_new_item_id">Product or Article</label>
-      <select name="sale[sale_items_attributes][new][item_id]" id="sale_sale_items_attributes_new_item_id">
-        <option value="">Please select</option>
-        <% @almacen.inventarios.each do |inv| %>
-          <option value="<%= inv.product_id || inv.articulo_id %>" data-available-quantity="<%= inv.cantidad_disponible %>"><%= inv.product&.name || inv.articulo&.name %></option>
-        <% end %>
-      </select>
-      <span class="available_quantity"></span>
-    </div>
-    <div class="field">
-      <label for="sale_sale_items_attributes_new_cantidad">Cantidad</label>
-      <input type="number" name="sale[sale_items_attributes][new][cantidad]" id="sale_sale_items_attributes_new_cantidad">
-    </div>
-    <div class="field">
-      <label for="sale_sale_items_attributes_new_unidad_de_medida">Unidad de Medida</label>
-      <input type="text" name="sale[sale_items_attributes][new][unidad_de_medida]" id="sale_sale_items_attributes_new_unidad_de_medida">
-    </div>
-    <div class="field">
-      <label for="sale_sale_items_attributes_new_precio_unitario">Precio Unitario</label>
-      <input type="number" step="0.01" name="sale[sale_items_attributes][new][precio_unitario]" id="sale_sale_items_attributes_new_precio_unitario">
-    </div>
-    <button type="button" class="remove_item">Remove Item</button>
-  </div>
-</template>
+<%= link_to_add_fields "Add Item", form, :sale_items %>
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
