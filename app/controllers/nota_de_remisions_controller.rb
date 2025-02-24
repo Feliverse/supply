@@ -12,7 +12,10 @@ class NotaDeRemisionsController < ApplicationController
 
   # GET /nota_de_remisions/new
   def new
-    @nota_de_remision = NotaDeRemision.new
+    @nota_de_remision = NotaDeRemision.new(sale: @sale)
+    @sale.sale_items.each do |sale_item|
+      @nota_de_remision.nota_de_remision_items.build(sale_item: sale_item)
+    end
   end
 
   # GET /nota_de_remisions/1/edit
@@ -22,6 +25,7 @@ class NotaDeRemisionsController < ApplicationController
   # POST /nota_de_remisions or /nota_de_remisions.json
   def create
     @nota_de_remision = NotaDeRemision.new(nota_de_remision_params)
+    @nota_de_remision.sale = @sale
 
     respond_to do |format|
       if @nota_de_remision.save
@@ -63,8 +67,12 @@ class NotaDeRemisionsController < ApplicationController
       @nota_de_remision = NotaDeRemision.find(params[:id])
     end
 
+    def set_sale
+      @sale = Sale.find(params[:sale_id])
+    end
+
     # Only allow a list of trusted parameters through.
     def nota_de_remision_params
-      params.require(:nota_de_remision).permit(:sale_id, :fecha)
+      params.require(:nota_de_remision).permit(:fecha, nota_de_remision_items_attributes: [:sale_item_id])
     end
 end

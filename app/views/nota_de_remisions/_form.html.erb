@@ -1,27 +1,34 @@
-<%= form_with(model: nota_de_remision) do |form| %>
-  <% if nota_de_remision.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(nota_de_remision.errors.count, "error") %> prohibited this nota_de_remision from being saved:</h2>
+<%= form_with(model: @nota_de_remision, local: true) do |form| %>
+  <% if @nota_de_remision.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@nota_de_remision.errors.count, "error") %> prohibited this nota_de_remision from being saved:</h2>
 
       <ul>
-        <% nota_de_remision.errors.each do |error| %>
-          <li><%= error.full_message %></li>
+        <% @nota_de_remision.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
         <% end %>
       </ul>
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :sale_id, style: "display: block" %>
-    <%= form.text_field :sale_id %>
+  <div class="field">
+    <%= form.label :fecha %>
+    <%= form.datetime_select :fecha %>
   </div>
 
-  <div>
-    <%= form.label :fecha, style: "display: block" %>
-    <%= form.datetime_field :fecha %>
+  <h3>Items de Venta</h3>
+  <div id="nota_de_remision_items">
+    <%= form.fields_for :nota_de_remision_items do |item_form| %>
+      <div class="nested-fields">
+        <div class="field">
+          <%= item_form.label :sale_item_id %>
+          <%= item_form.collection_select :sale_item_id, @sale.sale_items, :id, :id, include_blank: true %>
+        </div>
+      </div>
+    <% end %>
   </div>
 
-  <div>
+  <div class="actions">
     <%= form.submit %>
   </div>
 <% end %>
