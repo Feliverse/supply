@@ -125,7 +125,7 @@ tech_08x025 = Tech.create(
 )
 
 # Crear Productos
-producto1 = Product.create(
+producto1 = Product.create!(
   name: 'Troya',
   tech: tech_41x41,
   calidad: primera,
@@ -134,7 +134,7 @@ producto1 = Product.create(
   marca_id: coboce.id
 )
 
-producto2 = Product.create(
+producto2 = Product.create!(
   name: 'Venecia',
   tech: tech_30x45,
   calidad: primera,
@@ -163,8 +163,19 @@ almacen_principal = Almacen.create(name: 'Almacén Principal')
 almacen_secundario = Almacen.create(name: 'Almacén Secundario')
 
 # Crear Clientes
-cliente1 = Cliente.create(name: 'Juan Perez', nit: '123456789')
-cliente2 = Cliente.create(name: 'Maria Lopez', nit: '987654321')
+cliente1 = Cliente.find_or_create_by!(name: 'Juan Perez', nit: '1234789')
+cliente2 = Cliente.find_or_create_by!(name: 'Maria Lopez', nit: '9854321')
+
+# Crear inventarios
+inventario1 = Inventario.create!(cantidad_disponible: 100, fecha_actualizacion: Time.now, cantidad_real: 100, almacen: almacen_principal, product: producto1, articulo: articulo1)
+inventario2 = Inventario.create!(cantidad_disponible: 200, fecha_actualizacion: Time.now, cantidad_real: 200, almacen: almacen_secundario, product: producto2, articulo: articulo2)
+
+# Crear venta
+sale = Sale.create!(fecha: Time.now, cliente: cliente1, almacen: almacen_principal)
+
+# Crear items de venta
+SaleItem.create!(sale: sale, inventario: inventario1, cantidad: 10, unidad_de_medida: 'unidad', precio_unitario: 100.0)
+SaleItem.create!(sale: sale, inventario: inventario2, cantidad: 20, unidad_de_medida: 'unidad', precio_unitario: 200.0)
 
 # Registrar movimientos de inventario
 almacen_principal.registrar_ingreso(articulo1, 100, 'Ingreso por compra')
@@ -190,16 +201,26 @@ Sale.create!(
 )
 
 # Create some clients
-cliente1 = Cliente.create!(name: "Cliente 1", nit: "123456789")
-cliente2 = Cliente.create!(name: "Cliente 2", nit: "987654321")
+cliente1 = Cliente.find_or_create_by!(name: "Cliente 1", nit: "123456789")
+cliente2 = Cliente.find_or_create_by!(name: "Cliente 2", nit: "987654321")
 
 # Create some almacens
 almacen1 = Almacen.create!(name: "Almacen 1")
 almacen2 = Almacen.create!(name: "Almacen 2")
 
 # Create some products and articles
-product1 = Product.create!(name: "Product 1", tech_id: 1, calidad_id: 1)
-product2 = Product.create!(name: "Product 2", tech_id: 1, calidad_id: 1)
+product1 = Product.create!(
+  name: "Product 1",
+  tech_id: 1,
+  calidad_id: 1,
+  tonocalibre: 'A1'
+)
+product2 = Product.create!(
+  name: "Product 2",
+  tech_id: 1,
+  calidad_id: 1,
+  tonocalibre: 'A2'
+)
 articulo1 = Articulo.create!(name: "Articulo 1", subcategory_id: 1, marca_id: 1)
 articulo2 = Articulo.create!(name: "Articulo 2", subcategory_id: 1, marca_id: 1)
 

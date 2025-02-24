@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Nota de remision items</h1>
+
+<div id="nota_de_remision_items">
+  <% @nota_de_remision_items.each do |nota_de_remision_item| %>
+    <%= render nota_de_remision_item %>
+    <p>
+      <%= link_to "Show this nota de remision item", nota_de_remision_item %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New nota de remision item", new_nota_de_remision_item_path %>

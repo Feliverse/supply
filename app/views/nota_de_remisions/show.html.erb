@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @nota_de_remision %>
+
+<div>
+  <%= link_to "Edit this nota de remision", edit_nota_de_remision_path(@nota_de_remision) %> |
+  <%= link_to "Back to nota de remisions", nota_de_remisions_path %>
+
+  <%= button_to "Destroy this nota de remision", @nota_de_remision, method: :delete %>
+</div>

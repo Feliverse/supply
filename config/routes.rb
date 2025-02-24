@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :nota_de_remision_items
+  resources :nota_de_remisions
   resources :inventarios
   resources :movimientos
   resources :calidads

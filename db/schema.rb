@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_01_18_151502) do
+ActiveRecord::Schema[7.0].define(version: 2025_02_24_012929) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -53,7 +53,6 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_18_151502) do
     t.integer "cantidad_disponible", null: false
     t.datetime "fecha_actualizacion", null: false
     t.integer "cantidad_real", default: 0, null: false
-    t.integer "inventarios", default: 0, null: false
     t.bigint "almacen_id", null: false
     t.bigint "product_id"
     t.bigint "articulo_id"
@@ -85,6 +84,23 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_18_151502) do
     t.index ["almacen_id"], name: "index_movimientos_on_almacen_id"
     t.index ["articulo_id"], name: "index_movimientos_on_articulo_id"
     t.index ["product_id"], name: "index_movimientos_on_product_id"
+  end
+
+  create_table "nota_de_remision_items", force: :cascade do |t|
+    t.bigint "nota_de_remision_id", null: false
+    t.bigint "sale_item_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["nota_de_remision_id"], name: "index_nota_de_remision_items_on_nota_de_remision_id"
+    t.index ["sale_item_id"], name: "index_nota_de_remision_items_on_sale_item_id"
+  end
+
+  create_table "nota_de_remisions", force: :cascade do |t|
+    t.bigint "sale_id", null: false
+    t.datetime "fecha"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["sale_id"], name: "index_nota_de_remisions_on_sale_id"
   end
 
   create_table "products", force: :cascade do |t|
@@ -150,6 +166,9 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_18_151502) do
   add_foreign_key "movimientos", "almacens"
   add_foreign_key "movimientos", "articulos"
   add_foreign_key "movimientos", "products"
+  add_foreign_key "nota_de_remision_items", "nota_de_remisions"
+  add_foreign_key "nota_de_remision_items", "sale_items"
+  add_foreign_key "nota_de_remisions", "sales"
   add_foreign_key "products", "calidads"
   add_foreign_key "products", "teches"
   add_foreign_key "sale_items", "inventarios"

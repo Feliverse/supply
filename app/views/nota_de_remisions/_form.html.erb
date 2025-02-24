@@ -1,0 +1,27 @@
+<%= form_with(model: nota_de_remision) do |form| %>
+  <% if nota_de_remision.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(nota_de_remision.errors.count, "error") %> prohibited this nota_de_remision from being saved:</h2>
+
+      <ul>
+        <% nota_de_remision.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :sale_id, style: "display: block" %>
+    <%= form.text_field :sale_id %>
+  </div>
+
+  <div>
+    <%= form.label :fecha, style: "display: block" %>
+    <%= form.datetime_field :fecha %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
