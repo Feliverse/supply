@@ -16,10 +16,12 @@ class SaleItemsController < ApplicationController
   end
 
   def create
-    @sale_item = SaleItem.new(sale_item_params)
+    @sale_items = params[:sale_items].map do |sale_item_params|
+      SaleItem.new(sale_item_params.permit(:sale_id, :product_id, :articulo_id, :cantidad, :unidad_de_medida, :precio_unitario))
+    end
 
-    if @sale_item.save
-      redirect_to @sale_item, notice: 'Sale item was successfully created.'
+    if @sale_items.all?(&:save)
+      redirect_to sale_items_path, notice: 'Sale items were successfully created.'
     else
       render :new, status: :unprocessable_entity
     end

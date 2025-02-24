@@ -10,8 +10,9 @@
       <%= form_with model: @sale, local: true, url: almacen_sales_path(@almacen) do |form| %>
         <%= hidden_field_tag :almacen_id, @almacen.id %>
         <%= render 'client', form: form %>
-        <%= render 'form', form: form %>
+        <%= render 'form', sale: @sale %>
       <% end %>
+      <%= link_to 'Back', sales_path %>
     </main>
   </div>
 </div>

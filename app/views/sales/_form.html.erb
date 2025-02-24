@@ -1,10 +1,10 @@
-<%= form_with(model: sale, local: true) do |form| %>
-  <% if sale.errors.any? %>
+<%= form_with(model: @sale, local: true) do |form| %>
+  <% if @sale.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(sale.errors.count, "error") %> prohibited this sale from being saved:</h2>
+      <h2><%= pluralize(@sale.errors.count, "error") %> prohibited this sale from being saved:</h2>
 
       <ul>
-        <% sale.errors.full_messages.each do |message| %>
+        <% @sale.errors.full_messages.each do |message| %>
           <li><%= message %></li>
         <% end %>
       </ul>
@@ -26,39 +26,29 @@
     <%= form.collection_select :almacen_id, Almacen.all, :id, :name %>
   </div>
 
-  <div class="field">
-    <%= form.label :unidad_de_medida %>
-    <%= form.text_field :unidad_de_medida %>
-  </div>
-
-  <div class="field">
-    <%= form.label :precio_unitario %>
-    <%= form.number_field :precio_unitario, step: 0.01 %>
-  </div>
-
   <div id="sale_items">
     <%= form.fields_for :sale_items do |item_form| %>
       <%= render 'sale_item_fields', f: item_form %>
     <% end %>
   </div>
 
+  <%= link_to 'Add Item', '#', id: 'add_item' %>
+
   <div class="actions">
     <%= form.submit %>
   </div>
 <% end %>
 
-<%= link_to_add_fields "Add Item", form, :sale_items %>
-
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('add_item').addEventListener('click', function() {
-      var template = document.getElementById('sale_item_template').content.cloneNode(true);
-      var newId = new Date().getTime();
-      template.querySelectorAll('input, select').forEach(function(input) {
-        input.name = input.name.replace('new', newId);
-        input.id = input.id.replace('new', newId);
+    document.getElementById('add_item').addEventListener('click', function(e) {
+      e.preventDefault();
+      var saleItemsDiv = document.getElementById('sale_items');
+      var newSaleItem = saleItemsDiv.children[0].cloneNode(true);
+      newSaleItem.querySelectorAll('input').forEach(function(input) {
+        input.value = '';
       });
-      document.getElementById('sale_items').appendChild(template);
+      saleItemsDiv.appendChild(newSaleItem);
     });
 
     document.getElementById('sale_items').addEventListener('click', function(event) {
