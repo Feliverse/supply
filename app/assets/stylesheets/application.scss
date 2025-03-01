@@ -54,3 +54,10 @@ body {
     transition: transform 0.2s, background-color 0.2s; // Smooth transition
   } 
 }
+
+.blur-background {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px); /* Para compatibilidad con navegadores WebKit */
+  min-width: 100vw;
+  padding-inline: 20%;
+}

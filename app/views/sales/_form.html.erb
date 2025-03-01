@@ -11,20 +11,7 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :fecha %>
-    <%= form.datetime_select :fecha %>
-  </div>
-
-  <div class="field">
-    <%= form.label :cliente_id %>
-    <%= form.collection_select :cliente_id, Cliente.all, :id, :name %>
-  </div>
-
-  <div class="field">
-    <%= form.label :almacen_id %>
-    <%= form.collection_select :almacen_id, Almacen.all, :id, :name %>
-  </div>
+  <%= hidden_field_tag :cliente_id, @sale.cliente_id %>
 
   <div id="sale_items">
     <%= form.fields_for :sale_items do |item_form| %>

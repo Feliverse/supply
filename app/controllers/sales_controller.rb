@@ -1,5 +1,5 @@
 class SalesController < ApplicationController
-  before_action :set_almacen
+  before_action :set_almacen, only: %i[new create]
   before_action :set_sale, only: %i[show edit update destroy]
 
   def index
@@ -15,7 +15,7 @@ class SalesController < ApplicationController
     @sale = Sale.new(sale_params)
     @sale.fecha = Time.now
     @sale.almacen = @almacen
-    @sale.cliente_id = params[:sale][:cliente_id]
+    @sale.cliente_id = sale_params[:cliente_id]
 
     if @sale.save
       redirect_to @sale, notice: 'Sale was successfully created.'
@@ -43,6 +43,6 @@ class SalesController < ApplicationController
     end
 
     def sale_params
-      params.require(:sale).permit(:fecha, :cliente_id, :almacen_id, :unidad_de_medida, :precio_unitario, sale_items_attributes: [:id, :inventario_id, :cantidad, :unidad_de_medida, :precio_unitario, :_destroy])
+      params.require(:sale).permit(:cliente_id, sale_items_attributes: [:id, :inventario_id, :cantidad, :unidad_de_medida, :precio_unitario, :_destroy])
     end
 end

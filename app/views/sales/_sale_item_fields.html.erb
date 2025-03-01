@@ -1,7 +1,7 @@
 <div class="nested-fields">
   <div class="field">
     <%= f.label :inventario_id %>
-    <%= f.collection_select :inventario_id, Inventario.all, :id, :id, include_blank: true, data: { available_quantity: :cantidad_disponible } %>
+    <%= f.collection_select :inventario_id, Inventario.all, :id, :name_with_quantity, include_blank: true %>
     <span class="available_quantity"></span>
   </div>
 
