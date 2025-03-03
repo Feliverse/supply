@@ -10,7 +10,7 @@
         <th>Acciones</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody id="sale-items-table">
       <tr>
         <td>
           <%= f.select :inventario_id, grouped_options_for_select(Inventario.all.group_by(&:almacen).map { |almacen, inventarios| [almacen.name, inventarios.map { |inventario| [inventario.name_with_quantity, inventario.id] }] }), { include_blank: true }, class: 'form-control' %>
@@ -26,7 +26,7 @@
           <%= f.number_field :precio_unitario, step: 0.01, class: 'form-control precio_unitario_field' %>
         </td>
         <td>
-          <span class="total_parcial text-muted"></span>
+          <span class="total_parcial text-muted">0.00</span>
         </td>
         <td>
           <%= link_to '#', class: 'remove_item' do %>
@@ -38,17 +38,21 @@
   </table>
 </div>
 
+<div class="mt-3 text-right">
+  <%= link_to 'Agregar Producto', '#', class: 'btn btn-primary add_item' %>
+</div>
+
 <div class="mt-3">
   <strong>Total General: </strong><span id="total_general" class="text-muted"></span>
 </div>
 
 <script>
   function calculateTotalParcial() {
-    document.querySelectorAll('.nested-fields').forEach(function(field) {
-      var cantidad = parseFloat(field.querySelector('.cantidad_field').value) || 0;
-      var precioUnitario = parseFloat(field.querySelector('.precio_unitario_field').value) || 0;
+    document.querySelectorAll('.nested-fields tbody tr').forEach(function(row) {
+      var cantidad = parseFloat(row.querySelector('.cantidad_field').value) || 0;
+      var precioUnitario = parseFloat(row.querySelector('.precio_unitario_field').value) || 0;
       var totalParcial = cantidad * precioUnitario;
-      field.querySelector('.total_parcial').innerText = totalParcial.toFixed(2);
+      row.querySelector('.total_parcial').innerText = totalParcial.toFixed(2);
     });
     calculateTotalGeneral();
   }
@@ -69,5 +73,21 @@
 
   document.addEventListener('DOMContentLoaded', function() {
     calculateTotalParcial();
+  });
+
+  document.querySelector('.add_item').addEventListener('click', function(event) {
+    event.preventDefault();
+    var newRow = document.querySelector('.nested-fields tbody tr').cloneNode(true);
+    newRow.querySelectorAll('input').forEach(function(input) {
+      input.value = '';
+    });
+    newRow.querySelector('.total_parcial').innerText = '0.00';
+    document.getElementById('sale-items-table').appendChild(newRow);
+  });
+
+  document.getElementById('sale-items-table').addEventListener('input', function(event) {
+    if (event.target.classList.contains('cantidad_field') || event.target.classList.contains('precio_unitario_field')) {
+      calculateTotalParcial();
+    }
   });
 </script>

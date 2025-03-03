@@ -53,11 +53,8 @@
             <%= render 'sale_item_fields', f: item_form %>
           <% end %>
         </div>
-
-        <%= link_to 'Add Item', '#', id: 'add_item' %>
-
-        <div class="actions">
-          <%= form.submit %>
+        <div class="actions text-center mt-4">
+          <%= form.submit class: "btn btn-primary btn-lg" %>
         </div>
       <% end %>
 
