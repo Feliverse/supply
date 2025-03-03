@@ -1,44 +1,45 @@
 <div class="nested-fields">
-  <table>
-    <thead>
+  <table class="table table-bordered">
+    <thead class="thead-light">
       <tr>
         <th>Producto</th>
         <th>Cantidad</th>
         <th>Unidad de Medida</th>
         <th>Precio Unitario</th>
-        <th>Total Parcial</th>
+        <th>Total</th>
+        <th>Acciones</th>
       </tr>
     </thead>
     <tbody>
       <tr>
         <td>
-          <%= f.label :inventario_id %>
-          <%= f.collection_select :inventario_id, Inventario.all, :id, :name_with_quantity, include_blank: true %>
-          <span class="available_quantity"></span>
+          <%= f.select :inventario_id, grouped_options_for_select(Inventario.all.group_by(&:almacen).map { |almacen, inventarios| [almacen.name, inventarios.map { |inventario| [inventario.name_with_quantity, inventario.id] }] }), { include_blank: true }, class: 'form-control' %>
+          <span class="available_quantity text-muted"></span>
         </td>
         <td>
-          <%= f.label :cantidad %>
-          <%= f.number_field :cantidad, class: 'cantidad_field' %>
+          <%= f.number_field :cantidad, class: 'form-control cantidad_field' %>
         </td>
         <td>
-          <%= f.label :unidad_de_medida %>
-          <%= f.text_field :unidad_de_medida %>
+          <%= f.text_field :unidad_de_medida, class: 'form-control' %>
         </td>
         <td>
-          <%= f.label :precio_unitario %>
-          <%= f.number_field :precio_unitario, step: 0.01, class: 'precio_unitario_field' %>
+          <%= f.number_field :precio_unitario, step: 0.01, class: 'form-control precio_unitario_field' %>
         </td>
         <td>
-          <span class="total_parcial"></span>
+          <span class="total_parcial text-muted"></span>
+        </td>
+        <td>
+          <%= link_to '#', class: 'remove_item' do %>
+            <i class="fas fa-trash-alt text-danger"></i>
+          <% end %>
         </td>
       </tr>
     </tbody>
   </table>
-  <%= link_to 'Remove Item', '#', class: 'remove_item' %>
 </div>
 
-<div>
-  <strong>Total General: </strong><span id="total_general"></span>
+<div class="mt-3">
+  <strong>Total General: </strong><span id="total_general" class="text-muted"></span>
 </div>
 
 <script>
