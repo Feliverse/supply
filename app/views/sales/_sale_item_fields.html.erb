@@ -1,24 +1,72 @@
 <div class="nested-fields">
-  <div class="field">
-    <%= f.label :inventario_id %>
-    <%= f.collection_select :inventario_id, Inventario.all, :id, :name_with_quantity, include_blank: true %>
-    <span class="available_quantity"></span>
-  </div>
-
-  <div class="field">
-    <%= f.label :cantidad %>
-    <%= f.number_field :cantidad %>
-  </div>
-
-  <div class="field">
-    <%= f.label :unidad_de_medida %>
-    <%= f.text_field :unidad_de_medida %>
-  </div>
-
-  <div class="field">
-    <%= f.label :precio_unitario %>
-    <%= f.number_field :precio_unitario, step: 0.01 %>
-  </div>
-
+  <table>
+    <thead>
+      <tr>
+        <th>Producto</th>
+        <th>Cantidad</th>
+        <th>Unidad de Medida</th>
+        <th>Precio Unitario</th>
+        <th>Total Parcial</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <%= f.label :inventario_id %>
+          <%= f.collection_select :inventario_id, Inventario.all, :id, :name_with_quantity, include_blank: true %>
+          <span class="available_quantity"></span>
+        </td>
+        <td>
+          <%= f.label :cantidad %>
+          <%= f.number_field :cantidad, class: 'cantidad_field' %>
+        </td>
+        <td>
+          <%= f.label :unidad_de_medida %>
+          <%= f.text_field :unidad_de_medida %>
+        </td>
+        <td>
+          <%= f.label :precio_unitario %>
+          <%= f.number_field :precio_unitario, step: 0.01, class: 'precio_unitario_field' %>
+        </td>
+        <td>
+          <span class="total_parcial"></span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
   <%= link_to 'Remove Item', '#', class: 'remove_item' %>
 </div>
+
+<div>
+  <strong>Total General: </strong><span id="total_general"></span>
+</div>
+
+<script>
+  function calculateTotalParcial() {
+    document.querySelectorAll('.nested-fields').forEach(function(field) {
+      var cantidad = parseFloat(field.querySelector('.cantidad_field').value) || 0;
+      var precioUnitario = parseFloat(field.querySelector('.precio_unitario_field').value) || 0;
+      var totalParcial = cantidad * precioUnitario;
+      field.querySelector('.total_parcial').innerText = totalParcial.toFixed(2);
+    });
+    calculateTotalGeneral();
+  }
+
+  function calculateTotalGeneral() {
+    var totalGeneral = 0;
+    document.querySelectorAll('.total_parcial').forEach(function(totalParcial) {
+      totalGeneral += parseFloat(totalParcial.innerText) || 0;
+    });
+    document.getElementById('total_general').innerText = totalGeneral.toFixed(2);
+  }
+
+  document.addEventListener('input', function(event) {
+    if (event.target.classList.contains('cantidad_field') || event.target.classList.contains('precio_unitario_field')) {
+      calculateTotalParcial();
+    }
+  });
+
+  document.addEventListener('DOMContentLoaded', function() {
+    calculateTotalParcial();
+  });
+</script>
