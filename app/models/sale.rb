@@ -7,6 +7,10 @@ class Sale < ApplicationRecord
 
   after_save :update_inventario
 
+  def total
+    sale_items.sum { |item| item.cantidad * item.precio_unitario }
+  end
+
   private
 
   def update_inventario

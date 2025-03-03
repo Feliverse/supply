@@ -1,38 +1,38 @@
-<h1>Sales</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Fecha</th>
-      <th>Cliente</th>
-      <th>Almacen</th>
-      <th>Items</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @sales.each do |sale| %>
-      <tr>
-        <td><%= sale.fecha %></td>
-        <td><%= sale.cliente.name %></td>
-        <td><%= sale.almacen.name %></td>
-        <td>
-          <ul>
-            <% sale.sale_items.each do |item| %>
-              <li>
-                <%= item.product ? item.product.name : item.articulo.name %> - 
-                <%= item.cantidad %> <%= item.unidad_de_medida %> @ <%= item.precio_unitario %>
-              </li>
-            <% end %>
-          </ul>
-        </td>
-        <td><%= link_to 'Show', almacen_sale_path(sale.almacen, sale) %></td>
-        <td><%= link_to 'Edit', edit_almacen_sale_path(sale.almacen, sale) %></td>
-        <td><%= link_to 'Destroy', almacen_sale_path(sale.almacen, sale), method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<%= link_to 'New Sale', new_almacen_sale_path(@almacen) %>
+<div class="container-fluid">
+  <div class="row justify-content-center">
+    <div class="col-md-12">
+      <%= render 'nav' %>
+    </div>
+    <main class="col-md-9 ml-sm-auto col-lg-10 px-md-4 mt-md-5" style="background: rgba(255, 255, 255, 0.6); border-radius: 1rem;">
+      <h1 class="text-center mt-md-2"><%= @almacen.name %> - Ventas</h1>
+      <h2>Lista de Ventas</h2>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Cliente</th>
+            <th>Fecha</th>
+            <th>Total</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @sales.each do |sale| %>
+            <tr>
+              <td><%= sale.id %></td>
+              <td><%= sale.cliente.name %></td>
+              <td><%= sale.fecha %></td>
+              <td><%= number_to_currency(sale.total) %></td>
+              <td>
+                <%= link_to 'Ver', almacen_sale_path(@almacen, sale), class: 'btn btn-primary btn-sm' %>
+                <%= link_to 'Editar', edit_almacen_sale_path(@almacen, sale), class: 'btn btn-secondary btn-sm' %>
+                <%= link_to 'Eliminar', almacen_sale_path(@almacen, sale), method: :delete, data: { confirm: '¿Estás seguro?' }, class: 'btn btn-danger btn-sm' %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <%= link_to 'Nueva Venta', new_almacen_sale_path(@almacen), class: 'btn btn-success' %>
+    </main>
+  </div>
+</div>

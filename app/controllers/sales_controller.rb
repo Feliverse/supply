@@ -1,9 +1,9 @@
 class SalesController < ApplicationController
-  before_action :set_almacen, only: %i[new create]
+  before_action :set_almacen, only: %i[index new create]
   before_action :set_sale, only: %i[show edit update destroy]
 
   def index
-    @sales = Sale.all
+    @sales = @almacen.sales
   end
 
   def new
@@ -18,7 +18,7 @@ class SalesController < ApplicationController
     @sale.cliente_id = sale_params[:cliente_id]
 
     if @sale.save
-      redirect_to @sale, notice: 'Sale was successfully created.'
+      redirect_to new_almacen_sale_path(@almacen), notice: 'Sale was successfully created.'
     else
       render :new, status: :unprocessable_entity
     end

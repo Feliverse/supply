@@ -5,16 +5,178 @@
     </div>
     <main class="col-md-9 ml-sm-auto col-lg-10 px-md-4 mt-md-5" style="background: rgba(255, 255, 255, 0.6); border-radius: 1rem;">
       <h1 class="text-center mt-md-2"><%= @almacen.name %> - <%= Date.today %></h1>
-      <h2 class="">Registrar Venta</h2>
+      <h2>Registrar Venta</h2>
       <p class="">Por favor, llene el siguiente formulario para registrar una nueva venta.</p>
-      <%= form_with model: @sale, local: true, url: almacen_sales_path(@almacen) do |form| %>
+      
+      <%= form_with(model: @sale, local: true, url: almacen_sales_path(@almacen)) do |form| %>
+        <div class="form-group">
+          <label for="client_nit" class="form-label">NIT del Cliente</label>
+          <input type="text" id="client_nit" class="form-control">
+        </div>
+
+        <div class="form-group">
+          <label for="client_name" class="form-label">Nombre del Cliente</label>
+          <div class="input-group">
+            <input type="text" id="client_name" class="form-control" readonly>
+            <div class="input-group-append">
+              <button type="button" class="btn btn-outline-secondary" id="edit_client" title="Editar Cliente">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button type="button" class="btn btn-outline-secondary d-none" id="save_client" title="Guardar Cliente">
+                <i class="fas fa-save"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <input type="hidden" id="cliente_id_hidden" name="sale[cliente_id]">
+        </div>
+
+        <% if @sale.errors.any? %>
+          <div id="error_explanation">
+            <h2><%= pluralize(@sale.errors.count, "error") %> prohibited this sale from being saved:</h2>
+
+            <ul>
+              <% @sale.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+        
+        <%= hidden_field_tag :fecha, Time.now %>
         <%= hidden_field_tag :almacen_id, @almacen.id %>
-        <%= render 'client', form: form %>
-        <%= render 'form', form: form, sale: @sale %>
+        
+        <div id="sale_items">
+          <%= form.fields_for :sale_items do |item_form| %>
+            <%= render 'sale_item_fields', f: item_form %>
+          <% end %>
+        </div>
+
+        <%= link_to 'Add Item', '#', id: 'add_item' %>
+
+        <div class="actions">
+          <%= form.submit %>
+        </div>
       <% end %>
+
+      <!-- Modal -->
+      <div class="modal fade" id="newClientModal" tabindex="-1" role="dialog" aria-labelledby="newClientModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="newClientModalLabel">Crear Nuevo Cliente</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form id="new_client_form" action="/clientes" method="post">
+                <div class="form-group">
+                  <label for="new_client_nit">NIT</label>
+                  <input type="text" class="form-control" id="new_client_nit" name="cliente[nit]" readonly>
+                </div>
+                <div class="form-group">
+                  <label for="new_client_name">Nombre</label>
+                  <input type="text" class="form-control" id="new_client_name" name="cliente[name]" required>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+              <button type="button" class="btn btn-primary" id="create_client">Crear Cliente</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <%= link_to 'Back', sales_path %>
     </main>
   </div>
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('add_item').addEventListener('click', function(e) {
+      e.preventDefault();
+      var saleItemsDiv = document.getElementById('sale_items');
+      var newSaleItem = saleItemsDiv.children[0].cloneNode(true);
+      newSaleItem.querySelectorAll('input').forEach(function(input) {
+        input.value = '';
+      });
+      saleItemsDiv.appendChild(newSaleItem);
+    });
+
+    document.getElementById('sale_items').addEventListener('click', function(event) {
+      if (event.target.classList.contains('remove_item')) {
+        event.target.closest('.nested-fields').remove();
+      }
+    });
+
+    document.getElementById('sale_items').addEventListener('change', function(event) {
+      if (event.target.tagName === 'SELECT') {
+        var selectedOption = event.target.options[event.target.selectedIndex];
+        var availableQuantity = selectedOption.getAttribute('data-available-quantity');
+        var quantitySpan = event.target.closest('.field').querySelector('.available_quantity');
+        quantitySpan.textContent = availableQuantity ? `Available: ${availableQuantity}` : '';
+      }
+    });
+  });
+
+  document.getElementById("client_nit").addEventListener("blur", function() {
+    var nit = this.value;
+    if (nit) {
+      fetch(`/clientes/find_by_nit?nit=${nit}`)
+        .then(response => response.json())
+        .then(data => {
+          if (data && data.id) {
+            document.getElementById("cliente_id_hidden").value = data.id;
+            document.getElementById("client_name").value = data.name;
+            document.getElementById("edit_client").dataset.clientId = data.id;
+          } else {
+            if (confirm("Cliente no encontrado. ¿Desea crear un nuevo cliente?")) {
+              window.open(`/clientes/new?nit=${nit}`, '_blank', 'width=600,height=400');
+            }
+            document.getElementById("client_name").value = "";
+            document.getElementById("cliente_id_hidden").value = "";
+          }
+        });
+    }
+  });
+
+  document.getElementById('edit_client').addEventListener('click', function() {
+    document.getElementById("client_name").removeAttribute("readonly");
+    document.getElementById("edit_client").classList.add("d-none");
+    document.getElementById("save_client").classList.remove("d-none");
+  });
+
+  document.getElementById('save_client').addEventListener('click', function() {
+    var clientId = document.getElementById("cliente_id_hidden").value;
+    var clientName = document.getElementById("client_name").value;
+    if (clientId && clientName) {
+      fetch(`/clientes/${clientId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: JSON.stringify({ cliente: { name: clientName } })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.id) {
+          document.getElementById("client_name").setAttribute("readonly", true);
+          document.getElementById("edit_client").classList.remove("d-none");
+          document.getElementById("save_client").classList.add("d-none");
+        } else {
+          alert("Error al actualizar el cliente.");
+        }
+      });
+    } else {
+      alert('Primero seleccione un cliente.');
+    }
+  });
+</script>
 
 
