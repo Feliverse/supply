@@ -3,7 +3,7 @@ class SalesController < ApplicationController
   before_action :set_sale, only: %i[show edit update destroy]
 
   def index
-    @sales = @almacen.sales
+    @sales = @almacen.sales.order(created_at: :desc)
   end
 
   def new
