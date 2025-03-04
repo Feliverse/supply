@@ -6,6 +6,9 @@ Rails.application.routes.draw do
   resources :calidads
   resources :articulos
   resources :almacens do
+    resources :inventarios
+  end
+  resources :almacens do
     member do
       get 'new_movimiento'
       get 'new_movimiento_producto'
