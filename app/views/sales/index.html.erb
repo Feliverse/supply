@@ -20,19 +20,25 @@
           <% @sales.each do |sale| %>
             <tr>
               <td><%= sale.id %></td>
-              <td><%= sale.cliente.name %></td>
-              <td><%= sale.fecha %></td>
+                <td><%= sale.cliente.name %></td>
+                <td><%= sale.fecha.in_time_zone('La Paz').strftime('%d-%m-%Y  %H:%M') %></td>
               <td><%= number_to_currency(sale.total) %></td>
               <td>
-                <%= link_to 'Ver', almacen_sale_path(@almacen, sale), class: 'btn btn-primary btn-sm' %>
-                <%= link_to 'Editar', edit_almacen_sale_path(@almacen, sale), class: 'btn btn-secondary btn-sm' %>
-                <%= link_to 'Eliminar', almacen_sale_path(@almacen, sale), method: :delete, data: { confirm: '¿Estás seguro?' }, class: 'btn btn-danger btn-sm' %>
+                <%= link_to almacen_sale_path(@almacen, sale), class: 'btn btn-primary btn-sm', title: 'Ver' do %>
+                  <i class="fas fa-eye"></i>
+                <% end %>
+                <%= link_to edit_almacen_sale_path(@almacen, sale), class: 'btn btn-secondary btn-sm', title: 'Editar' do %>
+                  <i class="fas fa-edit"></i>
+                <% end %>
+                <%= link_to almacen_sale_path(@almacen, sale), method: :delete, data: { confirm: '¿Estás seguro?' }, class: 'btn btn-danger btn-sm', title: 'Eliminar' do %>
+                  <i class="fas fa-trash-alt"></i>
+                <% end %>
               </td>
             </tr>
           <% end %>
         </tbody>
       </table>
-      <%= link_to 'Nueva Venta', new_almacen_sale_path(@almacen), class: 'btn btn-success' %>
+      <%= link_to 'Nueva Venta', new_almacen_sale_path(@almacen), class: 'btn btn-success mb-2' %>
     </main>
   </div>
 </div>

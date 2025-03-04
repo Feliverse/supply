@@ -18,6 +18,7 @@ class SalesController < ApplicationController
     @sale.cliente_id = sale_params[:cliente_id]
 
     if @sale.save
+      flash[:notice] = "Venta creada exitosamente."
       redirect_to new_almacen_sale_path(@almacen), notice: 'Sale was successfully created.'
     else
       render :new, status: :unprocessable_entity

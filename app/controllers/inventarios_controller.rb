@@ -1,9 +1,9 @@
 class InventariosController < ApplicationController
   before_action :set_inventario, only: %i[ show edit update destroy ]
+  before_action :set_almacen
 
-  # GET /inventarios or /inventarios.json
+  # GET /almacens/:almacen_id/inventarios or /almacens/:almacen_id/inventarios.json
   def index
-    @almacen = Almacen.find(params[:almacen_id])
     @inventarios = @almacen.inventarios.includes(:product, :articulo)
 
     respond_to do |format|
@@ -66,6 +66,10 @@ class InventariosController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_inventario
       @inventario = Inventario.find(params[:id])
+    end
+
+    def set_almacen
+      @almacen = Almacen.find(params[:almacen_id])
     end
 
     # Only allow a list of trusted parameters through.

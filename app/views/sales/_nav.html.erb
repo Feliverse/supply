@@ -14,22 +14,22 @@
         <% end %>
       </li>
       <li class="nav-item">
-        <%= link_to new_calidad_path, class: "nav-link text-center" do %>
+        <%= link_to new_almacen_sale_path(@almacen), class: "nav-link text-center" do %>
           <i class="fas fa-shopping-cart"></i>
           <span class="d-none d-lg-inline">Ventas</span>
         <% end %>
       </li>
       <li class="nav-item">
-        <%= link_to almacens_path, class: "nav-link text-center" do %>
+        <%= link_to almacen_inventarios_path(@almacen), class: "nav-link text-center" do %>
           <i class="fas fa-warehouse"></i>
           <span class="d-none d-lg-inline">Almacenes</span>
         <% end %>
       </li>
       <li class="nav-item">
-        <a class="nav-link text-center" href="#">
+        <%= link_to almacen_sales_path(@almacen), class: "nav-link text-center" do %>
           <i class="fas fa-chart-line"></i>
           <span class="d-none d-lg-inline">Reportes</span>
-        </a>
+        <% end %>
       </li>
     </ul>
   </div>

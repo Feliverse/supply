@@ -1,14 +1,35 @@
 <p style="color: green"><%= notice %></p>
 
-<h1>Inventarios</h1>
-
-<div id="inventarios">
-  <% @inventarios.each do |inventario| %>
-    <%= render inventario %>
-    <p>
-      <%= link_to "Show this inventario", inventario %>
-    </p>
-  <% end %>
+<div class="container-fluid">
+  <div class="row justify-content-center">
+    <div class="col-md-12">
+      <%= render 'nav' %>
+    </div>
+    <main class="col-md-9 ml-sm-auto col-lg-10 px-md-4 mt-md-5" style="background: rgba(255, 255, 255, 0.6); border-radius: 1rem;">
+      <h1 class="text-center mt-md-2">Inventarios</h1>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Producto</th>
+            <th>Artículo</th>
+            <th>Cantidad Disponible</th>
+            <th>Fecha Actualización</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @inventarios.each do |inventario| %>
+            <tr>
+              <td><%= inventario.id %></td>
+              <td><%= inventario.product&.name || 'N/A' %></td>
+              <td><%= inventario.articulo&.name || 'N/A' %></td>
+              <td><%= inventario.cantidad_disponible %></td>
+              <td><%= inventario.fecha_actualizacion.strftime('%d-%m-%Y %H:%M') %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <%= link_to 'Nuevo Inventario', new_almacen_inventario_path(@almacen), class: 'btn btn-success mb-2' %>
+    </main>
+  </div>
 </div>
-
-<%= link_to "New inventario", new_inventario_path %>
